@@ -1,0 +1,136 @@
+#
+# The basic makefile. The localization specific ones just instantiate "LOC"
+#
+
+VERSION=2.90.d.5
+DATE=`date -R`
+APPID = DIDB
+
+INCLUDES = -IPalmOne -IPalmOne/68K/System -IPalmOne/Common/System
+
+STDCFLAGS = -palmos5r4 -Os $(DEFINES) $(INCLUDES) -Wall
+
+ifeq ($(DEBUG), 0)
+	CFLAGS = $(STDCFLAGS)
+else
+	CFLAGS = -g -mdebug-labels -DDIDDLEDEBUG -DERROR_CHECK_LEVEL=2 $(STDCFLAGS) 
+endif
+
+CSFLAGS = -g -O2
+GLUEFLAGS = -lPalmOSGlue
+FPFLAGS = -lnfm
+
+MAKE = make
+OBJS = diddlebug.o repeat.o notes.o shape.o xfer.o util.o listview.o \
+       alarm.o clipboard.o details.o dynamic_buttons.o diddlebug-sections.o \
+       prefs.o time.o text.o thumbnails.o thumbnails_details.o png.o \
+       snappermail.o
+CC = m68k-palmos-gcc
+
+PILRC = pilrc
+PILRCOPT = -ro -ts -allowEditID
+TXT2BITM = txt2bitm
+BUILDPRC = build-prc
+MULTIGEN = m68k-palmos-multigen
+EXE = DiddleBug
+PRC = $(EXE)-$(LOC).prc
+
+RELEASEDIR = $(EXE)-$(VERSION)
+
+all: $(PRC)
+
+.S.o:
+	$(CC) $(TARGETFLAGS) -c $<
+
+.c.s:
+	$(CC) $(CSFLAGS) $<
+
+diddlebug.h: menu_shortcuts.h
+alarm.h clipboard.h details.h diddlebugExtern.h dynamic_buttons.h listview.h notes.h png.h prefs.h repeat.h shape.h snappermail.h text.h thumbnails.h thumbnails_details.h time.h util.h xfer.h: sections.h
+
+diddlebugInlines.h alarm.o clipboard.o details.o diddlebug.o listview.o notes.o png.o prefs.o repeat.o shape.o snappermail.o text.o thumbnails.o thumbnails_details.o time.o util.o xfer.o: diddlebug.h
+diddlebugInlines.h alarm.o clipboard.o details.o diddlebug.o listview.o notes.o prefs.o repeat.o shape.o snappermail.o text.o thumbnails.o thumbnails_details.o time.o xfer.o: globals.h
+alarm.o clipboard.o details.o diddlebug.o listview.o prefs.o shape.o snappermail.o text.o thumbnails.o thumbnails_details.o time.o util.o xfer.o: diddlebugExtern.h
+alarm.o diddlebug.o listview.o notes.o png.o prefs.o repeat.o shape.o snappermail.o thumbnails.o thumbnails_details.o time.o xfer.o: diddlebugRsc.h
+alarm.o diddlebug.o dynamic_buttons.o prefs.o thumbnails.o thumbnails_details.o xfer.o: dynamic_buttons.h
+alarm.o diddlebug.o repeat.o time.o: repeat.h
+diddlebug.o listview.o thumbnails.o thumbnails_details.o: listview.h
+diddlebug.o thumbnails.o: thumbnails.h
+diddlebug.o thumbnails_details.o: thumbnails_details.h
+diddlebug.o alarm.o snappermail.o thumbnails_details.o time.o: alarm.h
+diddlebug.o util.o xfer.o: util.h
+diddlebug.o notes.o: notes.h
+diddlebug.o xfer.o: xfer.h
+time.o alarm.o: diddlebugFeatures.h
+diddlebug.o prefs.o: prefs.h
+diddlebug.o shape.o: shape.h
+diddlebug.o text.o: text.h
+diddlebug.o clipboard.o: clipboard.h
+diddlebug.o details.o: details.h
+diddlebug.o alarm.o time.o: time.h
+xfer.o: booger.h
+alarm.o clipboard.o details.o diddlebug.o listview.o notes.o png.o prefs.o repeat.o shape.o snappermail.o thumbnails.o thumbnails_details.o time.o xfer.o: diddlebugInlines.h
+alarm.o clipboard.o diddlebug.o dynamic_buttons.o listview.o prefs.o repeat.o shape.o snappermail.o text.o thumbnails.o time.o util.o xfer.o: debug.h
+png.o snappermail.o: png.h
+png.o: SysZLib.h
+snappermail.o: snappermail.h
+
+.PHONY: menu_shortcuts.h
+menu_shortcuts.h: menu_shortcuts.h.in
+	sed -f $(LOC).sed $< > menu_shortcuts.h
+
+$(PRC): $(EXE)-$(LOC) bin-$(LOC).ro
+	$(BUILDPRC) diddlebug.def -o $@ $(EXE)-$(LOC) bin-$(LOC).ro
+
+bin-$(LOC).ro:diddlebug-$(LOC).rcp.in
+	cat $(LOC).sed | tr [a-z] [A-Z] | sed -e "s/S%\(.*\)%G/s%\1%g/g" | sed -f - -e 's/VERSION_STAMP/$(VERSION)/g' $< > diddlebug-$(LOC).rcp
+	$(PILRC) $(PILRCOPT) diddlebug-$(LOC).rcp bin-$(LOC)
+
+diddlebug-sections.o: diddlebug-sections.s
+	$(CC) -c diddlebug-sections.s
+
+.INTERMEDIATE: diddlebug-sections.s
+.INTERMEDIATE: diddlebug-sections.ld
+diddlebug-sections.s diddlebug-sections.ld: diddlebug.def
+	$(MULTIGEN) diddlebug.def
+
+$(EXE)-$(LOC): $(OBJS) diddlebug-sections.ld
+	$(CC) $(CFLAGS) -Wl,-Map,linkmap.txt  $(OBJS) diddlebug-sections.ld -o $@ $(GLUEFLAGS) $(FPFLAGS)
+
+install:
+	pilot-xfer -i $(PRC)
+
+clean:
+	rm -rf *.[oa] $(EXE)-$(LOC) bin-$(LOC).ro $(PRC) *.stamp *.bin *.grc diddlebug-$(LOC).rcp
+
+clobber: clean
+	rm $(PRC)
+
+doc-version:
+	perl -pi -e "s/<!--B_VSTAMP-->.*<!--E_VSTAMP-->/<!--B_VSTAMP-->v.$(VERSION)<!--E_VSTAMP-->/g" Release/doc/*.htm
+	perl -pi -e "s/<!--B_DSTAMP-->.*<!--E_DSTAMP-->/<!--B_DSTAMP-->$(DATE)<!--E_DSTAMP-->/g" Release/doc/*.htm
+
+web:
+	scp Release/doc/*.htm Release/doc/diddlebug.css Release/doc/DiddleBug-1.gif Release/doc/diddlebug2.gif Release/doc/DiddleBug-logo.png Release/doc/favicon.ico pputzer@diddlebug.sf.net:/home/groups/d/di/diddlebug/htdocs/
+
+rel:
+	DEBUG=0	make -f Makefile.german clean all
+	DEBUG=0 make -f Makefile.english clean all
+	DEBUG=0 make -f Makefile.french clean all
+	DEBUG=0 make -f Makefile.tchinese clean all
+	DEBUG=0 make -f Makefile.schinese clean all
+	cp -a Release $(RELEASEDIR)
+	cp DiddleBug*prc $(RELEASEDIR)
+	cp dbscHack/dbscHack.prc $(RELEASEDIR)
+	cp diddlesnap/DiddleSnap.prc $(RELEASEDIR)
+	cp -a plugins $(RELEASEDIR)
+	cp -a plugins-german $(RELEASEDIR)
+	cp -a plugins-french $(RELEASEDIR)
+	find $(RELEASEDIR) -name "CVS" | xargs rm -rf
+	find $(RELEASEDIR) -name ".cvsignore" | xargs rm -f
+	find $(RELEASEDIR) -name ".xvpics" | xargs rm -rf
+	find $(RELEASEDIR) -name "*~" | xargs rm -f
+	find $(RELEASEDIR) -name "*.bak" | xargs rm -f
+	zip -r $(RELEASEDIR).zip $(RELEASEDIR)
+	rm -rf $(RELEASEDIR)
+

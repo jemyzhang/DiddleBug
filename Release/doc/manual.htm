@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>DiddleBug - Manual</title>
+<link href="diddlebug.css" rel="stylesheet" type="text/css" />
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body bgcolor="#ffffff" text="#000000" link="#5757e5" vlink="#800080" alink="#000080">
+<table width="100%" cellspacing="0" cellpadding="3" border="0">
+  <tr>
+    <td colspan="2" class="Header"> DiddleBug
+      <!--B_VSTAMP-->v.2.90.d.5<!--E_VSTAMP-->
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><div align="center"><img src="DiddleBug-logo.png" alt="DiddleBug" width="100" height="100" /> </div></td>
+    <td><h1>DiddleBug Manual</h1>
+      <span class="Tagline"> Everything you every wanted to know about DiddleBug, and more... </span><br />
+      <span class="red">(Under construction. Please be patient...) </span> </td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td nowrap="nowrap"><table width="100%" cellspacing="0" cellpadding="1" border="0">
+        <tr>
+          <td colspan="2" class="BoxHeader"> Contents </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td nowrap="nowrap"><a href="index.htm" title="Home">Home</a><br />
+            <a href="manual.htm" title="Manual">Manual</a><br />
+            <a href="http://sourceforge.net/project/showfiles.php?group_id=30904" title="Download">Download</a><br />
+            <a href="plugins.htm" title="Plugins">Plugins</a><br />
+            <a href="faq.htm" title="FAQ">FAQ</a><br />
+            <a href="snap.htm" title="DiddleSnap">DiddleSnap</a><br />
+            <a href="http://sourceforge.net/forum/forum.php?forum_id=97005" title="Forum">Forum</a><br />
+            <!-- <a href="http://blevins.simplenet.com/diddlebug/gallery.htm" title="Gallery">Gallery</a><br> -->
+            <br />
+            <a href="http://sourceforge.net/donate/index.php?group_id=30904"><img src="http://images.sourceforge.net/images/project-support.jpg" width="88" height="32" border="0" alt="Support this project!" /></a><br />
+&nbsp; </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="BoxHeader"> Links </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td nowrap="nowrap"><span class="LinksEntry"><a href="http://sourceforge.net/projects/diddlebug" title="DiddleBug on SF.net">DiddleBug on SF.net</a><br />
+            <a href="http://www.palmsource.com/" title="PalmSource">PalmSource</a><br />
+            <a href="http://www.palmone.com" title="palmOne">palmOne</a></span><br />
+            <a href="http://sourceforge.net"> <img src="http://sourceforge.net/sflogo.php?group_id=30904&amp;type=2" alt="SourceForge" width="125" height="37" border="0" class="SmallSpacing" /></a><br />
+			<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" width="88" height="31" class="NoLinkBorderSmallSpacing" /></a><br />
+			<a href="http://jigsaw.w3.org/css-validator/check/referer"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" class="NoLinkBorderSmallSpacing" style="border:0;width:88px;height:31px" /></a>
+&nbsp; </td>
+        </tr>
+        <tr>
+          <td colspan="2"><p align="center">&nbsp;<br />
+            </p></td>
+        </tr>
+      </table></td>
+    <td><table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="index" id="index">Table of Contents</a></h2></td>
+        </tr>
+      </table>
+      <ul>
+        <li><a href="#navigation">Navigating DiddleBug</a></li>
+        <li><a href="#mode_button">Mode Button</a></li>
+        <li><a href="#smooth_button">Smooth Button</a></li>
+        <li><a href="#pen_button">Pen Button</a></li>
+        <li><a href="#ink_button">Ink Button</a></li>
+        <li><a href="#page_button">Page Button</a></li>
+        <li><a href="#menus">Menus</a></li>
+        <li><a href="#undo">Using Undo</a></li>
+        <li><a href="#beaming">Beaming</a></li>
+        <li><a href="#swipes_shortcuts">Swipes and Shortcuts</a></li>
+        <li><a href="#using_intellibooger">Using IntelliBooger<sup>TM</sup> Plugins</a></li>
+        <li><a href="#linking">Using Backlinks</a></li>
+      </ul>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="navigation" id="navigation">Navigating DiddleBug</a></h2></td>
+        </tr>
+      </table>
+      <p> There are two main views in DiddleBug:</p>
+      <ul>
+        <li>List view</li>
+        <li>Sketch view</li>
+      </ul>
+      <p> The <strong>list view</strong> gives an overview of all the sketches ordered by category (in the standard PalmOS way): <br />
+        <br />
+      <img src="listview.gif" alt="Listview Screenshot" /> </p>
+      <p> To draw, you have to change to the <strong>sketch view</strong>, which happens automatically if you tap on the New button or one of the sketch names in the list view: <br />
+        <br />
+      <img src="sketch1.gif" alt="Sketchview Screenshot" /> </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="mode_button" id="mode_button">Mode Button </a></h2></td>
+        </tr>
+      </table>
+      <p>        The mode button controls and displays the current drawing
+        mode.  Pressing the mode button toggles between the two modes.      </p>
+      <p> The drawing mode determines how DiddleBug interprets your pen strokes. Each of the two modes defines a different way of combining inked strokes with your current page. </p>
+      <a name="PaintMode" id="PaintMode"><strong><img src="images/cmdpaint.gif" alt="paint" align="left" height="18" hspace="5" width="28" /> - Paint Mode</strong></a>
+      <p> Paint mode overwrites your current image with both the black and white of the current ink. </p>
+      <a name="EraseMode" id="EraseMode"><strong><img src="images/cmderase.gif" alt="erase" align="left" height="18" hspace="5" width="28" /> - Erase Mode</strong></a>
+      <p> Erase mode ignores the current ink and overwrites your current image with white ink. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="mode_button" id="mode_button">Smooth Button </a></h2></td>
+        </tr>
+      </table>
+      <p>        The smooth button controls and displays the current
+        smoothing filter..  Pressing the smoothing button pops up a menu to select the filter mode.      </p>
+      <p> Smoothing filters determine how DiddleBug interprets the stylus coordinates arriving from PalmOS. These can be taken as they come or averaged together to generate a smoother stroke. The price of a smoother stroke is a lag in pen responsiveness. </p>
+      <!--<p>The absolute weight of smoothing is also under control of a smoothing <a href="http://www.elf.org/doodle/reference.html#Prefs">Preference</a> which adjusts how many points the <b>Smooth Filter</b> and the <b>Smoother Filter</b> average together. This allows you to customize the smoothing to your taste. </p>-->
+      <a name="Rough" id="Rough"><strong><img src="images/cmdunsmooth.gif" alt="rough" align="left" height="18" hspace="5" width="28" /> - Rough Filter</strong></a>
+      <p> The rough filter does no filtering at all. </p>
+      <a name="Smooth" id="Smooth"><strong><img src="images/cmdsmooth.gif" alt="rough" align="left" height="18" hspace="5" width="28" /> - Smooth Filter</strong></a>
+      <p> The smooth filter combines <!--2, 4, or-->
+      8 successive stylus positions. </p>
+      <a name="Smoother" id="Smoother"><strong><img src="images/cmdsmoother.gif" alt="rough" align="left" height="18" hspace="5" width="28" /> - Smoother Filter</strong></a>
+      <p> The smoother filter combines <!--4, 8, or-->
+      16 successive stylus positions. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="pen_button" id="pen_button">Pen Button </a></h2></td>
+        </tr>
+      </table>
+      <p>        The pen button controls and displays the current
+      pen.  Pressing the pen button opens a pop up list to select the pen type.</p>
+      <p> Pens determine the outline of the stroke which DiddleBug draws when you drag your stylus across the screen. These can be as small as 1 pixel or as large as 29, be connected or disconnected, or be filled or hollow.</p>
+      <p><strong><img src="images/penFine.gif" alt="fine" align="left" height="18" hspace="5" width="28" /> - Fine Pen</strong></p>
+      <p><strong><img src="images/penMedium.gif" alt="medium" align="left" height="18" hspace="5" width="28" /> - Medium Pen</strong></p>
+      <p><strong><img src="images/penBold.gif" alt="bold" align="left" height="18" hspace="5" width="28" /> - Bold Pen</strong></p>
+      <p><strong><img src="images/penBroad.gif" alt="broad" align="left" height="18" hspace="5" width="28" /> - Broad Pen</strong></p>
+      <p><strong><img src="images/penFItalic.gif" alt="fine italic" align="left" height="18" hspace="5" width="28" /> - Fine Italic Pen</strong></p>
+      <p><strong><img src="images/penMItalic.gif" alt="medium italic" align="left" height="18" hspace="5" width="28" /> - Medium Italic Pen</strong></p>
+      <p><strong><img src="images/penBItalic.gif" alt="broad italic" align="left" height="18" hspace="5" width="28" /> - Broad Italic Pen</strong></p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="ink_button" id="ink_button">Ink Button </a></h2></td>
+        </tr>
+      </table>
+      <p>        The ink button controls and displays the current
+      ink.  Pressing the ink button pops up the ink selection list.</p>
+      <p> Inks are eight by eight square patterns of black and white. When DiddleBug draws it replicates the ink pattern in all directions to fill the area drawn. There are 18,446,744,073,709,551,616 possible ink patterns. DiddleBug gives you eight to get you started and two ways to generate new inks from old. </p>
+      <p><strong><a name="InkWhite" id="InkWhite"> <img src="images/inkWhite.gif" alt="white ink" align="left" border="1" height="18" hspace="5" width="28" /> - White Ink</a></strong></p>
+      <p><strong><a name="Ink125" id="Ink125"> <img src="images/ink125.gif" alt="1/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 1/8th Black Ink</a></strong></p>
+      <p><strong><a name="Ink250" id="Ink250"> <img src="images/ink250.gif" alt="2/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 2/8th Black Ink</a></strong></p>
+      <p><strong><a name="Ink375" id="Ink375"> <img src="images/ink375.gif" alt="3/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 3/8th Black Ink</a></strong></p>
+      <p><strong><a name="Ink500" id="Ink500"> <img src="images/ink500.gif" alt="4/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 4/8th Black Ink</a></strong></p>
+      <p><strong><a name="Ink625" id="Ink625"> <img src="images/ink625.gif" alt="5/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 5/8th Black Ink</a></strong></p>
+      <p><strong><a name="Ink750" id="Ink750"> <img src="images/ink750.gif" alt="6/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 6/8th Black Ink</a></strong></p>
+      <p><strong><a name="Ink875" id="Ink875"> <img src="images/ink875.gif" alt="7/8 black ink" align="left" border="1" height="18" hspace="5" width="28" /> - 7/8th Black Ink</a></strong></p>
+      <p><strong><a name="InkBlack" id="InkBlack"> <img src="images/inkBlack.gif" alt="black ink" align="left" border="1" height="18" hspace="5" width="28" /> - Black Ink</a></strong></p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="page_button" id="page_button">Page Button </a></h2></td>
+        </tr>
+      </table>
+      <p>        The page button controls and displays the current page
+        number in your collection of sketches.
+        Pressing the page button pops up a list allowing you to select a sketch by name. Swiping the page button
+        right cycles through the available pages, swiping the page
+        button left does the same in the
+        reverse order.  The sequence of pages is circular, so
+        forward from the last page in the database goes to the
+        first page in the database and backward from the first
+        page goes to the last page.      </p>
+      <p> Your sketches are organized as pages in the DiddleBug database. Pages that do not have a name are numbered from 1 to the number of pages in the database, which will depend on how much memory your Palm computer has and how much time you spend doodling.</p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="graffiti_shift" id="graffiti_shift">Graffiti Shift </a></h2></td>
+        </tr>
+      </table>
+      <p> The Graffiti shift indicator shows whether shift, caps lock, punctuation shift, or extended shift is active in translating Graffiti strokes into characters. This is useful since many DiddleBug <a href="http://www.elf.org/doodle/reference.html#Shortcuts">Shortcuts</a> are punctuation characters which use the punctuation shift.</p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="menus" id="menus">Menus </a></h2></td>
+        </tr>
+      </table>
+      <p>        The main DiddleBug menus are available through the normal
+        PalmOS mechanisms, namely tapping on the silkscreen menu
+        button or by tapping on the title label in the title
+      bar. </p>
+      <p> The menus are provided as a quick reference for the command shortcuts. You can, of course, simply use the menus. But the flow of your doodling will be facilitated by learning the menu shortcuts for the commands you use most often. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="undo" id="undo">Using Undo</a></h2></td>
+        </tr>
+      </table>
+      <p> You can Undo your most recent changes to a sketch by selecting &quot;Undo&quot; from the Edit menu. You can also activate this by just typing a &quot;u&quot; in the graffiti area. When you select Undo, your sketch will revert to the last time any of the following occured: </p>
+      <ul>
+        <li>You started DiddleBug</li>
+        <li>You viewed another sketch in the buffer</li>
+        <li>Another dialog was active</li>
+        <li>You switched pens or inks</li>
+        <li>You inserted a line, shape, or text</li>
+      </ul>
+      <p> This means that Undo will erase any strokes you have made since one of the above has occurred. It will not Undo individual strokes unless you deliberately switch pens or inks to set the &quot;checkpoint&quot; to revert to. Undo can only be performed once per action... there is no multiple-undo buffer. </p>
+      <p> Please note that Undo is not &quot;undoable&quot;... meaning that there is no &quot;Redo&quot; command. Once you undo some changes, there is no way to get them back. Also, note that the Clear, Fill, and Invert commands from the Edit menu are not undoable. By default, you will be prompted to confirm any Undo command, but this is configurable in the DiddleBug preferences. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="beaming" id="beaming">Beaming</a></h2></td>
+        </tr>
+      </table>
+      <p> You can beam DiddleBug sketches from one Palm machine to another if it has infrared beaming capability (Palm&nbsp;III and later). Just select &quot;Beam&quot; from the &quot;Record&quot; menu. Beaming only works for DiddleBug version 2.12 and later. </p>
+      <p> If one person has a version of DiddleBug <i>before</i> version 2.11, and you have version 2.12 or later, you can beam the whole DiddleBug application to the unfortunate outdated party using your application launcher's built-in beaming capability. But please note that when beaming an application for upgrade to a remote Palm, the receiving Palm will lose all data/sketches for that application. To get around this, you can use <a href="http://www.eblong.com/zarf/zcatalog.html"> Z'Catalog</a> to beam just the application file from one Palm to another and avoid deleting the data on the receiving Palm. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="swipes_shortcuts" id="swipes_shortcuts">Swipes and Shortcuts</a></h2></td>
+        </tr>
+      </table>
+      <p><strong> To insert Date/Time stamp:</strong></p>
+      <p class="Howto">Swipe from the alarm bar into the sketching area. Drop the date-time-stamp by lifting the pen. To abort, drag off the top of the screen, or down into the graffiti area.</p>
+      <p><strong> To jump immediately to the &quot;Set Alarm Details&quot; dialog: </strong></p>      
+      <p class="Howto">Swipe Alarm Bar right.</p>
+      <p><strong>To enter transfer mode: </strong></p>
+      <p class="Howto"> Swipe Alarm Bar left.</p>
+      <p><strong>To open shape menu: </strong></p>
+	  <p class="Howto">Tap 123 dot in the Graffiti area. <br />
+        <br />
+        <em>or</em> <br />
+        <br />
+      Swipe title bar (doesn't matter whether it's a left or right swipe). </p>
+      <p><strong>To turn title bar on/off: </strong></p>
+	  <p class="Howto">Tap abc dot in the Graffiti area. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="using_intellibooger" id="using_intellibooger">Using IntelliBooger<sup>TM</sup> Plugins</a></h2></td>
+        </tr>
+      </table>
+      <p> Just a few quick notes about using IntelliBooger<sup>TM</sup> plugins to enter text into other applications... </p>
+      <ul>
+        <li>Select the &quot;Record-&gt;Transfer&quot; menu to enter transfer mode.</li>
+        <li>You can also enter transfer mode by &quot;swiping&quot; the alarm bar towards the left.</li>
+        <li>You must have a <a href="plugins.htm">plugin</a> installed to use this feature.</li>
+        <li>You can select which plugin to use by tapping the plugin button (second from the left). The picture on this button will change to indicate which plugin you are using.</li>
+        <li>Tapping the flick button (far left) will initiate the transfer.</li>
+        <li>If you want to change the &quot;GoTo&quot; or &quot;Delete sketch&quot; option, you must hold the pen down on the flick button and drag it upwards over the option you would like to change.</li>
+        <li>The flick button will change its picture depending on which options you have chosen for &quot;GoTo&quot; or &quot;Delete sketch&quot;. It will be bullet-shaped when no Goto option is selected, or arrow-shaped when Goto is selected. If &quot;Delete sketch&quot; is selected, then a white line will be drawn vertically through the button.</li>
+      </ul>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td><h2><a name="linking" id="linking">Using BackLinks</a></h2></td>
+        </tr>
+      </table>
+      <p> DiddleBug has support for Linking to a DiddleBug sketch using Rick Bram's <a href="http://www.digitalglyph.com/">Linker</a> application. If you have Linker installed on your Palm, DiddleBug will automatically detect this and add an option to your transfer popup menu when using an InteliBooger<sup>TM</sup> plugin. If you select this option, any records created with an IntelliBooger<sup>TM</sup> plugin will also contain a link back to the DiddleBug sketch from which you created the record. </p>
+      <p> To create a BackLink in DiddleBug:</p>
+      <ul>
+        <li>Make sure Linker is installed and active.</li>
+        <li>Select &quot;Transfer&quot; from the menu. (or just swipe the alarm bar left)</li>
+        <li>Hold the pen down on tranfer-done button (left-pointing arrow) and you will see a popup menu showing options for this transfer. Drag the pen over &quot;Back Link&quot; to select it.</li>
+        <li>Push the transfer-done button to finish the transfer.</li>
+      </ul>
+      <p> Note that you must have at least one <a href="plugins.htm">plugin</a> installed to use the Transfer function of DiddleBug. Also, you cannot select &quot;Back Link&quot; and &quot;Delete Sketch&quot; for the same transfer. </p>
+      <p> One good method to add links to a DiddleBug sketch from an existing record in another application is to use the ClipBoard plugin to transfer the link to the clipboard, then paste it into your record. </p>
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td align="right"><a href="#index" class="Backlink"> Return to Table of Contents </a></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#eeeeee"><table width="100%" cellspacing="0" cellpadding="2" border="0" bgcolor="#eeeeee">
+        <tr>
+          <td bgcolor="#eeeeee" class="Footer">Site Questions to: <a href="mailto:pputzer@users.sourceforge.net">Peter Putzer</a> </td>
+          <td align="right" bgcolor="#eeeeee" class="Footer">
+		  <!--B_DSTAMP-->Sat, 18 Sep 2004 19:28:27 +0200<!--E_DSTAMP-->
+          </td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</body>
+</html>

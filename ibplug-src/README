@@ -1,0 +1,14 @@
+Compiling the plugins
+=====================
+
+You can make the plugins individually in their directories by typing "make",
+or you can compile them all in the main diddlebug directory by typing
+"make plugins".
+
+
+Making your own plugins
+=======================
+
+You can use the booger_template.pl script to create a new skeleton plugin.
+Just fill in the extra stuff you want to do and compile. :)
+

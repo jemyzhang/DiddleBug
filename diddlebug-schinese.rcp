@@ -1,0 +1,1433 @@
+// Simplified Chinese localization for DiddbleBug
+// By Daitau Aaron (daitau@users.sourceforge.net daitau@hotmail.com)
+
+#include "diddlebugRsc.h"
+
+BITMAPFAMILYEX ID UpDownBitmap COMPRESS
+BEGIN
+	BITMAP "updown.bmp"    BPP 1 DENSITY 1
+	BITMAP "updown_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAP ID ClearBitmap   "clear.bmp"  COMPRESS
+BITMAPFAMILYEX ID NewBitmap COMPRESS
+BEGIN
+	BITMAP "new.bmp"    BPP 1 DENSITY 1
+	BITMAP "new_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID DeleteBitmap COMPRESS
+BEGIN
+	BITMAP "delete.bmp"    BPP 1 DENSITY 1
+	BITMAP "delete_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID LockBitmap COMPRESS
+BEGIN
+	BITMAP "lock.bmp"    BPP 1 DENSITY 1
+	BITMAP "lock_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID BugBitmap COMPRESS
+BEGIN
+	BITMAP "bug.bmp"    BPP 1 DENSITY 1
+	BITMAP "bug_hr.bmp" BPP 8 TRANSPARENCY 255 0 255 DENSITY 2
+END
+BITMAPFAMILYEX ID CmdPaintBitmap COMPRESS
+BEGIN
+	BITMAP "cmdpaint.bmp"    BPP 1 DENSITY 1
+	BITMAP "cmdpaint_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID CmdEraseBitmap COMPRESS
+BEGIN
+	BITMAP "cmderase.bmp"    BPP 1 DENSITY 1
+	BITMAP "cmderase_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAP ID CmdRoughBitmap        "cmdunsmooth.bmp"   COMPRESS
+BITMAP ID CmdSmoothBitmap 	"cmdsmooth.bmp"     COMPRESS
+BITMAP ID CmdSmootherBitmap 	"cmdsmoother.bmp"   COMPRESS
+BITMAPFAMILYEX ID CategoryBitmap COMPRESS
+BEGIN
+	BITMAP "category.bmp"    BPP 1 DENSITY 1
+	BITMAP "category_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID AllCategoriesBitmap COMPRESS
+BEGIN
+	BITMAP "allcategories.bmp"    BPP 1 DENSITY 1
+	BITMAP "allcategories_hr.bmp" BPP 1 DENSITY 2
+END
+
+// Transfer mode icons
+BITMAPFAMILYEX ID XferDoneBitmap NOCOMPRESS
+BEGIN
+	BITMAP "transferdone.bmp"    BPP 1 DENSITY 1
+	BITMAP "transferdone_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID XferDoneGotoBitmap NOCOMPRESS
+BEGIN
+	BITMAP "transferdone_goto.bmp"    BPP 1 DENSITY 1
+	BITMAP "transferdone_goto_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID XferNoAppBitmap NOCOMPRESS
+BEGIN
+	BITMAP "transfernoapp.bmp"    BPP 1 DENSITY 1
+	BITMAP "transfernoapp_hr.bmp" BPP 1 DENSITY 2
+END
+
+// icons for Insert Shape dialog
+BITMAPFAMILYEX ID ShapeRectBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRect.bmp"    BPP 1 DENSITY 1
+END
+BITMAPFAMILYEX ID ShapeRoundRectBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRoundRect.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeRoundRect_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeCircleBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeCircle.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeCircle_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeOvalBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeOval.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeOval_hr.bmp" BPP 1 DENSITY 2
+END
+
+BITMAPFAMILYEX ID ShapeRectFilledBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRectF.bmp"    BPP 1 DENSITY 1
+END
+BITMAPFAMILYEX ID ShapeRectFilledXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRectFX.bmp"    BPP 1 DENSITY 1
+END
+BITMAPFAMILYEX ID ShapeRectOutlineXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRectOX.bmp"    BPP 1 DENSITY 1
+END
+BITMAPFAMILYEX ID ShapeRoundRectFilledBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRoundRectF.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeRoundRectF_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeRoundRectFilledXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRoundRectFX.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeRoundRectFX_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeRoundRectOutlineXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeRoundRectOX.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeRoundRectOX_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeCircleFilledBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeCircleF.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeCircleF_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeCircleFilledXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeCircleFX.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeCircleFX_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeCircleOutlineXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeCircleOX.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeCircleOX_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeOvalFilledBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeOvalF.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeOvalF_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeOvalFilledXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeOvalFX.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeOvalFX_hr.bmp" BPP 1 DENSITY 2
+END
+BITMAPFAMILYEX ID ShapeOvalOutlineXorBitmap COMPRESS
+BEGIN
+	BITMAP "ShapeOvalOX.bmp"    BPP 1 DENSITY 1
+	BITMAP "ShapeOvalOX_hr.bmp" BPP 1 DENSITY 2
+END
+
+// New icons for alarm dialog
+BITMAPFAMILYEX ID DayBitmap COMPRESS
+BEGIN
+	BITMAP "day.bmp"    BPP 1 DENSITY 1
+	BITMAP "day_hr.bmp" BPP 8 DENSITY 2 TRANSPARENT 255 0 255
+END
+BITMAPFAMILYEX ID MorningBitmap COMPRESS
+BEGIN
+	BITMAP "morning.bmp"    BPP 1 DENSITY 1
+	BITMAP "morning_hr.bmp" BPP 8 DENSITY 2 TRANSPARENT 255 0 255
+END
+BITMAPFAMILYEX ID NightBitmap COMPRESS
+BEGIN
+	BITMAP "night.bmp"    BPP 1 DENSITY 1
+	BITMAP "night_hr.bmp" BPP 8 DENSITY 2 TRANSPARENT 255 0 255
+END
+
+// Icons for the various "list views"
+BITMAP ID TextListBitmap          "TextList.bmp"              COMPRESS
+BITMAP ID ThumbnailListBitmap     "ThumbnailList.bmp"         COMPRESS
+BITMAP ID ThumbnailDetailListBitmap "ThumbnailDetailList.bmp" COMPRESS
+
+// Icons for thumbnail detail view
+BITMAPFAMILYEX ID TrashBitmap COMPRESS
+BEGIN
+	BITMAP "trash.bmp"    BPP 1 DENSITY 1
+	BITMAP "trash_hr.bmp" BPP 1 DENSITY 2
+END
+
+// Icons for Treo 600 buttons
+BITMAPFAMILYEX ID Treo600PhoneBitmap COMPRESS
+BEGIN
+	BITMAP "Treo600PrefsPhone.bmp" BPP 8 DENSITY 1 TRANSPARENT 255 0 255
+END
+BITMAPFAMILYEX ID Treo600CalendarBitmap COMPRESS
+BEGIN
+	BITMAP "Treo600PrefsCalendar.bmp" BPP 8 DENSITY 1 TRANSPARENT 255 0 255
+END
+BITMAPFAMILYEX ID Treo600MessagingBitmap COMPRESS
+BEGIN
+	BITMAP "Treo600PrefsMessaging.bmp" BPP 8 DENSITY 1 TRANSPARENT 255 0 255
+END
+BITMAPFAMILYEX ID Treo600DisplayBitmap COMPRESS
+BEGIN
+	BITMAP "Treo600PrefsDisplay.bmp" BPP 8 DENSITY 1 TRANSPARENT 255 0 255
+END
+
+CATEGORIES ID DefaultCategories "Î´·ÖÀà" "¹«ÊÂ" "¸öÈË"
+
+STRING ID SunString 	"ÐÇÆÚÈÕ"
+STRING ID MonString 	"ÐÇÆÚÒ»"
+STRING ID TueString 	"ÐÇÆÚ¶þ"
+STRING ID WedString 	"ÐÇÆÚÈý"
+STRING ID ThuString 	"ÐÇÆÚËÄ"
+STRING ID FriString 	"ÐÇÆÚÎå"
+STRING ID SatString 	"ÐÇÆÚÁù"
+
+STRING ID CountdownString 	"µ¹Êý "
+STRING ID SingleDayString 	"Ò»Ìì£¬ "
+STRING ID MultiDayString 	" Ìì£¬ "
+STRING ID TodayString 		"½ñÌì£¬ "
+STRING ID TomorrowString 	"Ã÷Ìì£¬ "
+STRING ID NoCountdownString 	" Î´Éè¶¨µ¹Êý "
+STRING ID NoAlarmString 	" Î´Éè¶¨ÏìÄÖ "
+STRING ID OffString 		"¹Ø±Õ"
+STRING ID AbsoluteString 	"Éè¶¨ÏìÄÖ¡­"
+STRING ID CustomString 		"Éè¶¨µ¹Êý¡­"
+STRING ID MinString 		" ·Ö"
+STRING ID MinsString 		" ·Ö"
+STRING ID HourString 		" Ð¡Ê±"
+STRING ID HoursString 		" Ð¡Ê±"
+STRING ID DayString 		" Ìì"
+STRING ID DaysString 		" Ìì"
+STRING ID WeekString 		" ÐÇÆÚ"
+STRING ID WeeksString 		" ÐÇÆÚ"
+STRING ID SelectDateString 	"Ñ¡ÔñÏìÄÖÈÕÆÚ"
+STRING ID NoActionString 	"ÎÞÖ¸¶¨¶¯×÷"
+STRING ID LaunchString 		"Ö´ÐÐ ^1"
+STRING ID NewReminderString 	"ÐÂÔöÍ¼Ò³"
+STRING ID NextSketchString 	"ÏÂÒ»Ò³"
+STRING ID NextCategoryString 	"ÏÂÒ»·ÖÀà"
+STRING ID ListViewString        "Ñ¡ÔñÁÐ±í/Í¼Ò³"
+STRING ID DetailViewString	 "¼ìÊÓÏêÏ¸ÊôÐÔ"
+STRING ID MIDINotSelectedString "Î´Ö¸¶¨"
+STRING ID UntitledNoteTitleString "- ^0/^1 Ò³ -"
+STRING ID SnoozeString          "ÖØÏì "
+STRING ID FindHeaderString	"DiddleBug"
+STRING ID TimeSnoozeTitleString "DiddleBug - ÖØÏì"
+STRING ID FloodFillMessageString "ÕýÔÚÌîÉ«... ÇëÉÔºò"
+
+STRING ID XferGotoString 	 "È¥"
+STRING ID XferDeleteSketchString "É¾³ý»­Ò³"
+STRING ID XferCompletedString 	 "Íê³É"
+STRING ID XferBackLinkString 	 "Á¬½á"
+STRING ID XferNoTextString 	 "Î´ÊäÈëÎÄ×Ö"
+STRING ID XferSavingString 	 "´¢´æÖÐ..."
+STRING ID NoUndoString 		 "Ã»ÓÐ¶¯×÷¿É¸´Ô­"
+
+STRING ID BeamTypeString 	"DiddleBug »­Ò³"
+STRING ID BeamContentString 	"»­Ò³"
+
+STRING ID DiddleBugHelpString	"Äã¿ÉÔÚDiddleBugÄÚÊ¹ÓÃÊÖÐ´¿ì½Ý·½Ê½"\
+				"¶ø²»ÓÃÏÈÊäÈë\026·û¡£ " \
+				"\n" \
+				"ÊÂÊµÉÏ£¬»ùÓÚ¼¼ÊõÔ­Òò£¬Ä³Ð©¿ì½Ý·½Ê½Ö»ÄÜÔÚÃ»ÓÐ" \
+				"ÏÈÊäÈë\026·ûÇ°Ê¹ÓÃ¡£ " \
+				"\n"\
+				"ÕâÐ©¿ì½Ý·½Ê½°üÀ¨£º\n" \
+				"\x16A\t(ÊÖ»æÄ£Ê½)\n"\
+				"\x16E\t(ÏðÆ¤²ÁÄ£Ê½)\n" \
+				"\n" \
+				"\x16<\t(²»Æ½»¬)\n" \
+				"\x16=\t(Æ½»¬)\n" \
+				"\x16>\t(¸üÆ½»¬)\n" \
+				"\n" \
+				"\x16.\t(Ó×±Ê)\n" \
+				"\x16~\t(ÖÐ±Ê)\n" \
+				"\x16#\t(´Ö±Ê)\n" \
+				"\x16@\t(¼«´Ö±Ê)\n" \
+				"\x16,\t(Ó×Ð±±Ê)\n" \
+				"\x16/\t(ÖÐÐ±±Ê)\n" \
+				"\x16;\t(´ÖÐ±±Ê)\n" \
+				"\n" \
+				"\x160\t(´¿°×)\n" \
+				"\x161\t(12.5%)\n" \
+				"\x162\t(25%)\n" \
+				"\x163\t(37.5%)\n" \
+				"\x164\t(50%)\n" \
+				"\x165\t(62.5%)\n" \
+				"\x166\t(75%)\n" \
+				"\x167\t(87.5%)\n" \
+				"\x168\t(´¿ºÚ)\n" \
+				"\n" \
+				"\225 :\t(Çå³ý»­Ãæ)\n" \
+				"\225 L\t(ÔÙ¼ÓÈë)\n" \
+				"\n" \
+				"\x16!\t(µ¹ÊýÉè¶¨)\n" \
+				"\x16^\t(ÇÐ»»Àà±ð)"
+
+FORM ID DiddleListForm AT (0 0 160 160)
+USABLE
+NOFRAME
+NOSAVEBEHIND
+MENUID DiddleListMenu
+HELPID DiddleListHelpString
+BEGIN
+    TITLE "DiddleBug"
+    POPUPTRIGGER "" ID CategoryPop AT (160 0 0 13) USABLE RIGHTANCHOR
+    POPUPLIST ID CategoryPop CategoryList
+    LIST "" ID CategoryList AT (88 0 72 AUTO) NONUSABLE
+
+    BUTTON "ÐÂÔö" ID NewButton AT (1 BOTTOM@160-1 36 AUTO) USABLE LEFTANCHOR FRAME
+    BUTTON "" ID ThumbnailListButton AT (PREVRIGHT+5 PREVTOP-1 14 14) NOFRAME GRAPHICAL BITMAPID ThumbnailListBitmap
+    BUTTON "" ID ThumbnailDetailListButton AT (PREVRIGHT PREVTOP PREVWIDTH PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID ThumbnailDetailListBitmap
+
+    TABLE ID SketchTable AT (0 18 153 121) ROWS 11 COLUMNS 1 COLUMNWIDTHS 153
+    SCROLLBAR ID ScrollBar AT (153 18 7 121) USABLE
+END
+
+STRING ID DiddleListHelpString "Äã¿ÉÔÚ´ËÑ¡ÔñÒª¹Û¿´Ö®Í¼Ò³¡£"
+
+FORM ID DiddleThumbnailForm AT (0 0 160 160)
+USABLE
+NOFRAME
+NOSAVEBEHIND
+MENUID DiddleListMenu
+BEGIN
+    TITLE "DiddleBug"
+    POPUPTRIGGER "" ID CategoryPop AT (160 0 0 13) USABLE RIGHTANCHOR
+    POPUPLIST ID CategoryPop CategoryList
+    LIST "" ID CategoryList AT (88 0 72 AUTO) NONUSABLE
+    BUTTON "ÐÂÔö" ID NewButton AT (1 BOTTOM@160-1 36 AUTO) USABLE LEFTANCHOR FRAME
+    BUTTON "" ID TextListButton AT (PREVRIGHT+5 PREVTOP-1 14 14) NOFRAME GRAPHICAL BITMAPID TextListBitmap
+    BUTTON "" ID ThumbnailDetailListButton AT (PREVRIGHT PREVTOP PREVWIDTH PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID ThumbnailDetailListBitmap
+
+    GADGET ID Thumb1 AT (5 18 20 20) EXTENDED
+    GADGET ID Thumb2 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb3 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb4 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb5 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb6 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb7 AT (5 PREVBOTTOM+5 PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb8 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb9 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb10 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb11 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb12 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb13 AT (5 PREVBOTTOM+5 PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb14 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb15 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb16 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb17 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb18 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb19 AT (5 PREVBOTTOM+5 PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb20 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb21 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb22 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb23 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb24 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb25 AT (5 PREVBOTTOM+5 PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb26 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb27 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb28 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb29 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+    GADGET ID Thumb30 AT (PREVRIGHT+5 PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED
+
+    SCROLLBAR ID ScrollBar AT (153 18 7 121) USABLE
+END
+ 
+NAVIGATION ID DiddleThumbnailForm
+VERSION 1
+INITIALSTATE 2
+NAVIGATIONMAP
+	ROW CategoryPop
+	ROW NewButton TextListButton ThumbnailDetailListButton
+//	ROW Thumb1 Thumb2 Thumb3 Thumb4 Thumb5 Thumb6
+//	ROW Thumb7 Thumb8 Thumb9 Thumb10 Thumb11 Thumb12
+//	ROW Thumb13 Thumb14 Thumb15 Thumb16 Thumb17 Thumb18
+//	ROW Thumb19 Thumb20 Thumb21 Thumb22 Thumb23 Thumb24
+//	ROW Thumb25 Thumb26 Thumb27 Thumb28 Thumb29 Thumb30
+END
+
+STRING ID DiddleThumbnailHelpString "ÕâÐ©ÊÇÍ¼Ò³µÄËõÍ¼¡£\n" \
+                                    "\n" \
+		 	            "Äã¿ÉÔÚ´ËÑ¡ÔñÒª¹Û¿´»òÐÞ¸ÄÖ®Í¼Ò³¡£"
+
+FORM ID DiddleThumbnailDetailForm AT (0 0 160 160)
+USABLE
+NOFRAME
+NOSAVEBEHIND
+MENUID DiddleListMenu
+BEGIN
+    TITLE "DiddleBug"
+    POPUPTRIGGER "" ID CategoryPop AT (160 0 0 13) USABLE RIGHTANCHOR
+    POPUPLIST ID CategoryPop CategoryList
+    LIST "" ID CategoryList AT (88 0 72 AUTO) NONUSABLE
+    BUTTON "ÐÂÔö" ID NewButton AT (1 BOTTOM@160-1 36 AUTO) USABLE LEFTANCHOR FRAME
+    BUTTON "" ID TextListButton AT (PREVRIGHT+5 PREVTOP-1 14 14) NOFRAME GRAPHICAL BITMAPID TextListBitmap
+    BUTTON "" ID ThumbnailListButton AT (PREVRIGHT PREVTOP PREVWIDTH PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID ThumbnailListBitmap
+
+    GADGET ID Thumb1 AT (5 18 20 20) EXTENDED
+    GADGET ID Thumb1Name AT (PREVRIGHT+4 PREVTOP-1 113 11) EXTENDED
+    GADGET ID Thumb1NameMasked AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED NONUSABLE
+    BUTTON "\013" ID Thumb1NoteButton AT (PREVRIGHT+1 PREVTOP 6 11) NONUSABLE NOFRAME FONT 3
+    BUTTON "\024" ID Thumb1AlarmButton AT (29 PREVBOTTOM 7 11) NOFRAME USABLE FONT 3
+    GADGET ID Thumb1Alarm AT (PREVRIGHT+3 PREVTOP 102 11) EXTENDED
+    BUTTON "" ID Thumb1TrashButton AT(PREVRIGHT+1 PREVTOP 7 11) NOFRAME GRAPHICAL BITMAPID TrashBitmap
+
+    GADGET ID Line1 AT (4 PREVBOTTOM+4 145 3) EXTENDED
+
+    GADGET ID Thumb2 AT (5 PREVBOTTOM+4 20 20) EXTENDED
+    GADGET ID Thumb2Name AT (PREVRIGHT+4 PREVTOP-1 113 11) EXTENDED
+    GADGET ID Thumb2NameMasked AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED NONUSABLE
+    BUTTON "\013" ID Thumb2NoteButton AT (PREVRIGHT+1 PREVTOP 6 11) NONUSABLE NOFRAME FONT 3
+    BUTTON "\024" ID Thumb2AlarmButton AT (29 PREVBOTTOM 7 11) NOFRAME USABLE FONT 3
+    GADGET ID Thumb2Alarm AT (PREVRIGHT+3 PREVTOP 102 11) EXTENDED
+    BUTTON "" ID Thumb2TrashButton AT(PREVRIGHT+1 PREVTOP 7 11) NOFRAME GRAPHICAL BITMAPID TrashBitmap
+
+    GADGET ID Line2 AT (4 PREVBOTTOM+4 145 3) EXTENDED
+
+    GADGET ID Thumb3 AT (5 PREVBOTTOM+4 20 20) EXTENDED
+    GADGET ID Thumb3Name AT (PREVRIGHT+4 PREVTOP-1 113 11) EXTENDED
+    GADGET ID Thumb3NameMasked AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED NONUSABLE
+    BUTTON "\013" ID Thumb3NoteButton AT (PREVRIGHT+1 PREVTOP 6 11) NONUSABLE NOFRAME FONT 3
+    BUTTON "\024" ID Thumb3AlarmButton AT (29 PREVBOTTOM 7 11) NOFRAME USABLE FONT 3
+    GADGET ID Thumb3Alarm AT (PREVRIGHT+3 PREVTOP 102 11) EXTENDED
+    BUTTON "" ID Thumb3TrashButton AT(PREVRIGHT+1 PREVTOP 7 11) NOFRAME GRAPHICAL BITMAPID TrashBitmap
+
+    GADGET ID Line3 AT (4 PREVBOTTOM+4 145 3) EXTENDED
+
+    GADGET ID Thumb4 AT (5 PREVBOTTOM+4 20 20) EXTENDED
+    GADGET ID Thumb4Name AT (PREVRIGHT+4 PREVTOP-1 113 11) EXTENDED
+    GADGET ID Thumb4NameMasked AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) EXTENDED NONUSABLE
+    BUTTON "\013" ID Thumb4NoteButton AT (PREVRIGHT+1 PREVTOP 6 11) NONUSABLE NOFRAME FONT 3
+    BUTTON "\024" ID Thumb4AlarmButton AT (29 PREVBOTTOM 7 11) NOFRAME USABLE FONT 3
+    GADGET ID Thumb4Alarm AT (PREVRIGHT+3 PREVTOP 102 11) EXTENDED
+    BUTTON "" ID Thumb4TrashButton AT(PREVRIGHT+1 PREVTOP 7 11) NOFRAME GRAPHICAL BITMAPID TrashBitmap
+
+    GADGET ID Line4 AT (4 PREVBOTTOM+4 145 3) EXTENDED
+
+    SCROLLBAR ID ScrollBar AT (153 18 7 121) USABLE
+END
+  
+NAVIGATION ID DiddleThumbnailDetailForm
+VERSION 1
+INITIALSTATE 2
+NAVIGATIONMAP
+//	ROW Thumb1 Thumb1Name Thumb1NoteButton Thumb1AlarmButton Thumb1Alarm SKIP Thumb1TrashButton
+//	ROW Thumb2 Thumb2Name Thumb2NoteButton Thumb2AlarmButton Thumb2Alarm SKIP Thumb2TrashButton
+//	ROW Thumb3 Thumb3Name Thumb3NoteButton Thumb3AlarmButton Thumb3Alarm SKIP Thumb3TrashButton
+//	ROW Thumb4 Thumb4Name Thumb4NoteButton Thumb4AlarmButton Thumb4Alarm SKIP Thumb4TrashButton
+END
+
+STRING ID DiddleThumbnailDetailHelpString "Äã¿ÉÔÚ´ËÑ¡ÔñÒª¹Û¿´Ö®Í¼Ò³¡£\n" \
+					  "\n" \
+					  "Äã¿ÉµãÑ¡Í¼Ò³µÄÃû³ÆÒÔ¸ü¸ÄÆäÊôÐÔ£¬ " \
+					  "ÄãÒà¿ÉµãÑ¡ÏìÄÖÊ±¼ä»òÊ±ÖÓÍ¼·ûÒÔÉè¶¨ÏìÄÖÊ±¼ä¡£" \
+					  "\n" \
+					  "µãÑ¡¼ÇÊÂ±¾Í¼·ûÒÔ¹Û¿´±¸Íü¡£" \
+					  "\n" \
+					  "ÒªÉ¾³ýÍ¼Ò³ÇëµãÑ¡À¬»øÍ°Í¼·û¡£"
+FORM ID DiddleForm AT (0 0 160 160)
+USABLE
+NOFRAME
+NOSAVEBEHIND
+MENUID DiddleMenu
+BEGIN
+    LIST "Ö±Ïß" "¾ØÐÎ" "Ô²½Ç¾ØÐÎ" "ÍÖÔ²ÐÎ" "Ô²ÐÎ" "ÌîÂú" "ÎÄ×Ö" ID PopShortcutList AT (98 100 60 20) VISIBLEITEMS 7 NONUSABLE
+    BUTTON "" ID MainNewButton AT (0 BOTTOM@160 13 14) NOFRAME GRAPHICAL BITMAPID NewBitmap
+    BUTTON "" ID MainClearButton AT (PREVRIGHT PREVTOP 12 PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID ClearBitmap
+    BUTTON "" ID MainDeleteButton AT (PREVRIGHT PREVTOP 12 PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID DeleteBitmap
+    BUTTON "" ID MainLockButton AT (PREVRIGHT-24 PREVTOP 24 PREVHEIGHT) NOFRAME NONUSABLE GRAPHICAL BITMAPID LockBitmap
+    GADGET ID MainDateSelTrig AT (PREVRIGHT+1 PREVTOP+1 111 PREVHEIGHT-2) USABLE EXTENDED
+    BUTTON "" ID MainSwitchButton AT (PREVRIGHT+1 PREVTOP-1 10 PREVHEIGHT+2) NOFRAME GRAPHICAL BITMAPID UpDownBitmap
+    LIST "" ID PopCountdownList AT (38 24 44 50) VISIBLEITEMS 12 FONT 0 NONUSABLE
+    GADGET ID XferDoneButton AT (0 BOTTOM@160 16 14) NONUSABLE EXTENDED
+    GADGET ID XferDetailsButton AT (16 PREVTOP 14 14) NONUSABLE EXTENDED
+    FIELD ID XferField AT (34 147 126 12) NONUSABLE UNDERLINED EDITABLE MULTIPLELINES AUTOSHIFT MAXCHARS 512
+    LIST "" ID XferList AT (16 23 50 50) VISIBLEITEMS 11 NONUSABLE
+    LIST "" ID XferDoneList AT (1 23 50 50) VISIBLEITEMS 4 NONUSABLE
+    NOGRAFFITISTATEINDICATOR 
+END
+
+FORM ID DiddleTForm AT (0 0 160 160)
+USABLE
+NOFRAME
+NOSAVEBEHIND
+MENUID DiddleMenu
+BEGIN
+    TITLE "XX:XXX"
+    BUTTON "\013" ID NoteButton AT (33 2 8 9) NOFRAME FONT 3 NONUSABLE
+    BUTTON "\011" ID FilledNoteButton AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) NOFRAME FONT 3 NONUSABLE
+    BUTTON "" ID ModeButton AT (45 2 14 9) NOFRAME GRAPHICAL BITMAPID CmdPaintBitmap
+    BUTTON "" ID SmoothButton AT (PrevRight+1 PrevTop PrevWidth PrevHeight) NOFRAME GRAPHICAL BITMAPID CmdRoughBitmap
+    GADGET ID PenButton AT (PrevRight PrevTop PrevWidth PrevHeight) EXTENDED
+    GADGET ID InkButton AT (PrevRight+2 PrevTop 13 PrevHeight) EXTENDED
+    BUTTON "" ID CategoryButton AT (PrevRight+4 PrevTop 9 PrevHeight) NOFRAME GRAPHICAL BITMAPID CategoryBitmap
+    BUTTON "" ID PageButton AT (PrevRight+2 PrevTop 31 PrevHeight)
+    LIST "" ID PageList AT (PREVLEFT PREVBOTTOM+3 50 AUTO) VISIBLEITEMS 1 NONUSABLE
+    GRAFFITISTATEINDICATOR AT (RIGHT@160 2)
+    POPUPTRIGGER "" ID CategoryPop AT (RIGHT@160 0 60 AUTO) RIGHTANCHOR NONUSABLE
+    LIST "" ID CategoryList AT (PREVLEFT PREVBOTTOM+2 90 AUTO) VISIBLEITEMS 1 NONUSABLE
+    POPUPLIST CategoryPop CategoryList
+    LIST "²»Æ½»¬" "Æ½»¬" "¸üÆ½»¬" ID MainSmoothList AT (24 14 50 20) VISIBLEITEMS 3 NONUSABLE
+    LIST "Ó×" "ÖÐ" "´Ö" "¼«´Ö" "Ó×Ð±" "ÖÐÐ±" "´ÖÐ±" ID MainPenList AT (50 14 55 20) VISIBLEITEMS 7 NONUSABLE
+    LIST "´¿°×" "12.5%" "25%" "37.5%" "50%" "62.5%" "75%" "87.5%" "´¿ºÚ" ID MainInkList AT (76 14 33 20) VISIBLEITEMS 9 NONUSABLE
+    BUTTON "" ID MainNewButton AT (0 BOTTOM@160 13 14) NOFRAME GRAPHICAL BITMAPID NewBitmap
+    BUTTON "" ID MainClearButton AT (PREVRIGHT PREVTOP 12 PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID ClearBitmap
+    BUTTON "" ID MainDeleteButton AT (PREVRIGHT PREVTOP 12 PREVHEIGHT) NOFRAME GRAPHICAL BITMAPID DeleteBitmap
+    BUTTON "" ID MainLockButton AT (PREVRIGHT-24 PREVTOP 24 PREVHEIGHT) NOFRAME NONUSABLE GRAPHICAL BITMAPID LockBitmap
+    GADGET ID MainDateSelTrig AT (PREVRIGHT+1 PREVTOP+1 111 PREVHEIGHT-2) USABLE EXTENDED
+    BUTTON "" ID MainSwitchButton AT (PREVRIGHT+1 PREVTOP-1 10 PREVHEIGHT+2) NOFRAME GRAPHICAL BITMAPID UpDownBitmap
+    LIST "Ö±Ïß" "¾ØÐÎ" "Ô²½Ç¾ØÐÎ" "ÍÖÔ²ÐÎ" "Ô²ÐÎ" "ÌîÂú" "ÎÄ×Ö" ID PopShortcutList AT (3 15 60 20) VISIBLEITEMS 7 NONUSABLE
+    LIST "" ID PopCountdownList AT (38 24 44 50) VISIBLEITEMS 12 NONUSABLE
+    GADGET ID XferDoneButton AT (0 BOTTOM@160 16 14) NONUSABLE EXTENDED
+    GADGET ID XferDetailsButton AT (16 PREVTOP 14 14) NONUSABLE EXTENDED
+    FIELD ID XferField AT (34 147 126 12) NONUSABLE UNDERLINED MULTIPLELINES AUTOSHIFT MAXCHARS 512
+    LIST "" ID XferList AT (16 23 50 50) VISIBLEITEMS 11 NONUSABLE
+    LIST "" ID XferDoneList AT (1 23 50 50) VISIBLEITEMS 4 NONUSABLE
+END
+
+//
+// SMTWTFS == one letter abbreviations for weekdays (_S_unday, _M_onday, _T_uesday
+//
+FORM ID TimeForm AT (2 2 156 156)
+MODAL
+HELPID TimeFormHelpString
+DEFAULTBTNID TimeCancelButton
+NOFRAME
+USABLE
+BEGIN
+    TITLE "ÏìÄÖÉè¶¨"
+    LABEL "ÖØÏìÖÁ£º" ID TimeSnoozeUntilLabel AT (0 13) FONT 1 NONUSABLE
+    CHECKBOX "ÏìÄÖ" ID TimeSetCheck AT (1 13 AUTO AUTO) USABLE FONT 0
+    LABEL "ÏìÄÖÊ±¼ä£º" ID TimeAlarmAtLabel AT (PREVLEFT PREVBOTTOM+1) FONT 1
+
+    POPUPTRIGGER "" ID TimeDatePop AT (1 PREVBOTTOM AUTO AUTO) LEFTANCHOR FONT 0
+    LIST "½ñÌì" "Ã÷Ìì" "ºóÌì" "ÏÂÐÇÆÚÎå" "ÏÂÐÇÆÚÒ»" "Ò»ÐÇÆÚºó" "ÏÂÔÂ³õ" "Ñ¡ÔñÈÕÆÚ..." ID TimeDateList AT (PREVLEFT PREVBOTTOM 90 AUTO) NONUSABLE VISIBLEITEMS 8
+    POPUPLIST TimeDatePop TimeDateList
+
+    LABEL "ÖØ¸´£º" ID TimeRepeatLabel AT (PREVLEFT 52) FONT 1
+    SELECTORTRIGGER "" ID TimeRepeatTrig AT (1 PREVBOTTOM+1 66 12) LEFTANCHOR FONT 0
+
+    LABEL "×Ô¶¨ÌáÊ¾£º" ID TimeCustomSignalLabel AT (1 PREVBOTTOM+4) FONT 1
+    CHECKBOX "" ID TimeCustomSignalCheck AT (1 PREVBOTTOM+1 AUTO AUTO)
+    SELECTORTRIGGER "" ID TimeSignalTrig AT (PREVRIGHT-3 PREVTOP 50 12) LEFTANCHOR FONT 0
+
+    BUTTON "ÏÖÊ±" ID TimeNowButton AT (3 BOTTOM@138 38 AUTO)
+
+    FORMBITMAP AT (73 12) BITMAP MorningBitmap
+    LIST "12" "1a" "2" "3" "4" "5" ID TimeMorningHoursList AT (PREVLEFT-2 PREVBOTTOM 14 60) VISIBLEITEMS 6 USABLE FONT 0
+    LIST "0" "1" "2" "3" "4" "5" ID TimeMorningHours24List AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) VISIBLEITEMS 6 NONUSABLE FONT 0
+    FORMBITMAP AT (PREVRIGHT+6 12) BITMAP DayBitmap
+    LIST "6a" "7" "8" "9" "10" "11" "12" "1p" "2" "3" "4" "5" ID TimeDayHoursList AT (PREVLEFT-2 PREVBOTTOM 14 120) VISIBLEITEMS 12 USABLE FONT 1
+    LIST "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" ID TimeDayHours24List AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) VISIBLEITEMS 12 NONUSABLE FONT 1
+    FORMBITMAP AT (PREVRIGHT+5 12) BITMAP NightBitmap
+    LIST "6p" "7" "8" "9" "10" "11" ID TimeNightHoursList AT (PREVLEFT-1 BOTTOM@160 14 69) VISIBLEITEMS 6 USABLE FONT 0
+    LIST "18" "19" "20" "21" "22" "23" ID TimeNightHours24List AT (PREVLEFT PREVTOP PREVWIDTH PREVHEIGHT) VISIBLEITEMS 6 NONUSABLE FONT 0
+    LABEL "·Ö" AUTOID AT (PREVRIGHT+5 12)
+    LIST "00" "05" "10" "15" "20" "25" "30" "35" "40" "45" "50" "55" ID TimeMinutesList AT (PREVLEFT+1 PREVBOTTOM 14 30) VISIBLEITEMS 12 USABLE FONT 0
+    LIST "" ID TimeSmallMinutesList AT (PREVRIGHT+1 PREVTOP 12 30) VISIBLEITEMS 5 USABLE FONT 0
+
+    BUTTON "È·¶¨" ID TimeOkButton AT (1 BOTTOM@154 38 AUTO)
+    BUTTON "È¡Ïû" ID TimeCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+END
+  
+NAVIGATION ID TimeForm
+VERSION 1
+INITIALSTATE 1
+NAVIGATIONMAP
+	ROW TimeSetCheck
+	ROW TimeDatePop
+	    TimeMorningHoursList
+	    TimeMorningHours24List
+            TimeDayHoursList
+            TimeDayHours24List
+            TimeNightHoursList
+            TimeNightHours24List
+            TimeMinutesList
+            TimeSmallMinutesList
+	ROW TimeRepeatTrig
+	ROW TimeCustomSignalCheck TimeSignalTrig
+	ROW TimeNowButton
+	ROW TimeOkButton TimeCancelButton
+END
+
+STRING ID TimeFormHelpString "Äã¿ÉÔÚ´Ë¸ü¸ÄÏìÄÖÖ®ÏêÏ¸Éè¶¨¡£"
+
+STRING ID TimeSnoozeHelpString "Äã¿ÉÔÚ´ËÉè¶¨ÖØÏìÖ®Ê±¼ä¡£\n" \
+			       "\n" \
+  			       "ÄãÒà¿ÉÑ¡ÔñÈ¡ÏûÒÔÍ£Ö¹ÖØÏì¡£"
+
+FORM ID RepeatForm AT (2 2 156 156)
+USABLE
+MODAL
+SAVEBEHIND
+DEFAULTBTNID RepeatCancelButton
+HELPID RepeatHelpString
+BEGIN
+    TITLE "¸ü¸ÄÏìÄÖÖØ¸´"
+    PUSHBUTTON "ÎÞ" ID RepeatNone AT (4 20 23 11) USABLE GROUP 1
+    PUSHBUTTON "Ð¡Ê±" ID RepeatHourly AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
+    PUSHBUTTON "ÈÕ" ID RepeatDaily AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
+    PUSHBUTTON "ÐÇÆÚ" ID RepeatWeekly AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
+    PUSHBUTTON "ÔÂ" ID RepeatMonthly AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
+    PUSHBUTTON "Äê" ID RepeatYearly AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
+    LABEL "Ã¿" ID RepeatEveryLabel AT (24 38) NONUSABLE FONT 1
+    FIELD ID RepeatFrequenceField AT (60 38 17 11) NONUSABLE EDITABLE UNDERLINED SINGLELINE RIGHTALIGN MAXCHARS 2 NUMERIC
+    LABEL "Ð¡Ê±" ID RepeatHoursLabel AT (83 38) NONUSABLE FONT 1
+    LABEL "ÈÕ" ID RepeatDaysLabel AT (83 38) NONUSABLE FONT 1
+    LABEL "ÐÇÆÚ" ID RepeatWeeksLabel AT (83 38) NONUSABLE FONT 1
+    LABEL "ÔÂ" ID RepeatMonthsLabel AT (83 38) NONUSABLE FONT 1
+    LABEL "Äê" ID RepeatYearsLabel AT (83 38) NONUSABLE FONT 1
+    LABEL "½áÊø£º" ID RepeatEndOnLabel AT (21 55) NONUSABLE FONT 1
+    POPUPTRIGGER "**19 bytes**........" ID RepeatEndOnTrigger AT (60 55 0 13) NONUSABLE LEFTANCHOR
+    POPUPLIST ID  RepeatEndOnTrigger RepeatEndOnList
+    LIST "ÎÞ½áÊøÈÕÆÚ" "Ñ¡ÔñÈÕÆÚ..." ID RepeatEndOnList AT (60 58 70 AUTO) NONUSABLE VISIBLEITEMS 2
+    LABEL "ÖØ¸´£º" ID RepeatRepeatOnLabel AT (5 72) NONUSABLE FONT 1
+    PUSHBUTTON "S" ID RepeatDayOfWeek1PushButton AT (63 72 10 12) NONUSABLE
+    PUSHBUTTON "M" ID RepeatDayOfWeek2PushButton AT (74 72 10 12) NONUSABLE
+    PUSHBUTTON "T" ID RepeatDayOfWeek3PushButton AT (85 72 10 12) NONUSABLE
+    PUSHBUTTON "W" ID RepeatDayOfWeek4PushButton AT (96 72 10 12) NONUSABLE
+    PUSHBUTTON "T" ID RepeatDayOfWeek5PushButton AT (107 72 10 12) NONUSABLE
+    PUSHBUTTON "F" ID RepeatDayOfWeek6PushButton AT (118 72 10 12) NONUSABLE
+    PUSHBUTTON "S" ID RepeatDayOfWeek7PushButton AT (129 72 10 12) NONUSABLE
+    LABEL "ÖØ¸´£º" ID RepeatByLabel AT (5 72) NONUSABLE FONT 1
+    PUSHBUTTON "ÐÇÆÚ" ID RepeatByDayPushButton AT (63 72 40 12) NONUSABLE GROUP 2
+    PUSHBUTTON "ÈÕÆÚ" ID RepeatByDatePushButton AT (104 72 40 12) NONUSABLE GROUP 2
+    GADGET ID RepeatDescRectGadget AT (3 90 150 45) USABLE EXTENDED
+    FIELD ID RepeatDescField AT (10 100 136 22) USABLE NONEDITABLE MULTIPLELINES LEFTALIGN MAXCHARS 100 FONT 1
+    LABEL "°´ÉÏÃæÈÎºÎÒ»°´Å¥\rÒÔÉè¶¨ÖØ¸´ÖÜÆÚ" ID RepeatNoRepeatLabel AT (7 38) NONUSABLE FONT 1
+    BUTTON "È·¶¨" ID RepeatOkButton AT (5 139 38 12) USABLE
+    BUTTON "È¡Ïû" ID RepeatCancelButton AT (PREVRIGHT+5 139 38 12) USABLE
+    NOGRAFFITISTATEINDICATOR 
+END
+
+NAVIGATION ID RepeatForm
+VERSION 1
+INITIALSTATE 1
+INITIALOBJECTID RepeatOkButton
+NAVIGATIONMAP
+	ROW RepeatNone
+	    RepeatHourly
+            RepeatDaily
+            RepeatWeekly
+            RepeatMonthly
+            RepeatYearly
+        ROW RepeatFrequenceField SKIP
+	ROW RepeatEndOnTrigger
+	ROW RepeatDayOfWeek1PushButton 
+            RepeatDayOfWeek2PushButton
+            RepeatDayOfWeek3PushButton
+            RepeatDayOfWeek4PushButton
+            RepeatDayOfWeek5PushButton
+            RepeatDayOfWeek6PushButton
+            RepeatDayOfWeek7PushButton
+	ROW RepeatByDayPushButton
+            RepeatByDatePushButton
+	ROW RepeatOkButton
+            RepeatCancelButton
+END
+
+STRING ID RepeatHelpString "Äã¿ÉÒÔÔÚ´ËÉè¶¨ÏìÄÖÖØ¸´ÖÜÆÚ¼°½áÊøÈÕÆÚ¡£"
+
+FORM ID SignalForm AT (2 74 156 84)
+USABLE
+MODAL
+FRAME
+HELPID SignalFormHelpString
+DEFAULTBTNID SignalCancelButton
+BEGIN
+  TITLE "×Ô¶©ÏìÄÖÌáÊ¾"
+  POPUPTRIGGER "" ID SignalPop AT (64 17 AUTO AUTO) FONT 0 USABLE LEFTANCHOR
+  LIST "" ID SignalList AT (PREVLEFT PREVTOP 80 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
+  POPUPLIST ID SignalPop SignalList
+
+  LABEL "ÌáÊ¾£º" AUTOID AT (RIGHT@60 17) FONT 1 USABLE
+  LABEL "ÉÁµÆ£º" AUTOID AT (RIGHT@60 PREVBOTTOM+4) FONT 1 USABLE
+  CHECKBOX "" ID LEDCheck AT (PREVRIGHT+4 PREVTOP AUTO AUTO) USABLE LEFTANCHOR
+  LABEL "²»Ö§³Ö" ID LEDNotSupported AT (PREVLEFT PREVTOP) FONT 0 NONUSABLE
+  LABEL "Õð¶¯£º" AUTOID AT (RIGHT@60 PREVBOTTOM+4) FONT 1 USABLE
+  CHECKBOX "" ID VibrateCheck AT (PREVRIGHT+4 PREVTOP AUTO AUTO) USABLE LEFTANCHOR
+  LABEL "²»Ö§³Ö" ID VibrateNotSupported AT (PREVLEFT PREVTOP) FONT 0 NONUSABLE
+  BUTTON "È·¶¨" ID SignalOKButton AT (5 BOTTOM@80 38 AUTO)
+  BUTTON "È¡Ïû" ID SignalCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+END
+
+STRING ID SignalFormHelpString "Äã¿ÉÔÚÔÚ´ËÑ¡ÔñÏìÄÖÑ¶ºÅ¡£\n"
+
+FORM ID CustomTimeForm AT (2 2 156 156)
+MODAL
+USABLE
+HELPID CustomTimeHelpString
+DEFAULTBTNID CustomCancelButton
+BEGIN
+    TITLE "µ¹Êý¼ÆÊ±"
+    LABEL "Ð¡Ê±" AUTOID AT (18 15) FONT 1
+    LABEL "·Ö" AUTOID AT (63 PREVTOP) FONT 1
+    LABEL "Ãë" AUTOID AT (108 PREVTOP) FONT 1
+    LIST "" ID CustomHourList AT (18 28 30 30) VISIBLEITEMS 9 USABLE FONT 1
+    LIST "" ID CustomMinuteList AT (63 PREVTOP 30 30) VISIBLEITEMS 9 USABLE FONT 1
+    LIST "" ID CustomSecondList AT (108 PREVTOP 30 30) VISIBLEITEMS 9 USABLE FONT 1
+    BUTTON "È·¶¨" ID CustomOkButton AT (5 BOTTOM@151 38 AUTO)
+    BUTTON "È¡Ïû" ID CustomCancelButton AT (PREVRIGHT+5 PREVTOP PREVWIDTH AUTO)
+END
+
+STRING ID CustomTimeHelpString "Äã¿ÉÒÔÎª±¾Ò³Éè¶¨ÏìÄÖ¡£ µ±ÄãÈ·¶¨ºóÕâ½«È¡´úÒÔÇ°Éè¶¨Ö®ÏìÄÖ¡£"
+
+FORM ID AlarmForm AT (0 0 161 161)
+MODAL
+USABLE
+NOFRAME
+BEGIN
+    GADGET ID AlarmBigOkButton AT (0 0 160 146) EXTENDED
+    GADGET ID AlarmClockGadget AT (1 1 35 11) EXTENDED NONUSABLE
+
+    BUTTON "È·¶¨" ID AlarmOkButton AT (1 BOTTOM@159 38 AUTO)
+    POPUPTRIGGER "²»ÖØÏì" ID AlarmSnoozePop AT (PREVRIGHT+4 PREVTOP AUTO AUTO) LEFTANCHOR FONT 1
+    LIST "²»ÖØÏì" "ÖØÏìÖÁ..." "1 ·ÖÖÓ" "2 ·ÖÖÓ" "3 ·ÖÖÓ" "4 ·ÖÖÓ" "5 ·ÖÖÓ" "10 ·ÖÖÓ" "15 ·ÖÖÓ" "20 ·ÖÖÓ" "25 ·ÖÖÓ" "30 ·ÖÖÓ" "45 ·ÖÖÓ" "1 Ð¡Ê±" "2 Ð¡Ê±" "3 Ð¡Ê±" "4 Ð¡Ê±" "5 Ð¡Ê±" "8 Ð¡Ê±" "10 Ð¡Ê±" "12 Ð¡Ê±" "1 ÈÕ" "2 ÈÕ" "3 ÈÕ" "4 ÈÕ" "5 ÈÕ" "6 ÈÕ" "1 ÐÇÆÚ" "2 ÐÇÆÚ" ID AlarmSnoozeList AT (PREVLEFT 28 AUTO AUTO) NONUSABLE VISIBLEITEMS 12
+    POPUPLIST AlarmSnoozePop AlarmSnoozeList
+    BUTTON "" ID AlarmDeleteButton AT (RIGHT@160 BOTTOM@160 14 14) NOFRAME GRAPHICAL BITMAPID DeleteBitmap
+    BUTTON "" ID AlarmDiddleBugButton AT (PREVLEFT-14 BOTTOM@160 14 14) NOFRAME GRAPHICAL BITMAPID BugBitmap
+    BUTTON "\013" ID AlarmNoteButton AT (PREVLEFT-14 BOTTOM@160 14 14) NOFRAME FONT 3 NONUSABLE
+END
+
+MENU ID DiddleListMenu
+BEGIN
+    PULLDOWN "Í¼Ò³"
+    BEGIN
+        MENUITEM "ÒÔÏìÄÖÊ±¼äÅÅÐò" menuitemID_CmdSortByAlarm "$"
+        MENUITEM "ÒÔÃû³ÆÅÅÐò" menuitemID_CmdSortByName "§"
+    END
+    PULLDOWN "Ñ¡Ïî"
+    BEGIN
+        MENUITEM "Ï²ºÃÉè¶¨..."  menuitemID_CmdPref      "S"
+	MENUITEM "¸ß¼¶Éè¶¨..." menuitemID_CmdExtPref "M"
+        MENUITEM "ÏìÄÖÉè¶¨..." menuitemID_CmdAlarmPref "Q"
+        MENUITEM "°´Å¥Éè¶¨..." menuitemID_CmdHWPref "V"
+        MENUITEM SEPARATOR
+	MENUITEM "±£ÃÜÉè¶¨..."    menuitemID_CmdSecurity  "|"
+   	MENUITEM SEPARATOR
+    	MENUITEM "ËµÃ÷"		menuitemID_CmdHelp	"H"
+    	MENUITEM "¹ØÓÚ"         menuitemID_CmdAbout
+    END
+END
+
+MENU ID DiddleMenu
+BEGIN
+    PULLDOWN "Í¼Ò³"
+    BEGIN
+	MENUITEM "ÐÂÔö"       menuitemID_CmdNew       "N"
+	MENUITEM "É¾³ý"       menuitemID_CmdRemove    "R"
+	MENUITEM "¸´ÖÆ"	      menuitemID_CmdDuplicate "Y"
+	MENUITEM "ÊôÐÔ..."       menuitemID_CmdDetails   "D"
+	MENUITEM SEPARATOR
+	MENUITEM "ÉÏÒ³"       menuitemID_CmdPrevious  "-"
+	MENUITEM "ÏÂÒ³"       menuitemID_CmdNext      "+"
+        MENUITEM "Í¼Ò³Çåµ¥"   menuitemID_CmdListView  "I"
+	MENUITEM SEPARATOR
+    	MENUITEM "±£»¤"       menuitemID_CmdLock      "J"
+    	MENUITEM "½â³ý±£»¤"   menuitemID_CmdUnlock    "J"
+    	MENUITEM "ºìÍâÏß´«ËÍ" menuitemID_CmdBeam      "B"
+	MENUITEM "´«µ½..."    menuitemID_CmdSend      "?"
+    	MENUITEM "³­ËÍ..."    menuitemID_CmdTransfer  "G"
+    END
+    PULLDOWN "±à¼­"
+    BEGIN
+    	MENUITEM "¸´Ô­"       menuitemID_CmdSketchUndo "U"
+	MENUITEM "¼ôÏÂ"		menuitemID_CmdSketchCut  "X"
+	MENUITEM "¸´ÖÆ"		menuitemID_CmdSketchCopy "C"
+	MENUITEM "ÌùÉÏ"	menuitemID_CmdSketchPaste "P"
+    	MENUITEM SEPARATOR
+	MENUITEM "ÌîÂú"       menuitemID_CmdFill      "F"
+   	MENUITEM "·´°×"       menuitemID_CmdInvert    "W"
+	MENUITEM SEPARATOR
+    	MENUITEM "¼ÓÈëÖ±Ïß"   menuitemID_CmdLine      "_"
+    	MENUITEM "¼ÓÈëÍ¼ÐÎ..."   menuitemID_CmdShape     "O"
+        MENUITEM "ÌîÂúÍ¼ÐÎ"   menuitemID_CmdFloodFill "*"
+    	MENUITEM "¼ÓÈëÎÄ×Ö..."   menuitemID_CmdText      "Z"
+    	MENUITEM SEPARATOR
+    	MENUITEM "Ëæ»ú±Ê´¥"   menuitemID_InkRandom	"9"
+    END
+    PULLDOWN "Ñ¡Ïî"
+    BEGIN
+    	MENUITEM "ÏÔÊ¾±êÌâ"   menuitemID_CmdTitleOn	"T"
+    	MENUITEM "Òþ²Ø±êÌâ"   menuitemID_CmdTitleOff   "T"
+	MENUITEM "ÏÔÊ¾¹¤¾ßÁÐ" menuitemID_CmdToolbarOn "%"
+	MENUITEM "Òþ²Ø¹¤¾ßÁÐ" menuitemID_CmdToolbarOff "%"
+	MENUITEM "Ï²ºÃÉè¶¨..."   menuitemID_CmdPref      "S"
+	MENUITEM "¸ß¼¶Éè¶¨..."   menuitemID_CmdExtPref "M"
+	MENUITEM "ÏìÄÖÉè¶¨..." menuitemID_CmdAlarmPref "Q"
+	MENUITEM "°´Å¥Éè¶¨..." menuitemID_CmdHWPref "V"
+        MENUITEM SEPARATOR
+	MENUITEM "±£ÃÜÉè¶¨..."   menuitemID_CmdSecurity  "|"
+    	MENUITEM SEPARATOR
+    	MENUITEM "ËµÃ÷"	      menuitemID_CmdHelp	"H"
+    	MENUITEM "¹ØÓÚ"       menuitemID_CmdAbout
+    END
+END
+
+MENU ID DiddleMenu35
+BEGIN
+    PULLDOWN "Í¼Ò³"
+    BEGIN
+	MENUITEM "ÐÂÔö"       menuitemID_CmdNew       "N"
+	MENUITEM "É¾³ý"       menuitemID_CmdRemove    "R"
+	MENUITEM "¸´ÖÆ"	      menuitemID_CmdDuplicate "Y"
+	MENUITEM "ÊôÐÔ..."       menuitemID_CmdDetails   "D"
+	MENUITEM SEPARATOR
+	MENUITEM "ÉÏÒ³"       menuitemID_CmdPrevious  "-"
+	MENUITEM "ÏÂÒ³"       menuitemID_CmdNext      "+"
+        MENUITEM "Í¼Ò³Çåµ¥"   menuitemID_CmdListView  "I"
+	MENUITEM SEPARATOR
+    	MENUITEM "±£»¤/½â³ý±£»¤" menuitemID_CmdLock     "J"
+    	MENUITEM "ºìÍâÏß´«ËÍ" menuitemID_CmdBeam      "B"
+	MENUITEM "´«µ½..."    menuitemID_CmdSend      "?"
+    	MENUITEM "³­ËÍ..."    menuitemID_CmdTransfer  "G"
+    END
+    PULLDOWN "±à¼­"
+    BEGIN
+    	MENUITEM "¸´Ô­"       menuitemID_CmdSketchUndo "U"
+	MENUITEM "¼ôÏÂ"		menuitemID_CmdSketchCut  "X"
+	MENUITEM "¸´ÖÆ"		menuitemID_CmdSketchCopy "C"
+	MENUITEM "ÌùÉÏ"	menuitemID_CmdSketchPaste "P"
+
+    	MENUITEM SEPARATOR
+	MENUITEM "ÌîÂú"       menuitemID_CmdFill      "F"
+   	MENUITEM "·´°×"       menuitemID_CmdInvert    "W"
+
+	MENUITEM SEPARATOR
+    	MENUITEM "¼ÓÈëÖ±Ïß"   menuitemID_CmdLine      "_"
+    	MENUITEM "¼ÓÈëÍ¼ÐÎ..."   menuitemID_CmdShape     "O"
+        MENUITEM "ÌîÂúÍ¼ÐÎ"   menuitemID_CmdFloodFill "*"
+    	MENUITEM "¼ÓÈëÎÄ×Ö..."   menuitemID_CmdText      "Z"
+    	MENUITEM SEPARATOR
+    	MENUITEM "Ëæ»ú±Ê´¥"   menuitemID_InkRandom     "9"
+    END
+    PULLDOWN "Ñ¡Ïî"
+    BEGIN
+    	MENUITEM "ÏÔÊ¾/Òþ²Ø±êÌâ"   menuitemID_CmdTitleOff  "T"
+	MENUITEM "ÏÔÊ¾/Òþ²Ø¹¤¾ßÁÐ" menuitemID_CmdToolbarOn "%"
+	MENUITEM "Ï²ºÃÉè¶¨..."   menuitemID_CmdPref         "S"
+	MENUITEM "¸ß¼¶Éè¶¨..."   menuitemID_CmdExtPref      "M"
+	MENUITEM "ÏìÄÖÉè¶¨..." menuitemID_CmdAlarmPref  "Q"
+	MENUITEM "°´Å¥Éè¶¨..." menuitemID_CmdHWPref     "V"
+        MENUITEM SEPARATOR
+	MENUITEM "±£ÃÜÉè¶¨..."   menuitemID_CmdSecurity     "|"
+    	MENUITEM SEPARATOR
+    	MENUITEM "ËµÃ÷"	      menuitemID_CmdHelp	 "H"
+    	MENUITEM "¹ØÓÚ"       menuitemID_CmdAbout
+    END
+END
+
+// Extra space added between PULLDOWN and "±à¼­" to let sed distinguish
+// for the german translation
+MENU ID XferMenu
+BEGIN
+    PULLDOWN "´«ËÍ"
+    BEGIN
+    MENUITEM "Ö´ÐÐ"     menuitemID_XferDone     "I"
+    MENUITEM SEPARATOR
+    MENUITEM "µç»°ºÅÂëËÑÑ°..." menuitemID_XferPhoneLookup "L"
+    END
+    PULLDOWN   "±à¼­"
+    BEGIN
+    MENUITEM "¸´Ô­"         menuitemID_XferUndo     "U"
+    MENUITEM "¼ôÏÂ"          menuitemID_XferCut      "X"
+    MENUITEM "¸´ÖÆ"         menuitemID_XferCopy     "C"
+    MENUITEM "ÌùÉÏ"        menuitemID_XferPaste    "P"
+    MENUITEM "È«Ñ¡"   menuitemID_XferSelectAll "S"
+    MENUITEM SEPARATOR
+    MENUITEM "¼üÅÌ"     menuitemID_XferKeyboard "K"
+    MENUITEM "ÊÖÐ´ÌáÊ¾" menuitemID_XferGHelp   "G"
+    END
+END
+
+FORM ID AboutForm AT (2 2 156 156)
+MODAL
+USABLE
+HELPID AboutFormHelpString
+BEGIN
+    TITLE "¹ØÓÚ DiddleBug"
+    GADGET ID AboutBitmapGadget AT (4 18 22 22) EXTENDED
+    LABEL "DiddleBug" AUTOID AT (36 PREVTOP) FONT 1
+    LABEL "v. 2.90.d.5" AUTOID AT (PREVLEFT PREVBOTTOM-1) FONT 1
+    LABEL "\xa9 2001-2004 Peter Putzer" AUTOID AT (4 PREVBOTTOM+6) FONT 1
+    LABEL "\xa9 1999, 2000 Mitch Blevins" AUTOID AT (4 PREVBOTTOM) FONT 1
+    LABEL "ÍêÕû°æÈ¨Ìõ¿îÇë°´i°´Å¥" AUTOID AT (4 PREVBOTTOM+6)
+    LABEL "" AUTOID AT (4 PREVBOTTOM)
+    LABEL "- GNU GPL ×ÔÓÉÈí¼þ -" AUTOID AT (CENTER PREVBOTTOM+6) FONT 1
+    LABEL "http://gnu.org/copyleft/gpl.html" AUTOID AT (CENTER PREVBOTTOM)
+    LABEL "JEMYZHANG ÐÞ¸Ä" AUTOID AT (4 BOTTOM@151)
+    BUTTON "È·¶¨" AUTOID AT (RIGHT@152 PREVTOP AUTO AUTO)
+END
+
+STRING ID AboutFormHelpString "¸ù¾Ý Roger E. Critchlow Jr. Ö® Doodle Ð´³É¡£\n" \
+       	       	       	      "\n" \
+       	       	       	      "²¿·Ý³ÌÐòÖ®°æÈ¨ÓÉ Palm, Inc. ¼°Æä¸½Êô¹«Ë¾ÓµÓÐ¡£"
+
+ALERT ID DeleteNoteAlert
+CONFIRMATION
+DEFAULTBUTTON 1
+BEGIN
+    TITLE "É¾³ý±¸×¢"
+    MESSAGE "É¾³ý±¸×¢£¿"
+    BUTTONS "È·¶¨" "È¡Ïû"
+END
+
+
+ALERT ID ConfirmDeleteForm
+CONFIRMATION
+DEFAULTBUTTON 1
+HELPID ConfirmDeleteHelpString
+BEGIN
+    TITLE "É¾³ýÍ¼Ò³È·ÈÏ"
+    MESSAGE "ÒªÉ¾³ýÍ¼Ò³£¿"
+    BUTTONS "É¾³ý" "È¡Ïû"
+END
+
+ALERT ID DeleteCorruptedSketchAlert
+ERROR
+DEFAULTBUTTON 1
+HELPID DeleteCorruptedSketchHelpString
+BEGIN
+    TITLE "É¾³ýÍ¼Ò³È·ÈÏ"
+    MESSAGE "ÄãËùÑ¡ÔñµÄÍ¼Ò³ÒÑ¾­Ëð»µ£¬Òª°ÑËüÉ¾³ý£¿\n" \
+            "\n" \
+	    "¼ÙÈçÄã²»°ÑËüÉ¾³ý£¬±¾³ÌÐò½«²»ÄÜ¼ÌÐøÔË×÷¡£"
+    BUTTONS "É¾³ý" "È¡Ïû"
+END
+
+STRING DeleteCorruptedSketchHelpString	"ÄãËùÑ¡ÔñµÄÍ¼Ò³ÒÑ¾­Ëð»µ£¬²¢²»ÄÜÔÙÊ¹ÓÃ£¬ÄãÏÖÔÚ¿É°ÑËüÉ¾³ý¡£" \
+          				"\n" \
+		         		"\n" \
+				        "¼ÙÈçÄã²»°ÑËüÉ¾³ý£¬±¾³ÌÐò½«²»ÄÜ¼ÌÐøÔË×÷¡£"
+
+STRING ConfirmDeleteHelpString	"¼ÙÈçÄãÑ¡ÔñÉ¾³ý£¬±¾Í¼Ò³½«±»ÓÀ¾ÃÉ¾³ý¡£" \
+				"\n" \
+				"ÈçÕâ²»ÊÇÄãËùÏë£¬Çë°´È¡Ïû¡£"
+
+ALERT ID LockAskForm
+CONFIRMATION
+DEFAULTBUTTON 1
+HELPID LockAskHelpString
+BEGIN
+    TITLE "Í¼Ò³±»±£»¤"
+    MESSAGE "Í¼Ò³Õý±»±£»¤£¬Òª½â³ý±£»¤£¿"
+    BUTTONS "½â³ý±£»¤" "È¡Ïû"
+END
+
+STRING LockAskHelpString	"±¾Í¼Ò³ÒÑ±»±£»¤£¬·ÀÖ¹±»ÒâÍâ¸ü¸Ä¡£\n" \
+				"\n" \
+				"Èç¹ûÄãÏë¸ü¸ÄËü£¬ÇëÑ¡Ôñ½â³ý±£»¤£¬\n" \
+				"·ñÔòÇë°´È¡Ïû¡£"
+
+ALERT ID ConfirmLockedDelete
+CONFIRMATION
+DEFAULTBUTTON 1
+HELPID ConfirmLockedDeleteHelpString
+BEGIN
+    TITLE "É¾³ýÍ¼Ò³È·ÈÏ"
+    MESSAGE "Í¼Ò³ÒÑ±»±£»¤£¬ÒªÉ¾³ýÍ¼Ò³£¿"
+    BUTTONS "É¾³ý" "È¡Ïû"
+END
+
+STRING ConfirmLockedDeleteHelpString	"±¾Í¼Ò³ÒÑ±»±£»¤£¬¼ÙÈçÄãÑ¡ÔñÉ¾³ý£¬Ëü½«±»ÓÀ¾ÃÉ¾³ý¡£" \
+					"\n" \
+					"¼ÙÈçÄãÏë½«Ëü±£Áô£¬Çë°´È¡Ïû¡£"
+
+ALERT ID ConfirmClearForm
+CONFIRMATION
+DEFAULTBUTTON 1
+HELPID ConfirmClearHelpString
+BEGIN
+    TITLE "Çå³ý»­ÃæÈ·ÈÏ"
+    MESSAGE "ÒªÇå³ý»­Ãæ£¿"
+    BUTTONS "Çå³ý»­Ãæ" "È¡Ïû"
+END
+
+STRING ConfirmClearHelpString	"¼ÙÈçÄãÑ¡ÔñÇå³ý»­Ãæ£¬±¾Í¼Ò³½«±»ÓÀ¾ÃÇå³ý¡£\n"\
+				"\n" \
+				"¼ÙÈçÄãÏë½«Ëü±£Áô£¬Çë°´È¡Ïû¡£"
+
+ALERT ID ConfirmFillForm
+CONFIRMATION
+DEFAULTBUTTON 1
+HELPID ConfirmFillHelpString
+BEGIN
+    TITLE "ÌîÂú»­ÃæÈ·ÈÏ"
+    MESSAGE "ÌîÂú»­Ãæ£¿"
+    BUTTONS "ÌîÂú»­Ãæ" "È¡Ïû"
+END
+
+STRING ConfirmFillHelpString	"¼ÙÈçÄãÑ¡ÔñÌîÂú»­Ãæ£¬±¾Í¼Ò³½«ÒÔÏÖÊ±ËùÑ¡µÄ"\
+				"±ÊÉ«ÌîÂú¡£"\
+				"\n×¢Òâ£ºÕâÊÇÒ»Ïî²»ÄÜ¸´Ô­µÄ¶¯×÷¡£\n" \
+				"\n" \
+				"¼ÙÈçÄã²»Ïë½øÐÐ£¬Çë°´È¡Ïû¡£"
+
+ALERT ID ConfirmUndoForm
+CONFIRMATION
+DEFAULTBUTTON 1
+HELPID ConfirmUndoHelpString
+BEGIN
+    TITLE "¸´Ô­È·ÈÏ"
+    MESSAGE "Òª¸´Ô­¸Õ²ÅµÄÐÞ¸Ä£¿"
+    BUTTONS "¸´Ô­" "È¡Ïû"
+END
+
+STRING ConfirmUndoHelpString	"¼ÙÈçÄãÑ¡Ôñ¸´Ô­£¬±¾Í¼Ò³½«¸´Ô­ÖÁ¸ÕÐÞ¸ÄÇ°µÄÄ£Ñù¡£"\
+                                "\n×¢Òâ£ºÕâÊÇÒ»Ïî²»ÄÜ¸´Ô­µÄ¶¯×÷¡£\n" \
+				"\n" \
+				"¼ÙÈçÄã²»Ïë½øÐÐ£¬Çë°´È¡Ïû¡£"
+
+ALERT ID BadSnoozeForm
+WARNING
+BEGIN
+    TITLE "ÖØÏì¾¯¸æ"
+    MESSAGE "ÄãÑ¡ÔñµÄÖØÏìÊ±¼ä±ÈÒÑÉè¶¨µÄÏìÄÖÊ±¼ä»¹Òª³Ù£¬´ËÖØÄÖ½«²»»áÉúÐ§¡£"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID SetPrivateAlert
+INFORMATION
+BEGIN
+ TITLE "Ë½ÈËÍ¼Ò³"
+ MESSAGE "ÄãÒÑ½«±¾Í¼Ò³Éè¶¨ÎªË½ÈËÍ¼Ò³£¬" \
+         "ÇëÊ¹ÓÃ±£ÃÜÉè¶¨ÒÔÉè¶¨ÏÔÊ¾Ë½ÈËÍ¼Ò³Óë·ñ¡£"
+ BUTTONS "È·¶¨"
+END
+
+ALERT ID NoOpenError
+ERROR
+BEGIN
+    TITLE "·¢ÉúÎÊÌâ£¡"
+    MESSAGE "²»ÄÜ¿ªÆôÊý¾Ý¿â£¡"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID AlarmSetError
+ERROR
+BEGIN
+    TITLE "·¢ÉúÎÊÌâ£¡"
+    MESSAGE "²»ÄÜÉè¶¨ÏìÄÖ£¡"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID RomIncompatibleAlert
+ERROR
+BEGIN
+    TITLE "·¢ÉúÎÊÌâ£¡"
+    MESSAGE "DiddleBug 2.90.d.5 Ö»ÄÜÔÚ PalmOS 3.5.0 »òÒÔÉÏÖ´ÐÐ¡£\n" \
+    	    "ÇëÊ¹ÓÃ DiddleBug 2.15 °æ¡£"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID NoPluginSelected
+INFORMATION
+BEGIN
+    TITLE "ÖÇÄÜÅä¼þ"
+    MESSAGE "Äã±ØÐëÑ¡ÔñÒ»¸öÖÇÄÜÅä¼þ¡£"
+    BUTTONS "È·¶¨"
+END
+ALERT ID AlarmTimeTooEarly
+ERROR
+BEGIN
+    TITLE "·¢ÉúÎÊÌâ£¡"
+    MESSAGE "ÏìÄÖ±ØÐëÉè¶¨ÓÚ½«À´Ê±¼ä"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID SnoozeTimeTooEarlyAlert
+ERROR
+BEGIN
+    TITLE "·¢ÉúÎÊÌâ£¡"
+    MESSAGE "ÖØÏì±ØÐëÉè¶¨ÓÚ½«À´Ê±¼ä"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID NoPluginInstalled
+INFORMATION
+BEGIN
+    TITLE "ÖÇÄÜÅä¼þ"
+    MESSAGE "ÄãÃ»ÓÐ°²×°ÈÎºÎÖÇÄÜÅä¼þ¡£Çëµ½\nhttp://diddlebug.sf.net/plugins.htmÏÂÔØ¡£"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID PluginError
+ERROR
+BEGIN
+    TITLE "ÖÇÄÜÅä¼þ"
+    MESSAGE "ÖÇÄÜÅä¼þ·¢ÉúÎÊÌâ¡£"
+    BUTTONS "È·¶¨"
+END
+
+ALERT ID GenericError
+ERROR
+BEGIN
+    TITLE "·¢ÉúÎÊÌâ£¡"
+    MESSAGE "^1"
+    BUTTONS "È·¶¨"
+END
+
+FORM ID TextForm AT (2 65 156 93)
+FRAME
+MODAL
+USABLE
+MENUID TextMenu
+DEFAULTBTNID TextCancelButton
+HELPID TextHelpString
+BEGIN
+    TITLE "¼ÓÈëÎÄ×Ö"
+    LABEL "×ÖÐÍ£º" AUTOID AT (RIGHT@40 23) FONT 1
+    PUSHBUTTON "A" ID TextStdFontPush AT (40 20 16 16) GROUP 1 FONT 0
+    PUSHBUTTON "A" ID TextBoldFontPush AT (PREVRIGHT+1 PREVTOP 16 16) GROUP 1 FONT 1
+    PUSHBUTTON "A" ID TextLargeFontPush AT (PREVRIGHT+1 PREVTOP 16 16) GROUP 1 FONT 2
+    PUSHBUTTON "A" ID TextLargeBoldFontPush AT (PREVRIGHT+1 PREVTOP 16 16) GROUP 1 FONT 7
+    LABEL "Ä£Ê½£º" AUTOID AT (RIGHT@40 PREVBOTTOM+4) FONT 1
+    POPUPTRIGGER "´¿ºÚ" ID TextModePop AT (40 PREVTOP AUTO AUTO) LEFTANCHOR
+    LIST "´¿ºÚ" "°×µ×ºÚ×Ö" "ºÚµ×°××Ö" "·´°×" ID TextModeList AT (PREVLEFT PREVTOP 75 AUTO) NONUSABLE VISIBLEITEMS 4
+    POPUPLIST ID TextModePop TextModeList
+    LABEL "ÎÄ×Ö£º" AUTOID AT (RIGHT@40 56) FONT 1
+    FIELD ID TextField AT (40 PREVTOP 100 20) UNDERLINED SINGLELINE MAXCHARS 31 AUTOSHIFT
+    BUTTON "¼ÓÈë" ID TextInsertButton AT (4 BOTTOM@89 40 AUTO)
+    BUTTON "È¡Ïû" ID TextCancelButton AT (PREVRIGHT+4 PREVTOP 40 AUTO)
+    GRAFFITISTATEINDICATOR AT (RIGHT@145 BOTTOM@91)
+END
+
+STRING TextHelpString	"Äã¿ÉÔÚ´ËÑ¡Ôñ×ÖÐÍ¡£\n" \
+			"\n" \
+			"¶øÄ£Ê½ÔòÓÐËÄÖÖÑ¡Ôñ£º\n" \
+			". ´¿ºÚ (ºÚÉ«×ÖÌå£¬Í¸Ã÷±³¾°)\n" \
+			". °×µ×ºÚ×Ö (ºÚÉ«×ÖÌå£¬°×É«±³¾°)\n" \
+			". ºÚµ×°××Ö (°×É«×ÖÌå£¬ºÚÉ«±³¾°)\n" \
+			". ·´°× (Í¸Ã÷±³¾°£¬×ÖÌåÓë±³¾°ºÚ°×»¥»»)\n"\
+			"\n"\
+			"Ñ¡Ôñ¼ÓÈëÒÔÈ·¶¨£¬\n" \
+			"»òÑ¡ÔñÈ¡ÏûÀë¿ª¡£"
+
+FORM ID ShapeForm AT (2 60 156 98)
+FRAME
+MODAL
+USABLE
+DEFAULTBTNID ShapeCancelButton
+HELPID ShapeHelpString
+BEGIN
+    TITLE "¼ÓÈëÍ¼ÐÎ"
+    LABEL "Í¼ÐÎ£º" AUTOID AT (RIGHT@42 23) FONT 1
+    PUSHBUTTON "" ID ShapeRectPush AT (46 20 15 15) GROUP 1 GRAPHICAL BITMAPID ShapeRectBitmap
+    PUSHBUTTON "" ID ShapeRoundRectPush AT (PREVRIGHT+1 PREVTOP 15 15) GROUP 1 GRAPHICAL BITMAPID ShapeRoundRectBitmap
+    PUSHBUTTON "" ID ShapeCirclePush AT (PREVRIGHT+1 PREVTOP 15 15) GROUP 1 GRAPHICAL BITMAPID ShapeCircleBitmap
+    PUSHBUTTON "" ID ShapeOvalPush AT (PREVRIGHT+1 PREVTOP 15 15) GROUP 1 GRAPHICAL BITMAPID ShapeOvalBitmap
+    LABEL "Ä£Ê½£º" AUTOID AT (RIGHT@42 PREVBOTTOM+8) FONT 1
+    PUSHBUTTON "" ID ShapeOutlinePush AT (46 PREVTOP-2 15 15) GROUP 2 GRAPHICAL BITMAPID ShapeRectBitmap
+    PUSHBUTTON "" ID ShapeFilledPush AT (PREVRIGHT+1 PREVTOP 15 15) GROUP 2 GRAPHICAL BITMAPID ShapeRectFilledBitmap
+    PUSHBUTTON "" ID ShapeFilledXorPush AT (PREVRIGHT+1 PREVTOP 15 15) GROUP 2 GRAPHICAL BITMAPID ShapeRectFilledXorBitmap
+    PUSHBUTTON "" ID ShapeOutlineXorPush AT (PREVRIGHT+1 PREVTOP 15 15) GROUP 2 GRAPHICAL BITMAPID ShapeRectOutlineXorBitmap
+    LABEL "±Ê£º" AUTOID AT (RIGHT@36 PREVBOTTOM+8) FONT 1
+    GADGET ID PenButton AT (40 PrevTop 14 PREVHEIGHT) EXTENDED
+    LABEL "É«£º" AUTOID AT (PREVRIGHT+8 PREVTOP) FONT 1
+    GADGET ID InkButton AT (PrevRight+4 PrevTop 14 PrevHeight) EXTENDED
+    LIST "Ó×" "ÖÐ" "´Ö" "¼«´Ö" "Ó×Ð±" "ÖÐÐ±" "´ÖÐ±" ID MainPenList AT (50 14 55 20) VISIBLEITEMS 7 NONUSABLE
+    LIST "´¿°×" "12.5%" "25%" "37.5%" "50%" "62.5%" "75%" "87.5%" "´¿ºÚ" ID MainInkList AT (76 14 33 20) VISIBLEITEMS 9 NONUSABLE
+
+    BUTTON "¼ÓÈë" ID ShapeInsertButton AT (4 BOTTOM@94 40 AUTO)
+    BUTTON "È¡Ïû" ID ShapeCancelButton AT (PREVRIGHT+4 PREVTOP 40 AUTO)
+END
+
+STRING ShapeHelpString	"ÇëÑ¡ÔñÒÔÏÂÍ¼ÐÎ£º\n" \
+			". ¾ØÐÎ\n" \
+			". Ô²½Ç¾ØÐÎ\n" \
+			". Ô²ÐÎ\n" \
+			". ÍÖÔ²ÐÎ\n" \
+			"\n"\
+			"ÄãÒà¿ÉÑ¡ÔñÏÂÁÐÄ£Ê½£º\n" \
+			". Íâ¿ò\n"\
+			". Í¿Âú\n"\
+			". ·´°×Í¿Âú\n"\
+			". ·´°×Íâ¿ò\n"\
+			"\n"\
+			"ÄãÒà¿ÉÔÚ´Ë¸Ä±äÏÖÓÃÖ®±ÊÊ½\n" \
+			"\n" \
+			"Ñ¡Ôñ¼ÓÈëÒÔÈ·¶¨£¬\n" \
+			"»òÑ¡ÔñÈ¡ÏûÀë¿ª¡£"
+
+FORM ID PrefAlarmForm AT (2 2 156 156)
+FRAME
+MODAL
+USABLE
+DEFAULTBTNID PrefCancelButton
+HELPID PrefAlarmHelpString
+BEGIN
+    TITLE "ÏìÄÖÉè¶¨"
+    POPUPTRIGGER "" ID SignalPop AT (88 17 AUTO AUTO) FONT 0 USABLE LEFTANCHOR
+    LIST "" ID SignalList AT (PREVLEFT PREVTOP 80 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
+    POPUPLIST ID SignalPop SignalList
+
+    POPUPTRIGGER "" ID RemindMeSignalPop AT (88 PREVBOTTOM+4 AUTO AUTO) FONT 0 USABLE LEFTANCHOR
+    LIST "" ID RemindMeSignalList AT (PREVLEFT PREVTOP 80 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
+    POPUPLIST ID RemindMeSignalPop RemindMeSignalList
+    LABEL "ÏìÄÖÌáÊ¾£º" AUTOID AT (30 PREVTOP) FONT 1 USABLE
+
+    LABEL "ÏìÄÖ´ÎÊý£º" AUTOID AT (30 PREVBOTTOM+4) FONT 1 USABLE
+    POPUPTRIGGER "" ID RemindPop AT (88 PREVTOP AUTO AUTO) FONT 0 USABLE LEFTANCHOR
+    LIST "ÓÀ²»" "Ò»´Î" "Á½´Î" "Èý´Î" "Ê®´Î" "Ò»°Ù´Î" ID RemindList AT (PREVLEFT PREVTOP AUTO AUTO) FONT 0 NONUSABLE VISIBLEITEMS 6
+    POPUPLIST ID RemindPop RemindList
+
+    LABEL "Ã¿¸ô" AUTOID AT (30 PREVTOP+10+4) FONT 1 USABLE
+    POPUPTRIGGER "" ID RemindDelayPop AT (88 PREVTOP AUTO AUTO) FONT 0 USABLE LEFTANCHOR
+    LIST "Ò»·ÖÖÓ" "Îå·ÖÖÓ" "Ê®·ÖÖÓ" "ÈýÊ®·ÖÖÓ" ID RemindDelayList AT (PREVLEFT PREVTOP AUTO AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
+    POPUPLIST ID RemindDelayPop RemindDelayList
+
+    LABEL "ÖØÄÖ£º" AUTOID AT (30 PREVTOP+10+4) FONT 1 USABLE
+    POPUPTRIGGER "" ID AlarmTimesPop AT (88 PREVTOP AUTO AUTO) FONT 0 USABLE LEFTANCHOR
+    LIST "Ò»´Î" "Á½´Î" "Èý´Î" "Îå´Î" "Ê®´Î" ID AlarmTimesList AT (PREVLEFT PREVTOP AUTO AUTO) FONT 0 NONUSABLE VISIBLEITEMS 5
+    POPUPLIST ID AlarmTimesPop AlarmTimesList
+
+    LABEL "ÌáÊ¾£º" AUTOID AT (30 17) FONT 1 USABLE
+    LABEL "ÉÁµÆ£º" AUTOID AT (30 PREVBOTTOM+4) FONT 1 USABLE
+    CHECKBOX "" ID LEDCheck AT (88 PREVTOP AUTO AUTO) USABLE LEFTANCHOR
+    LABEL "²»Ö§³Ö" ID LEDNotSupported AT (PREVLEFT PREVTOP) FONT 0 NONUSABLE
+    LABEL "Õð¶¯£º" AUTOID AT (30 PREVBOTTOM+4) FONT 1 USABLE
+    CHECKBOX "" ID VibrateCheck AT (88 PREVTOP AUTO AUTO) USABLE LEFTANCHOR
+    LABEL "²»Ö§³Ö" ID VibrateNotSupported AT (PREVLEFT PREVTOP) FONT 0 NONUSABLE
+
+    BUTTON "È·¶¨" ID PrefOKButton AT (5 BOTTOM@151 38 AUTO)
+    BUTTON "È¡Ïû" ID PrefCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+    NOGRAFFITISTATEINDICATOR 
+END
+
+STRING PrefAlarmHelpString  "Äã¿ÉÔÚ´ËÑ¡ÔñÏìÄÖÑ¶ºÅ¡£\n"
+
+FORM ID PrefForm AT (2 2 156 156)
+FRAME
+MODAL
+USABLE
+DEFAULTBTNID PrefCancelButton
+HELPID PrefHelpString
+BEGIN
+    TITLE "Ï²ºÃÉè¶¨"
+    CHECKBOX "ÇÐ»»±êÌâÁÐ×÷ÓÃ" ID PrefSwitchTitleCheck AT (4 18 AUTO AUTO) FONT 0
+    CHECKBOX "È·ÈÏÇå³ý¡¢ÌîÂú¼°¸´Ô­¶¯×÷" ID PrefConfirmClearCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "É¾³ýÈ·ÈÏ" ID PrefConfirmDeleteCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "µã»­ÃæÒ»ÏÂÒÔ¹ØµôÏìÄÖ" ID PrefBigOkCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "±£Áô»æÍ¼¹¤¾ß" ID PrefKeepDrawToolCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "»­¼ÒÄ£Ê½" ID PrefArtistModeCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "²»Òª¸Ä±ä»­ÃæÄ£Ê½" ID PrefChangeDepthCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "Æô¶¯Ê±¿ªÐÂÍ¼Ò³" ID PrefNewRecordOnStartCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    LABEL "¼ø±ðÉ¨±Ê×îÉÙµÄÍ¼ËØ£º" AUTOID AT (4 PREVBOTTOM+4) FONT 0
+    FIELD ID PrefSwipeField AT (PREVRIGHT+4 PREVTOP 12 AUTO) UNDERLINED RIGHTALIGN MAXCHARS 2 NUMERIC
+    BUTTON "È·¶¨" ID PrefOKButton AT (5 BOTTOM@151 38 AUTO)
+    BUTTON "È¡Ïû" ID PrefCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+    NOGRAFFITISTATEINDICATOR 
+END
+
+STRING ID PrefHelpString
+			 ". ÇÐ»»±êÌâÁÐ×÷ÓÃ£ºÍ¨³£µãÑ¡±êÌâÁÐ´ò¿ªÕý³£Ñ¡µ¥£¬¶øÔÚÆäÉÏ»¬¶¯Ôò´ò¿ª¿ì½Ý·½Ê½±í¡£Ñ¡ÔñÕâÑ¡ÏîÔò¿É½«ÕâÁ½¹¦ÄÜÇÐ»»¡£\n" \
+			 "\n" \
+			 ". È·ÈÏÇå³ý¡¢ÌîÂú¼°¸´Ô­¶¯×÷£ºÊ¹ÄãÔÚÖ´ÐÐ²»¿É¸´Ô­ÃüÁîÇ°µÃµ½ÌáÊ¾¡£\n" \
+			 "\n" \
+			 ". É¾³ýÈ·ÈÏ£ºÊ¹ÄãÔÚÉ¾³ýÍ¼Ò³Ç°µÃµ½ÌáÊ¾¡£\n" \
+			 "\n" \
+			 ". µã»­ÃæÒ»ÏÂÒÔ¹ØµôÏìÄÖ£ºÊ¹Äã¿ÉÔÚ»­ÃæÉÏµãÒ»ÏÂÒÔ¹ØµôÏìÄÖ¡£\n"\
+			 "\n" \
+			 ". ±£Áô»æÍ¼¹¤¾ß£º²»»áÓÚ¼ÓÈëÆäËüÍ¼ÐÎºó×Ô¶¯»Øµ½"\
+			 "ÊÖ»æÄ£Ê½£¬Ö±µ½Äã¸Ä±ä±ÊÊ½£¬»òÖ´ÐÐÆäËüÃüÁîÎªÖ¹¡£\n"\
+			 "\n" \
+			 ". »­¼ÒÄ£Ê½£ºÎªÄãËæ»ú¸Ä±ä±ÊÊ½¡£\n"\
+			 "\n" \
+			 ". ²»Òª¸Ä±ä»­ÃæÄ£Ê½£ºÔÚºÚ°×ÏÔÊ¾»úÖÖÉÏ²»×ªÖÁ»Ò½×Ä£Ê½¡£\n"\
+			 "\n" \
+			 ". Æô¶¯Ê±¿ªÐÂÍ¼Ò³£ºÕâÑ¡ÏîÊ¹±¾³ÌÐòÆô¶¯Ê±¿ªÒ»ÐÂÍ¼Ò³ÒÔ¹©Ê¹ÓÃ¡£\n"\
+			 "\n" \
+			 ". ¼ø±ðÉ¨±Ê×îÉÙµÄÍ¼ËØ£ºÓÃÒÔ¼ø±ð±Ê´¥ÔÚÏìÄÖ¿ØÖÆÉÏ»®¹ýÊ±´ú±íµãÑ¡»¹ÊÇÉ¨±Ê¡£\n"\
+			 "\n"
+
+FORM ID PrefHWForm AT (2 2 156 156)
+FRAME
+MODAL
+USABLE
+DEFAULTBTNID PrefCancelButton
+HELPID PrefHWHelpString
+BEGIN
+    TITLE "°´Å¥Éè¶¨"
+    LABEL "Çë°´ÐèÒªÎª¸÷°´Å¥Éè¶¨¶¯×÷" AUTOID AT (4 14) FONT 0
+    GADGET ID PrefHardware1Bitmap AT (1 PREVBOTTOM+2 27 22) USABLE EXTENDED
+    SELECTORTRIGGER "°´Å¥ 1" ID PrefHardware1SelTrig AT (30 PREVTOP+5 AUTO AUTO) LEFTANCHOR
+    GADGET ID PrefHardware2Bitmap AT (1 PREVBOTTOM+8 27 22) USABLE EXTENDED
+    SELECTORTRIGGER "°´Å¥ 2" ID PrefHardware2SelTrig AT (30 PREVTOP+5 AUTO AUTO) LEFTANCHOR
+    GADGET ID PrefHardware3Bitmap AT (1 PREVBOTTOM+8 27 22) USABLE EXTENDED
+    SELECTORTRIGGER "°´Å¥ 3" ID PrefHardware3SelTrig AT (30 PREVTOP+5 AUTO AUTO) LEFTANCHOR
+    GADGET ID PrefHardware4Bitmap AT (1 PREVBOTTOM+8 27 22) USABLE EXTENDED
+    SELECTORTRIGGER "°´Å¥ 4" ID PrefHardware4SelTrig AT (30 PREVTOP+5 AUTO AUTO) LEFTANCHOR
+    LIST "" ID PrefHardwareActionList AT (8 20 140 80) NONUSABLE VISIBLEITEMS 10
+    BUTTON "È·¶¨" ID PrefOKButton AT (5 BOTTOM@151 38 AUTO)
+    BUTTON "È¡Ïû" ID PrefCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+END
+
+STRING ID PrefHWHelpString "Ã¿Ò»°´Å¥½Ô¿ÉÉè¶¨Ò»Ïà¹Ø¶¯×÷(ÀýÈç¿ªÐÂÍ¼Ò³)¡£\n" \
+			   "¶øÆäËü°´Å¥Ôò±£ÁôÆäÔ­ÓÐÖ®¹¦ÄÜ¡£"
+
+FORM ID PrefExtForm AT (2 2 156 156)
+FRAME
+MODAL
+USABLE
+DEFAULTBTNID PrefCancelButton
+HELPID PrefExtHelpString
+BEGIN
+ TITLE "¸ß¼¶Éè¶¨"
+
+ CHECKBOX "ÒÔÊ±¼äÈÕÆÚ×÷ÎªÔ¤Éè±êÌâ" ID PrefExtDateTimeStampCheck AT (5 17 AUTO AUTO) USABLE
+ CHECKBOX "²»Òª×ª»»·ÖÀà" ID PrefExtKeepCategoryCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) USABLE
+ CHECKBOX "²»ÒªÒÔÊ±¼äÈÕÆÚ¸²Ð´±êÌâ" ID PrefExtNeverOverwriteTitleCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) USABLE
+ LABEL "Ô¤ÉèÖØÒªÐÔ£º" AUTOID AT(PREVLEFT PREVBOTTOM+4)
+ POPUPTRIGGER "" ID PrefExtDefaultPriorityPop AT (PREVRIGHT+4 PREVTOP AUTO AUTO)
+ LIST "1" "2" "3" "4" "5" ID PrefExtDefaultPriorityList AT (PREVLEFT PREVTOP 10 AUTO) NONUSABLE VISIBLEITEMS 5
+ POPUPLIST PrefExtDefaultPriorityPop PrefExtDefaultPriorityList
+ LABEL "½«ÐÂÍ¼Ò³¼ÓÔÚ¾ÉÍ¼Ò³Ö®ºó£º" AUTOID AT (5 PREVTOP+15)
+ CHECKBOX "Ó²¼þ°´Å¥" ID PrefExtCreateLastHardButtonCheck AT (20 PREVBOTTOM+1 AUTO AUTO)
+ CHECKBOX "Í¼Ê¾£¬Ñ¡µ¥£¬ÊÖÐ´Çø" ID PrefExtCreateLastIconCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO)
+
+ LABEL "±Ê´¥ÑÕÉ«£º" AUTOID AT (5 PREVBOTTOM+4)
+ GADGET ID PrefExtForegroundColorGadget AT (PREVRIGHT+4 PREVTOP 12 PREVHEIGHT) EXTENDED
+ LABEL "±³¾°ÑÕÉ«£º" AUTOID AT (PREVRIGHT+8 PREVTOP)
+ GADGET ID PrefExtBackgroundColorGadget AT (PREVRIGHT+4 PREVTOP 12 PREVHEIGHT) EXTENDED
+
+ BUTTON "È·¶¨" ID PrefOKButton AT (5 BOTTOM@151 36 AUTO)
+ BUTTON "È¡Ïû" ID PrefCancelButton AT (PREVRIGHT+5 PREVTOP 36 AUTO)
+END
+
+NAVIGATION ID PrefExtForm
+VERSION 1
+INITIALSTATE 1
+NAVIGATIONMAP
+	ROW PrefExtDateTimeStampCheck
+        ROW PrefExtKeepCategoryCheck
+	ROW PrefExtNeverOverwriteTitleCheck
+	ROW PrefExtDefaultPriorityPop
+	ROW PrefExtCreateLastHardButtonCheck
+	ROW PrefExtCreateLastIconCheck
+	ROW PrefExtForegroundColorGadget 
+            PrefExtBackgroundColorGadget
+	ROW PrefOKButton PrefCancelButton
+END
+
+STRING PrefExtHelpString ". ½«ÐÂÍ¼Ò³¼ÓÔÚ¾ÉÍ¼Ò³Ö®ºó£ºÊ¹ÐÂÍ¼Ò³³ÉÎª×îºó" \
+			 "Ò»Ò³Í¼Ò³£¬¶ø·Ç²åÔÚµ±Ç°Í¼Ò³Ö®ºó¡£\n\n" \
+			 ". ÒÔÊ±¼äÈÕÆÚ×÷ÎªÔ¤Éè±êÌâ£ºÊ¹ÐÂÍ¼Ò³ÒÔÊ±¼äÈÕÆÚ" \
+			 "×÷ÎªÆäÃû³Æ¡£\n\n"
+
+FORM ID RecordDetailsForm AT (2 61 156 97)
+   USABLE
+   MODAL FRAME SAVEBEHIND
+   DEFAULTBTNID RecordDetailsCancelButton
+   HELPID RecordDetailsHelpString
+   BEGIN
+      TITLE "ÊôÐÔ"
+      LABEL "Ãû³Æ£º" AUTOID AT (RIGHT@56 16) FONT 1 USABLE
+      FIELD ID RecordDetailsNameField AT (60 PREVTOP 90 AUTO) FONT 0 USABLE EDITABLE SINGLELINE LEFTALIGN UNDERLINED MAXCHARS TITLE_MAX_LEN AUTOSHIFT
+   LABEL "ÖØÒªÐÔ£º" AUTOID AT (RIGHT@56 PREVBOTTOM+4) USABLE FONT 1
+   PUSHBUTTON "1" ID RecordDetailsPriority1Button AT (60 PREVTOP 11 11) USABLE GROUP 1
+   PUSHBUTTON "2" ID RecordDetailsPriority2Button AT (PREVRIGHT+1 PREVTOP PREVWIDTH PREVHEIGHT) USABLE GROUP 1
+   PUSHBUTTON "3" ID RecordDetailsPriority3Button AT (PREVRIGHT+1 PREVTOP PREVWIDTH PREVHEIGHT) USABLE GROUP 1
+   PUSHBUTTON "4" ID RecordDetailsPriority4Button AT (PREVRIGHT+1 PREVTOP PREVWIDTH PREVHEIGHT) USABLE GROUP 1
+   PUSHBUTTON "5" ID RecordDetailsPriority5Button AT (PREVRIGHT+1 PREVTOP PREVWIDTH PREVHEIGHT) USABLE GROUP 1
+      LABEL "Àà±ð£º" AUTOID AT (RIGHT@56 PREVBOTTOM+4) FONT 1 USABLE
+      POPUPTRIGGER "" ID RecordDetailsCategoryPop AT (60 PREVTOP 1 AUTO) FONT 0 USABLE LEFTANCHOR
+      LIST "" ID RecordDetailsCategoryList AT (60 PREVTOP 90 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 1
+      POPUPLIST ID RecordDetailsCategoryPop RecordDetailsCategoryList
+      LABEL "Ë½ÈË£º" AUTOID AT (RIGHT@56 PREVTOP+16) FONT 1 USABLE
+      CHECKBOX "" ID RecordDetailsPrivateCheck AT (60 PREVTOP AUTO AUTO) USABLE
+
+      BUTTON "È·¶¨" ID RecordDetailsOKButton AT (5 BOTTOM@93 38 AUTO)
+      BUTTON "È¡Ïû" ID RecordDetailsCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+      BUTTON "±¸×¢..." ID RecordDetailsNoteButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
+      GRAFFITISTATEINDICATOR AT (RIGHT@146 PREVTOP+2)
+END
+
+STRING RecordDetailsHelpString "Äã¿ÉÔÚ´Ë¸ü¸Ä±¾Í¼Ò³Ö®ÊôÐÔ£¬»ò¼ÓÉÏ±¸×¢¡£"
+
+STRING ID repeatTypesNoneString "²»ÖØ¸´"
+STRING ID repeatTypesHourlyString "Ã¿Ð¡Ê±"
+STRING ID repeatTypesDailyString "Ã¿Ìì"
+STRING ID repeatTypesWeeklyString "Ã¿ÖÜ"
+STRING ID repeatTypesMonthlyByDayString "Ã¿ÔÂ"
+STRING ID repeatTypesMonthlyByDateString "Ã¿ÔÂ"
+STRING ID repeatTypesYearlyString "Ã¿Äê"
+STRING ID hourlyRepeatString "Ã¿^fÐ¡Ê±"
+STRING ID dailyRepeatString "Ã¿^fÌì"
+STRING ID weeklyRepeat1DayString "Ã¿^fÐÇÆÚÖ®^d"
+STRING ID weeklyRepeat2DayString "Ã¿^fÐÇÆÚÖ®^d¼°^d"
+STRING ID weeklyRepeat3DayString "Ã¿^fÐÇÆÚÖ®^d,^d,¼°^d"
+STRING ID weeklyRepeat4DayString "Ã¿^fÐÇÆÚÖ®^d,^d,^d,¼°^d"
+STRING ID weeklyRepeat5DayString "Ã¿^fÐÇÆÚÖ®^d,^d,^d,^d¼°^d"
+STRING ID weeklyRepeat6DayString "Ã¿^fÐÇÆÚÖ®^d,^d,^d,^d,^d¼°^d"
+STRING ID weeklyRepeat7DayString "Ã¿^fÐÇÆÚÖ®^d,^d,^d,^d,^d,^d¼°^d"
+STRING ID monthlyByDayRepeatString "Ã¿^f¸öÔÂÖ®^w¸ö^d"
+STRING ID monthlyByDateRepeatString "Ã¿^f¸öÔÂÖ®^xÈÕ"
+STRING ID yearlyRepeatString "Ã¿^fÄêÖ®^m^xÈÕ"
+STRING ID freqOrdinalsString " Á½ Èý ËÄ Îå Áù Æß °Ë ¾Å Ê® Ê®Ò» Ê®¶þ Ê®Èý Ê®ËÄ Ê®Îå Ê®Áù Ê®Æß Ê®°Ë Ê®¾Å ¶þÊ® ¶þÊ®Ò» ¶þÊ®¶þ ¶þÊ®Èý ¶þÊ®ËÄ ¶þÊ®Îå ¶þÊ®Áù ¶þÊ®Æß ¶þÊ®°Ë ¶þÊ®¾Å ÈýÊ® ÈýÊ®Ò» ÈýÊ®¶þ ÈýÊ®Èý ÈýÊ®ËÄ ÈýÊ®Îå ÈýÊ®Áù ÈýÊ®Æß ÈýÊ®°Ë ÈýÊ®¾Å ËÄÊ® ËÄÊ®Ò» ËÄÊ®¶þ ËÄÊ®Èý ËÄÊ®ËÄ ËÄÊ®Îå ËÄÊ®Áù ËÄÊ®Æß ËÄÊ®°Ë ËÄÊ®¾Å ÎåÊ® ÎåÊ®Ò» ÎåÊ®¶þ ÎåÊ®Èý ÎåÊ®ËÄ ÎåÊ®Îå ÎåÊ®Áù ÎåÊ®Æß ÎåÊ®°Ë ÎåÊ®¾Å ÁùÊ® ÁùÊ®Ò» ÁùÊ®¶þ ÁùÊ®Èý ÁùÊ®ËÄ ÁùÊ®Îå ÁùÊ®Áù ÁùÊ®Æß ÁùÊ®°Ë ÁùÊ®¾Å ÆßÊ® ÆßÊ®Ò» ÆßÊ®¶þ ÆßÊ®Èý ÆßÊ®ËÄ ÆßÊ®Îå ÆßÊ®Áù ÆßÊ®Æß ÆßÊ®°Ë ÆßÊ®¾Å °ËÊ® °ËÊ®Ò» °ËÊ®¶þ °ËÊ®Èý °ËÊ®ËÄ °ËÊ®Îå °ËÊ®Áù °ËÊ®Æß °ËÊ®°Ë °ËÊ®¾Å ¾ÅÊ® ¾ÅÊ®Ò» ¾ÅÊ®¶þ ¾ÅÊ®Èý ¾ÅÊ®ËÄ ¾ÅÊ®Îå ¾ÅÊ®Áù ¾ÅÊ®Æß ¾ÅÊ®°Ë ¾ÅÊ®¾Å "
+STRING ID weekOrdinalsString "µÚÒ» µÚ¶þ µÚÈý µÚËÄ ×îºó "
+STRING ID dayOrdinalsString "Ò» ¶þ Èý ËÄ Îå Áù Æß °Ë ¾Å Ê® Ê®Ò» Ê®¶þ Ê®Èý Ê®ËÄ Ê®Îå Ê®Áù Ê®Æß Ê®°Ë Ê®¾Å ¶þÊ® ¶þÊ®Ò» ¶þÊ®¶þ ¶þÊ®Èý ¶þÊ®ËÄ ¶þÊ®Îå ¶þÊ®Áù ¶þÊ®Æß ¶þÊ®°Ë ¶þÊ®¾Å ÈýÊ® ÈýÊ®Ò» "
+STRING ID repeatNoneString "²»ÖØ¸´"
+STRING ID everyHourRepeatString "Ã¿Ð¡Ê±"
+STRING ID everyDayRepeatString "Ã¿Ìì"
+STRING ID everyWeekRepeat1DayString "·ê^d"
+STRING ID everyWeekRepeat2DayString "·ê^d¼°^d"
+STRING ID everyWeekRepeat3DayString "·ê^d,^d,¼°^d"
+STRING ID everyWeekRepeat4DayString "·ê^d,^d,^d,¼°^d"
+STRING ID everyWeekRepeat5DayString "·ê^d,^d,^d,^d¼°^d"
+STRING ID everyWeekRepeat6DayString "·ê^d,^d,^d,^d,^d¼°^d"
+STRING ID everyWeekRepeat7DayString "·ê^d,^d,^d,^d,^d,^d¼°^d"
+STRING ID everyMonthByDayRepeatString "Ã¿ÔÂ^w¸ö^d"
+STRING ID everyMonthByDateRepeatString "Ã¿ÔÂÖ®^xÈÕ"
+STRING ID everyYearRepeatString "Ã¿Äê^m^xÈÕ"
+STRING ID repeatMonthNamesString "Ò»ÔÂ ¶þÔÂ ÈýÔÂ ËÄÔÂ ÎåÔÂ ÁùÔÂ ÆßÔÂ °ËÔÂ ¾ÅÔÂ Ê®ÔÂ Ê®Ò»ÔÂ Ê®¶þÔÂ "
+STRING ID repeatFullDOWNamesString "ÐÇÆÚÈÕ ÐÇÆÚÒ» ÐÇÆÚ¶þ ÐÇÆÚÈý ÐÇÆÚËÄ ÐÇÆÚÎå ÐÇÆÚÁù "
+STRING ID repeatShortDOWNamesString "ÖÜÈÕ ÖÜÒ» ÖÜ¶þ ÖÜÈý ÖÜËÄ ÖÜÎå ÖÜÄ© "
+STRING ID endDateTitleString "½áÊøÊ±¼ä"
+STRINGTABLE ID freqOrdinal2ndStrlID "" "" "Á½" "Á½" "Á½" "Á½" "Á½"
+
+VERSION 1 "2.90.d.5"
+
+ICONFAMILYEX
+BEGIN
+	BITMAP "diddlebug.bmp" BPP 1 DENSITY 1
+	BITMAP "diddlebug2.bmp" BPP 4 DENSITY 1
+	BITMAP "diddlebug4.bmp" BPP 8 TRANSPARENT 255 0 255 DENSITY 1
+	BITMAP "diddlebug_hr.bmp" BPP 8 TRANSPARENT 255 0 255 DENSITY 2
+END
+
+SMALLICONFAMILYEX
+BEGIN
+	BITMAP "diddlebug-small.bmp" BPP 1 DENSITY 1
+	BITMAP "diddlebug-small4.bmp" BPP 8 TRANSPARENT 255 0 255 DENSITY 1
+	BITMAP "diddlebug-small_hr.bmp" BPP 8 TRANSPARENT 255 0 255 DENSITY 2
+END
+
+HEX "MIDI" ID AlarmMIDI
+    0x4d 0x54 0x68 0x64 0x00 0x00 0x00 0x06 0x00 0x00 0x00 0x01 0x01 0x90 0x4d 0x54 0x72 0x6b 0x00 0x00 0x00 0x32 0x00 0x90 0x62 0x7f 0x4a 0x62 0x00 0x00 0x5f 0x7f 0x82 0x28 0x5f 0x00 0x81 0x14 0x62 0x7f 0x4a 0x62 0x00 0x00 0x5f 0x7f 0x82 0x28 0x5f 0x00 0x81 0x14 0x62 0x7f 0x4a 0x62 0x00 0x00 0x5f 0x7f 0x82 0x28 0x5f 0x00 0x85 0x1a 0x5f 0x01 0x00 0xff 0x2f 0x00
+
+STRINGTABLE ID DiddleBugErrorMessages "" "¼ÍÂ¼ÒÑËð»µ£¬Diddlebug½«½áÊøÖ´ÐÐ"

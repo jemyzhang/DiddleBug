@@ -1,0 +1,7 @@
+# Traditional Chinese localization for DiddbleBug
+# By Daitau Aaron (daitau@users.sourceforge.net daitau@hotmail.com)
+
+LOC = tchinese
+PILRCOPT = -F5
+
+include Makefile.basic

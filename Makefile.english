@@ -1,0 +1,7 @@
+#
+# English version Makefile
+#
+
+LOC = english
+
+include Makefile.basic

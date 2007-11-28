@@ -1,0 +1,7 @@
+#
+# French version Makefile
+#
+
+LOC = french
+
+include Makefile.basic

@@ -1,0 +1,7 @@
+#
+# German version Makefile
+#
+
+LOC = german
+
+include Makefile.basic

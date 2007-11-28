@@ -1,0 +1,8 @@
+# Simplified Chinese localization for DiddbleBug
+# By Daitau Aaron (daitau@users.sourceforge.net daitau@hotmail.com)
+
+LOC = schinese
+# the next line should be changed into -Fg once it is implemented in PilRC
+PILRCOPT = -F5
+
+include Makefile.basic

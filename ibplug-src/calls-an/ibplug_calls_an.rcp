@@ -1,0 +1,43 @@
+#include "ibplug_calls_anRsc.h"
+
+// 14x14 Bitmap for the button
+BITMAP ID boogerID_button "button.bmp"
+
+// The little bitmap for the drop-up list
+BITMAP ID boogerID_lilbutton "lilbutton.bmp"
+
+// The application name string
+STRING ID boogerID_plugname "Calls (ActionNames)"
+
+// The Goto behavior string
+// "a" = always Goto
+// "n" = never Goto
+// "o" = optional
+STRING ID boogerID_gotobehavior "o"
+STRING ID boogerID_completebehavior "o"
+
+STRING ID CallCategoryString "Calls"
+
+// Alert for errors
+ALERT ID alertID_error
+BEGIN
+    TITLE "Error"
+    MESSAGE "^1"
+    BUTTONS "OK"
+END
+
+ALERT ID alertID_noActionNames
+BEGIN
+    TITLE "Error"
+    MESSAGE "Could not find ActionNames. Is it installed?"
+    BUTTONS "OK"
+END
+
+ALERT ID alertID_noAlarmSet
+BEGIN
+    TITLE "Error"
+    MESSAGE "Could not set ActionNames alarm."
+    BUTTONS "OK"
+END
+
+VERSION 1 "1.4"

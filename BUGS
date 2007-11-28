@@ -1,0 +1,13 @@
+BUGS
+====
+
+* DiddleBug will *not* work with AlarmHack.
+  Users of PalmOS 3.x or greater should use 3AlarmHack, which I have been
+  using successfully with DiddleBug.  People with PalmOS 2.x or earlier
+  can try Snoozer, which has been reported to work.
+
+* The PalmOS only checks for alarms once every 60 seconds when the
+  machine if in sleep mode (or OFF).  Your alarms may be delayed by
+  up to 60 seconds if the machine is off.
+
+-- Fri, 10 Aug 2001 11:21:00 +0200

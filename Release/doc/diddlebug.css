@@ -1,0 +1,110 @@
+th {
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-size: medium;
+	font-weight: bold;
+	text-align: left;
+	background-color: #e0e0e0;
+}
+h1 {
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-size: 310%;
+	font-style: normal;
+	font-weight: bold;
+	text-align: left;
+	margin-bottom: 0px;
+}
+h2 {
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-size: medium;
+	font-weight: bold;
+	text-align: left;
+	background-color: #e0e0e0;
+	margin-bottom: 0px;
+}
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+	font-style: normal;
+	font-weight: normal;
+}
+sup {
+	font-size: smaller;
+}
+.Header {
+	background-color: #0D0A60;
+	font-size: medium;
+	color: #FFFFFF;
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+.Tagline {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: x-small;
+	font-style: normal;
+	font-weight: normal;
+}
+.BoxHeader {
+	background-color: #8E8CF2;
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.LinksEntry {
+	font-size: x-small;
+}
+.Backlink {
+	font-style: italic;
+}
+.red {
+	color: #FF0000;
+}
+.Footer {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: x-small;
+	font-style: normal;
+	font-weight: normal;
+}
+.ObsoleteFAQ {
+	font-weight: bold;
+	color: #FF0000;
+}
+.Howto {
+	display: block;
+	margin-left: 20pt;
+}
+h3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align: left;
+	background-color: #B0D4E5;
+	margin-bottom: 3pt;
+	font-weight: normal;
+	font-size: small;
+}
+:link {
+	text-decoration: none; 
+}
+:visited { 
+	text-decoration: none; 
+}
+:link:active,:visited:active { 
+	text-decoration: none; 
+}
+:link:hover,:visited:hover { 
+	text-decoration: underline;
+	color: #0066FF; 
+}
+.NoLinkBorder {
+	border: none;
+}
+.SmallSpacing {
+	margin: 2px;
+}
+.NoLinkBorderSmallSpacing {
+	border: none;
+	margin: 2px;
+}
+code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: small;
+}

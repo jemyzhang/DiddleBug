@@ -1,0 +1,626 @@
+#!/usr/bin/perl -w
+
+# pilot-template 1.31 : Create the template files for a PalmOS application
+# Copyright (C) 1998 Ian Goldberg <iang@cs.berkeley.edu>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+use strict 'vars';
+use MIME::Base64 qw(decode_base64 encode_base64);
+
+print <<'EOC';
+
+pilot-template 1.31 by Ian Goldberg <iang@cs.berkeley.edu>
+modified for booger plugins by Mitch Blevins <mblevin@debian.org>
+further modified by Jerry D. Hedden and Peter Putzer <pputzer@users.sourceforge.net>
+
+EOC
+
+my $Usage = <<EOU;
+Usage: $0 prcname appname iconname CrID
+  prcname : The desired name for the .prc file
+  appname : The desired name for the application (up to 31 chars)
+  iconname: The desired (short) name to appear in the application launcher
+  CrID    : The desired four-character Creator ID
+	     (This _must_ be unique for every application in the world;
+	      get a creator id at:
+	      http://www.palmos.com/dev/support/creatorid/ )
+
+Example: $0 template.prc 'Template application' 'Test app' Tmpl
+EOU
+
+my $iconext = 'pbm';
+if ($#ARGV >= 0 && $ARGV[0] eq '-pbitm') {
+    $iconext = 'pbitm';
+    shift @ARGV;
+}
+
+die $Usage unless $#ARGV == 3;
+
+my ($prcname, $appname, $iconname, $crid) = @ARGV;
+
+die $Usage unless length($crid) == 4 && length($appname) < 32;
+
+## Strip the .prc, if any, from the prcname
+$prcname =~ s/\.prc$//;
+
+## Make sure none of the files already exists
+my $f;
+foreach $f ("Makefile", $prcname.".c", "button.bmp", "lilbutton.bmp",
+	    $prcname.".rcp", $prcname."Rsc.h", "callback.h", "booger.h")
+{
+    die "File $f already exists - aborting.\n" if -e $f;
+}
+
+
+#### Create the files
+
+## Create Makefile
+open(F, ">Makefile") or die "Cannot write Makefile: $!\n";
+
+print F <<EOFILE;
+## Makefile for $appname
+
+TARGET = $prcname
+APPNAME = "$appname"
+APPID = "$crid"
+EOFILE
+
+print F <<'EOFILE';
+
+VERSION = "1.0"
+SED = sed
+
+OBJS = $(TARGET).o
+LIBS =
+
+CC = m68k-palmos-gcc
+REAL_CC = gcc
+
+CFLAGS = -Wall -g -O2
+
+PILRC = pilrc
+
+OBJRES = m68k-palmos-obj-res
+NM = m68k-palmos-nm
+BUILDPRC = build-prc -t BooG -v 1
+PILOTXFER = pilot-xfer
+
+all: $(TARGET).prc
+
+install: all
+	cp $(TARGET).prc ../../plugins
+
+install-$(LANG): $(TARGET)-$(LANG).prc
+	cp $(TARGET)-$(LANG).prc ../../plugins-$(LANG)
+
+.S.o:
+	$(CC) $(TARGETFLAGS) -c $<
+
+.c.s:
+	$(CC) $(CSFLAGS) $<
+
+$(TARGET).prc: code0000.$(TARGET).grc code0001.$(TARGET).grc data0000.$(TARGET).grc pref0000.$(TARGET).grc rloc0000.$(TARGET).grc bin.res
+	$(BUILDPRC) $(TARGET).prc $(APPNAME) $(APPID) code0001.$(TARGET).grc code0000.$(TARGET).grc data0000.$(TARGET).grc *.bin pref0000.$(TARGET).grc rloc0000.$(TARGET).grc
+
+$(TARGET)-$(LANG).prc: code0000.$(TARGET).grc code0001.$(TARGET).grc data0000.$(TARGET).grc pref0000.$(TARGET).grc rloc0000.$(TARGET).grc bin-$(LANG).res
+	$(BUILDPRC) $(TARGET)-$(LANG).prc $(APPNAME) $(APPID) code0001.$(TARGET).grc code0000.$(TARGET).grc data0000.$(TARGET).grc *.bin pref0000.$(TARGET).grc rloc0000.$(TARGET).grc
+
+code0000.$(TARGET).grc: $(TARGET)
+	$(OBJRES) $(TARGET)
+
+code0001.$(TARGET).grc: code0000.$(TARGET).grc
+
+data0000.$(TARGET).grc: code0000.$(TARGET).grc
+
+pref0000.$(TARGET).grc: code0000.$(TARGET).grc
+
+rloc0000.$(TARGET).grc: code0000.$(TARGET).grc
+
+bin.res: $(TARGET).rcp
+	$(SED) -e 's/^VERSION .*/VERSION 1 $(VERSION)/' $(TARGET).rcp > $(TARGET).rcp.bak && cp $(TARGET).rcp.bak $(TARGET).rcp
+	$(PILRC) $(TARGET).rcp .
+	mv Tbmp1965.bin BooG1965.bin
+	mv Tbmp1966.bin BooG1966.bin
+	mv tSTR1967.bin BooG1967.bin
+	mv tSTR1968.bin BooG1968.bin
+	mv tSTR1969.bin BooG1969.bin
+	touch bin.res
+
+bin-$(LANG).res: $(TARGET)-$(LANG).rcp
+	-rm -f *.res
+	$(SED) -e 's/^VERSION .*/VERSION 1 $(VERSION)/' $(TARGET)-$(LANG).rcp > $(TARGET)-$(LANG).rcp.bak && cp $(TARGET)-$(LANG).rcp.bak $(TARGET)-$(LANG).rcp
+	$(PILRC) $(TARGET)-$(LANG).rcp .
+	mv Tbmp1965.bin BooG1965.bin
+	mv Tbmp1966.bin BooG1966.bin
+	mv tSTR1967.bin BooG1967.bin
+	mv tSTR1968.bin BooG1968.bin
+	mv tSTR1969.bin BooG1969.bin
+	touch bin-$(LANG).res
+
+$(TARGET)-$(LANG).rcp:
+	$(SED) -f ../plugin-$(LANG).sed $(TARGET).rcp > $(TARGET)-$(LANG).rcp
+
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) $(LIBS)
+
+send: $(TARGET).prc
+	$(PILOTXFER) -i $(TARGET).prc
+
+depend:
+	makedepend -Y -I. *.c
+
+clean:
+	-rm -f *.[oa] *~ $(TARGET) $(TARGET)-*.rcp *.bin *.res *.grc
+
+veryclean: clean
+	-rm -f *.prc *.bak
+
+# EOF
+EOFILE
+close(F);
+
+
+## Create main header file
+open(F, ">${prcname}.h") or die "Cannot write ${prcname}.h: $!\n";
+
+print F <<EOFILE;
+/* Header file for $appname */
+
+/* Error routines */
+#define abort() ErrDisplayFileLineMsg(__FILE__, __LINE__, "")
+
+#ifdef BOOGERDEBUG
+#define ASSERT(a) if(!a) ErrDisplayFileLineMsg(__FILE__, __LINE__, "Assert")
+#define ASSERTNOT(a) if(a) ErrDisplayFileLineMsg(__FILE__, __LINE__, "Assert")
+#else  /* BOOGERDEBUG */
+#define ASSERT(a)
+#define ASSERTNOT(a)
+#endif /* BOOGERDEBUG */
+
+/*** Plugin specific #defines ***/
+
+// Database to which item will be added
+#define DB_TYPE    'DATA'
+#define DB_CREATOR '$crid'
+
+// Application that will be launched to display new item
+#define GOTO_ID    '$crid'
+
+// EOF
+EOFILE
+close(F);
+
+
+## Create main code file
+open(F, ">${prcname}.c") or die "Cannot write ${prcname}.c: $!\n";
+
+print F <<EOFILE;
+/* Main code for $appname */
+
+#include <PalmOS.h>
+#include "booger.h"
+
+#include "${prcname}Rsc.h"
+#include "${prcname}.h"
+
+/*** Plugin specific code ***/
+
+/* Get preferences, open (or create) app database */
+static UInt16
+StartApplication(void)
+{
+    return (errNone);
+}
+
+/* Save preferences, close forms, close app database */
+static void
+StopApplication(void)
+{
+}
+
+/* Create new item in app database */
+static UInt16
+DoTheBoogie(KleenexPtr kleenexP, DmOpenRef dbR, UInt16 *index)
+{
+    *index = 0;
+
+    return (errNone);
+}
+
+/*** End of plugin specific code ***/
+
+
+/* Finds and opens database,
+ * calls plugin specific code to create new item,
+ * then fills in GoTo parameters.
+ */
+static UInt16
+PickBooger(KleenexPtr kleenexP)
+{
+    DmOpenRef dbR;
+    DmSearchStateType searchstate;
+    UInt32 creatorID, dbtype;
+    UInt16 cardNo;
+    LocalID dbID;
+    Boolean closedb = false;
+    UInt16 err, index;
+
+    /* Check for the correct version */
+    if (!((kleenexP->version) & IBVERSION_ORIG))
+	return (boogerErrorVersionMismatch);
+
+    /* Open the database */
+    if (DmGetNextDatabaseByTypeCreator(true, &searchstate, DB_TYPE,
+				       DB_CREATOR, true, &cardNo, &dbID))
+	return (1);
+
+    if ((dbR = DmOpenDatabase(cardNo, dbID, dmModeReadWrite))) {
+	closedb = true;
+
+    } else if (DmGetLastErr() == dmErrAlreadyOpenForWrites) {
+	dbR = NULL;
+	while ((dbR = DmNextOpenDatabase(dbR))) {
+	    DmOpenDatabaseInfo(dbR, &dbID, NULL, NULL, &cardNo, NULL);
+	    DmDatabaseInfo(cardNo, dbID, NULL, NULL, NULL, NULL, NULL, NULL,
+			   NULL, NULL, NULL, &dbtype, &creatorID);
+	    if ((dbtype == DB_TYPE) && (creatorID == DB_CREATOR))
+		break;
+	}
+	if (!dbR)
+	    return (1);
+    }
+
+    /* Call plugin specific routine to create item in database */
+    err = DoTheBoogie(kleenexP, dbR, &index);
+
+    /* Close the database */
+    if (closedb)
+	DmCloseDatabase(dbR);
+
+    /* Did it work? */
+    if (err)
+	return (1);
+
+    /* Load the GoTo parameters */
+    if (!(kleenexP->booger.cmdPBP = MemPtrNew(sizeof(GoToParamsType))))
+	return (1);
+    MemSet(kleenexP->booger.cmdPBP, sizeof(GoToParamsType), 0);
+    ((GoToParamsType *)(kleenexP->booger.cmdPBP))->dbCardNo = cardNo;
+    ((GoToParamsType *)(kleenexP->booger.cmdPBP))->dbID = dbID;
+    ((GoToParamsType *)(kleenexP->booger.cmdPBP))->recordNum = index;
+    MemPtrSetOwner(kleenexP->booger.cmdPBP, 0);
+
+    return (errNone);
+}
+
+
+/* Fills in 'booger' structure for return to calling app */
+static UInt16
+BlowNose(KleenexPtr kleenexP)
+{
+    DmSearchStateType searchstate;
+
+    if (DmGetNextDatabaseByTypeCreator(true, &searchstate, sysFileTApplication,
+				       GOTO_ID, true,
+				       &kleenexP->booger.cardNo,
+				       &kleenexP->booger.dbID))
+    {
+	// App associated with plugin not found
+	if (kleenexP->booger.cmdPBP) {
+	    MemPtrFree(kleenexP->booger.cmdPBP);
+	    kleenexP->booger.cmdPBP = NULL;
+	}
+	return (1);
+    }
+    kleenexP->booger.cmd = sysAppLaunchCmdGoTo;
+
+    return (errNone);
+}
+
+
+/* Jumps to newly created item using app specified in 'booger' structure */
+static UInt16
+Sneeze(KleenexPtr kleenexP)
+{
+    UInt16 err;
+    LocalID dbID;
+    UInt16 cardNo;
+
+    // Free up parameters in 'kleenex' structure
+    if (kleenexP->note)      MemPtrFree(kleenexP->note);
+    if (kleenexP->data)      MemPtrFree(kleenexP->data);
+    if (kleenexP->text)      MemPtrFree(kleenexP->text);
+    if (kleenexP->title)     MemPtrFree(kleenexP->title);
+    if (kleenexP->category)  MemPtrFree(kleenexP->category);
+    if (kleenexP->repeat)    MemPtrFree(kleenexP->repeat);
+
+    // Jump to default app if not specified
+    if (!kleenexP->booger.dbID) {
+	if ((err = BlowNose(kleenexP)))
+	    return (err);
+    }
+
+    if ((kleenexP->booger.cmd == sysAppLaunchCmdNormalLaunch) ||
+	(kleenexP->booger.cmd == boogerPlugLaunchCmdLaunchLauncher))
+    {
+	// Don't use the GoTo params
+	if (kleenexP->booger.cmdPBP) {
+	    MemPtrFree(kleenexP->booger.cmdPBP);
+	    kleenexP->booger.cmdPBP = NULL;
+	}
+
+    } else if (kleenexP->booger.cmd == sysAppLaunchCmdOpenDB) {
+	// Change GoTo params to OpenDB params
+	cardNo = ((GoToParamsType *)(kleenexP->booger.cmdPBP))->dbCardNo;
+	dbID = ((GoToParamsType *)(kleenexP->booger.cmdPBP))->dbID;
+	((SysAppLaunchCmdOpenDBType *)(kleenexP->booger.cmdPBP))->cardNo = cardNo;
+	((SysAppLaunchCmdOpenDBType *)(kleenexP->booger.cmdPBP))->dbID = dbID;
+    }
+
+    // Achoo!
+    if (SysUIAppSwitch(kleenexP->booger.cardNo, kleenexP->booger.dbID,
+		       kleenexP->booger.cmd, kleenexP->booger.cmdPBP))
+    {
+	if (kleenexP->booger.cmdPBP)
+	    MemPtrFree(kleenexP->booger.cmdPBP);
+	return (1);
+    }
+
+    return (errNone);
+}
+
+
+/* Start here! */
+UInt32
+PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags)
+{
+    UInt16 err;
+
+    // Called as a subroutine
+    if (cmd == boogerPlugLaunchCmdBlowNose) {
+	if ((err = StartApplication()))
+	    return (err);
+
+	if (!(err = PickBooger((KleenexPtr)cmdPBP)))
+	    err = BlowNose((KleenexPtr)cmdPBP);
+
+	StopApplication();
+	return (err);
+    }
+
+    // Running as an application
+    if (cmd == boogerPlugLaunchCmdSneeze) {
+	if ((err = StartApplication()))
+	    return (err);
+
+	if (!(err = PickBooger((KleenexPtr)cmdPBP)))
+	    err = Sneeze((KleenexPtr)cmdPBP);
+
+	StopApplication();
+	return (err);
+    }
+
+    return (sysErrParamErr);
+}
+
+// EOF
+EOFILE
+close(F);
+
+
+## Create resource header file
+open(F, ">${prcname}Rsc.h") or die "Cannot write ${prcname}Rsc.h: $!\n";
+
+print F <<EOFILE;
+// Resource header file for $appname
+
+// Booger resources
+#define boogerID_button	   6501
+#define boogerID_lilbutton	6502
+#define boogerID_plugname	 6503
+#define boogerID_gotobehavior     6504
+#define boogerID_completebehavior 6505
+
+// Alert for errors
+#define alertID_error	   6600
+
+// EOF
+EOFILE
+close(F);
+
+
+## Create resource makefile
+open(F, ">${prcname}.rcp") or die "Cannot write ${prcname}.rcp: $!\n";
+
+print F <<EOFILE;
+// Resource makefile for $appname
+
+#include "${prcname}Rsc.h"
+
+// 14x14 Bitmap for the button
+BITMAP ID boogerID_button "button.bmp"
+
+// The little bitmap for the drop-up list
+BITMAP ID boogerID_lilbutton "lilbutton.bmp"
+
+// The application name string - change as needed
+STRING ID boogerID_plugname "Plugin Name"
+
+// The Goto behavior string
+// "a" = always Goto
+// "n" = never Goto
+// "o" = optional
+STRING ID boogerID_gotobehavior "o"
+STRING ID boogerID_completebehavior "n"
+
+// Alert for errors - uncomment if needed
+//ALERT ID alertID_error
+//BEGIN
+//    TITLE "Error"
+//    MESSAGE "^1"
+//    BUTTONS "OK"
+//END
+
+// Set by Makefile
+VERSION 1 "X.Y"
+
+// EOF
+EOFILE
+close(F);
+
+
+## Create optional callback.h - if not needed, delete it
+open(F, ">callback.h") or die "Cannot write callback.h: $!\n";
+
+print F <<EOFILE;
+#ifndef __CALLBACK_H__
+#define __CALLBACK_H__
+
+/* This is a workaround for a bug in the current version of gcc:
+
+   gcc assumes that no one will touch %a4 after it is set up in crt0.o.
+   This isn't true if a function is called as a callback by something
+   that wasn't compiled by gcc (like FrmCloseAllForms()).  It may also
+   not be true if it is used as a callback by something in a different
+   shared library.
+
+   We really want a function attribute "callback" which will insert this
+   progloue and epilogoue automatically.
+   
+      - Ian */
+
+register void *reg_a4 asm("%a4");
+
+#define CALLBACK_PROLOGUE \
+    void *save_a4 = reg_a4; asm("move.l %%a5,%%a4; sub.l #edata,%%a4" : :);
+
+#define CALLBACK_EPILOGUE reg_a4 = save_a4;
+
+#endif
+EOFILE
+close(F);
+
+
+## Create booger header file
+open(F, ">booger.h") or die "Cannot write booger.h: $!\n";
+
+print F <<'EOFILE';
+/* booger.h */
+#ifndef __BOOGER_H_
+#define __BOOGER_H_
+
+#include <PalmOS.h>
+
+/* Launch command to run booger plugin as a subroutine */
+#define boogerPlugLaunchCmdBlowNose 0x9101
+/* Launch command to run booger plugin as an application */
+#define boogerPlugLaunchCmdSneeze   0x9102
+/* Launch command to launch the launcher */
+#define boogerPlugLaunchCmdLaunchLauncher 0x9201
+
+/* Error codes */
+#define boogerErrorVersionMismatch 7000
+
+// Booger resources
+#define boogerID_button	 6501
+#define boogerID_lilbutton      6502
+#define boogerID_plugname       6503
+#define boogerID_gotobehavior   6504
+#define boogerID_completebehavior 6505
+
+// Version identifiers
+#define IBVERSION_ORIG	  0x0001
+#define IBVERSION_PICTURE       0x0002
+
+/* Structure for the BoogerType returned to DiddleBug */
+typedef struct {
+    UInt16 cardNo;	    /* cardNo */
+    LocalID dbID;	     /* dbID */
+    UInt16 cmd;	       /* Launch flags */
+    MemPtr cmdPBP;	    /* usually a GoTo params */
+} BoogerType;
+typedef BoogerType *BoogerPtr;
+
+#define apptNoEndDate	   0xffff  // end date of appts that repeat forever
+
+/* Repeat types */
+enum repeatTypes {
+    repeatNone,
+    repeatHourly,
+    repeatDaily,
+    repeatWeekly,
+    repeatMonthlyByDay,
+    repeatMonthlyByDate,
+    repeatYearly
+};
+typedef enum repeatTypes RepeatType;
+
+/* Repeat info type (DateBook version) */
+typedef struct {
+  RepeatType repeatType;   // daily, weekly
+  UInt8 reserved1;
+  DateType repeatEndDate;  // minus one if forever
+  UInt8 repeatFrequency;   // i.e. every 2 days if repeatType daily  
+  UInt8 repeatOn;	  // monthlyByDay and repeatWeekly
+  UInt8 repeatStartOfWeek; // repeatWeekly only
+  UInt8 reserved2;
+} DtbkRepeatInfoType;
+typedef DtbkRepeatInfoType * DtbkRepeatInfoPtr;
+
+/* Structure for cmdPBP of boogerPlugLaunchCmdBlowNose */
+/* DiddleBug is responsible for freeing the pointers upon return */
+typedef struct {
+  Char* note;	      /* Note attached to the drawing (if any) */
+  UInt16 reserved2;
+  UInt16 sketchRecordNum;  /* record number of the sketch */
+  UInt16 version;	  /* version of this launch param */
+  UInt16 data_size;	/* Size of sketch data */
+  MemPtr data;	     /* Sketch data */
+  Char* text;	      /* Text as typed in the pick field */
+  Char* title;	     /* Title of the drawing (if any) */
+  Char* category;	  /* Category to use (if any) */
+  UInt32 alarm_secs;       /* Alarm seconds (zero if no alarm) */
+  DtbkRepeatInfoPtr repeat;    /* Repeat info (in DateBook format) */
+  Int16 priority;	  /* Reminder priority (default = 1) */
+  BoogerType booger;       /* Filled by the BPlug to be read by DiddleBug */
+  Int16 is_complete;       /* complete flag */
+} KleenexType;
+typedef KleenexType *KleenexPtr;
+
+#endif /* __BOOGER_H_ */
+EOFILE
+close(F);
+
+
+## Create bitmap files
+open(F, ">button.bmp") or die "Cannot write button.bmp: $!\n";
+print F decode_base64 <<'EOFILE';
+Qk12AAAAAAAAAD4AAAAoAAAADgAAAA4AAAABAAEAAAAAADgAAAABAAAAAQAAAAIAAAACAAAAAAAA
+AP///wD//AAA//wAAPz8AAD4fAAA8DwAAOAcAADDDAAAwwwAAOAcAADwPAAA+HwAAPz8AAD//AAA
+//wAAA==
+EOFILE
+close(F);
+
+open(F, ">lilbutton.bmp") or die "Cannot write lilbutton.bmp: $!\n";
+print F decode_base64 <<'EOFILE';
+Qk1iAAAAAAAAAD4AAAAoAAAADwAAAAkAAAABAAEAAAAAACQAAAABAAAAAQAAAAIAAAACAAAAAAAA
+AP///wD//gAA/v4AAPx+AAD4PgAA8R4AAPg+AAD8fgAA/v4AAP/+AAA=
+EOFILE
+close(F);
+
+print "Done.\n";
+
+# EOF

@@ -1,0 +1,78 @@
+// Resource file for DiddleBug Screen Capture Hack
+// Copyright © 2001 Peter Putzer <pputzer@edu.uni-klu.ac.at>
+// Copyright © Mitch Blevins <mblevin@debian.org>
+// Most code stolen directly from Ben Darnel <bgdarnel@unity.ncsu.edu>
+
+#include "dbscHackRsc.h"
+
+APPLICATIONICONNAME ID 3000 "DiddleSnap"
+VERSION ID 1 "2.1"
+BITMAP ID LogoBitmap "dbscHack.bmp"
+
+// ProcessSoftKeyStroke
+TRAP ID 1000 VALUE 0xa121
+// TRAP ID 1000 0xa121
+// doesn't work with newer pilrc (2.8p7)
+
+FORM AboutForm AT (2 2 156 156)
+MODAL
+USABLE
+BEGIN
+    TITLE "About DiddleSnap"
+    FORMBITMAP AT (4 18) BITMAP LogoBitmap
+    LABEL "DiddleSnap\rv.2.0" AUTOID AT (36 PREVTOP) FONT 1
+
+    LABEL "© 2001, '02, '03 Peter Putzer" AUTOID AT (4 PREVBOTTOM+15) FONT 1
+    LABEL "© 1999 Mitch Blevins" AUTOID AT (PREVLEFT PREVBOTTOM) FONT 1
+
+    LABEL "Please visit our homepage on" AUTOID AT (PREVLEFT PREVBOTTOM+6)
+    LAbEL "http://diddlebug.sf.net" AUTOID AT (PREVLEFT PREVBOTTOM) FONT 1
+
+    LABEL "Licensed under the GNU GPL." AUTOID AT (PREVLEFT PREVBOTTOM+6) FONT 1
+    LABEL "(http://gnu.org/copyleft/gpl.html)" AUTOID AT (PREVLEFT PREVBOTTOM)
+
+    BUTTON "Done" 1 AT (5 BOTTOM@151 36 AUTO) USABLE
+END
+
+FORM PrefsForm AT (2 2 156 156)
+MODAL
+USABLE
+DEFAULTBUTTON 1
+HELPID PrefsHelpString
+BEGIN
+    TITLE "DiddleSnap Preferences"
+
+    CHECKBOX "Jump to DiddleBug" ID JumpCheckBox AT (4 17 AUTO AUTO)
+    LABEL "Activate by dragging" AUTOID AT (4 PREVBOTTOM+4) FONT 1
+    LABEL "(Full Screen)" AUTOID AT (4 PREVBOTTOM) FONT 0
+    LABEL "From: " AUTOID AT (RIGHT@40 PREVBOTTOM) FONT 1
+    POPUPTRIGGER "Calculator" ID StrokeFromTrigger AT (40 PREVTOP AUTO AUTO) LEFTANCHOR
+    LABEL "To: " AUTOID AT (RIGHT@40 PREVBOTTOM) FONT 1
+    POPUPTRIGGER "Find" ID StrokeToTrigger AT (40 PREVTOP AUTO AUTO) LEFTANCHOR
+
+    LABEL "(Titlebar Clipped)" AUTOID AT (4 PREVBOTTOM+4) FONT 0
+    LABEL "From: " AUTOID AT (RIGHT@40 PREVBOTTOM) FONT 1
+    POPUPTRIGGER "Find" ID ClipFromTrigger AT (40 PREVTOP AUTO AUTO) LEFTANCHOR
+    LABEL "To: " AUTOID AT (RIGHT@40 PREVBOTTOM) FONT 1
+    POPUPTRIGGER "Calculator" ID ClipToTrigger AT (40 PREVTOP AUTO AUTO) LEFTANCHOR
+
+    LIST "Applications" "Menu" "Calculator" "Find" "Disable" ID StrokeFromList AT (42 60 60 AUTO) VISIBLEITEMS 5 NONUSABLE SEARCH
+    POPUPLIST StrokeFromTrigger StrokeFromList
+    LIST "Applications" "Menu" "Calculator" "Find" ID StrokeToList AT (42 PREVTOP+12 60 AUTO) VISIBLEITEMS 4 NONUSABLE SEARCH
+    POPUPLIST StrokeToTrigger StrokeToList
+
+    LIST "Applications" "Menu" "Calculator" "Find" "Disable" ID ClipFromList AT (42 102 60 AUTO) VISIBLEITEMS 5 NONUSABLE SEARCH
+    POPUPLIST ClipFromTrigger ClipFromList
+    LIST "Applications" "Menu" "Calculator" "Find" ID ClipToList AT (42 PREVTOP+12 60 AUTO) VISIBLEITEMS 4 NONUSABLE SEARCH
+    POPUPLIST ClipToTrigger ClipToList
+
+    BUTTON "OK" ID PrefsOKButton AT (5 BOTTOM@151 36 AUTO)
+    BUTTON "Cancel" ID PrefsCancelButton AT (PREVRIGHT+5 PREVTOP 36 AUTO)
+END
+
+STRING ID PrefsHelpString "DiddleSnap captures the current screen for use " \
+			  "in DiddleBug. The screenshot is automatically converted " \
+			  "to black & white based on the perceived 'darkness' " \
+			  "of the individual pixels." \
+			  "\n\n" \
+			  "\225 Jump to DiddleBug lets you diddle away immediately."

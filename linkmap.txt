@@ -1,0 +1,462 @@
+Archive member included because of file (symbol)
+
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o)
+                              diddlebug.o (TxtGlueTruncateString)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueGetObjectUsable.o)
+                              alarm.o (FrmGlueGetObjectUsable)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueSetHelpID.o)
+                              time.o (FrmGlueSetHelpID)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(Transliterate.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o) (TxtGlueTransliterate)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(SetNextChar.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o) (TxtGlueSetNextChar)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(GetNextChar.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o) (TxtGlueGetNextChar)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWidthToOffset.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o) (FntGlueWidthToOffset)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueGetHorizEllipsisChar.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o) (TxtGlueGetHorizEllipsisChar)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWCharWidth.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o) (FntGlueWCharWidth)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(AccessorGlueEmu68KAccAvail.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueGetObjectUsable.o) (AccessorGlueEmu68KAccAvail)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(PalmOS4TrapsAvailable.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueGetObjectUsable.o) (PalmOS4TrapsAvailable)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(CheckIntlDispatch.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(Transliterate.o) (CheckIntlDispatch)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinTransliterate.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(Transliterate.o) (TxtLatinTransliterate)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinSetNextChar.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(SetNextChar.o) (TxtLatinSetNextChar)
+/PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinGetNextChar.o)
+                              /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(GetNextChar.o) (TxtLatinGetNextChar)
+/usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a(_udivsi3.o)
+                              repeat.o (__udivsi3)
+/usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a(_mulsi3.o)
+                              repeat.o (__mulsi3)
+/usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a(_umodsi3.o)
+                              repeat.o (__umodsi3)
+/usr/m68k-palmos/lib/libc.a(memcpy.o)
+                              diddlebug.o (memcpy)
+/usr/m68k-palmos/lib/libc.a(memset.o)
+                              png.o (memset)
+/usr/m68k-palmos/lib/libcrt.a(hooks.o)
+                              /usr/m68k-palmos/lib/crt0.o (__do_bhook)
+/usr/m68k-palmos/lib/libcrt.a(multi_dreloc.o)
+                              diddlebug-sections.o (_GccLoadCodeAndRelocateData)
+/usr/m68k-palmos/lib/libcrt.a(multi_free.o)
+                              diddlebug-sections.o (_GccReleaseCode)
+/usr/m68k-palmos/lib/libcrt.a(reloc_chain.o)
+                              /usr/m68k-palmos/lib/libcrt.a(multi_dreloc.o) (_RelocateChain)
+
+Allocating common symbols
+Common symbol       size              file
+
+p                   0xa6              diddlebug.o
+ep                  0x56              diddlebug.o
+d                   0x3fa             diddlebug.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+coderes          0x00000000         0x00008002
+datares          0x00000000         0x00007fff
+trap_region      0x01000000         0x00000002
+disposition_region 0x01000010         0x00000006
+util1res         0x00000000         0x00008000
+util2res         0x00000000         0x00008000
+util3res         0x00000000         0x00008000
+util4res         0x00000000         0x00008000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /usr/m68k-palmos/lib/crt0.o
+LOAD /usr/m68k-palmos/lib/gdbstub.o
+LOAD diddlebug.o
+LOAD repeat.o
+LOAD notes.o
+LOAD shape.o
+LOAD xfer.o
+LOAD util.o
+LOAD listview.o
+LOAD alarm.o
+LOAD clipboard.o
+LOAD details.o
+LOAD dynamic_buttons.o
+LOAD diddlebug-sections.o
+LOAD prefs.o
+LOAD time.o
+LOAD text.o
+LOAD thumbnails.o
+LOAD thumbnails_details.o
+LOAD png.o
+LOAD snappermail.o
+LOAD diddlebug-sections.ld
+
+util1           0x00000000     0x748c
+ *(util1)
+ util1          0x00000000     0x3b78 diddlebug.o
+                0x0000174c                DoCmdRemove
+                0x000024a4                UpdatePageButton
+                0x00000722                LoadFromDisk
+                0x00001508                SwitchToDoodleMode
+                0x00001ab0                KeyDown
+                0x00000ae6                LabelAlarm
+                0x0000241c                UpdateNoteButton
+                0x00000062                MirrorRealCanvas
+                0x00002790                SwitchCategory
+                0x0000055e                FlushToDisk
+                0x00002554                MakeDateTimeStamp
+                0x000002ae                FlushToBuffer
+                0x000025e8                DoAboutDialog
+                0x00002360                CopyAppBitmapToWindow
+ util1          0x00003b78      0x556 notes.o
+                0x00003e64                NoteViewInit
+                0x00003daa                NoteViewUpdateScrollBar
+                0x00003ec4                NoteViewHandleEvent
+                0x00003b78                NoteViewDrawTitleAndForm
+ *fill*         0x000040ce        0x2 00
+ util1          0x000040d0     0x1198 xfer.o
+                0x00004890                FinishXferMode
+ util1          0x00005268      0xe90 listview.o
+                0x00005982                ListViewNextCategory
+                0x000055d8                ListViewDisplayMask
+                0x00005268                SeekRecord
+ util1          0x000060f8     0x1228 prefs.o
+                0x000062f4                PrefAlarmEvent
+ util1          0x00007320      0x16a time.o
+LOAD /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a
+LOAD /usr/m68k-palmos/lib/libnfm.a
+LOAD /usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a
+LOAD /usr/m68k-palmos/lib/libg.a
+LOAD /usr/m68k-palmos/lib/libc.a
+LOAD /usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a
+LOAD /usr/m68k-palmos/lib/libcrt.a
+
+.text           0x00000000     0x7d30
+ *(.text)
+ .text          0x00000000       0x98 /usr/m68k-palmos/lib/crt0.o
+                0x00000000                start
+ .text          0x00000098       0x94 /usr/m68k-palmos/lib/gdbstub.o
+ .text          0x0000012c     0x1dee diddlebug.o
+                0x0000032c                SwitchToLoRes
+                0x00001a5e                PilotMain
+                0x0000026c                DatabaseError
+                0x00000218                title_bar_rect
+                0x00000244                black
+                0x0000039a                CompressSketch
+                0x0000193e                CheckForDoubleDensity
+                0x00001708                GetExtendedPreferences
+                0x00000220                screen_above_bar_rect
+                0x00000854                DrawMaskedRecord
+                0x00000210                bottom_bar_rect
+                0x00000a66                SendGotoEvent
+                0x000017e2                CheckROMVersion
+                0x0000199c                CheckForTreo600
+                0x0000078a                UncompressSketch
+                0x00001546                GetPreferences
+ *fill*         0x00001f1a        0x2 00
+ .text          0x00001f1c      0x78c repeat.o
+                0x0000208e                NextRepeat
+ .text          0x000026a8     0x20c2 alarm.o
+                0x00002f00                ApptAlarmMunger
+                0x00003760                ApptGetAlarmsList
+                0x00002e4e                ApptGetAlarmTime
+                0x0000447e                AlarmReset
+                0x00002744                AlarmSetTrigger
+                0x000026b8                AlarmGetTrigger
+                0x00002bcc                PlayAlarmSound
+                0x000027d6                AlarmInit
+                0x000040b4                AlarmTriggered
+                0x0000393c                DisplayAlarm
+                0x000043aa                RescheduleAlarms
+ *fill*         0x0000476a        0x2 00
+ .text          0x0000476c      0x702 dynamic_buttons.o
+                0x00004c08                DynBtnDraw
+                0x00004786                DynBtnCreate
+                0x00004aa6                DynBtnInitGadget
+                0x00004b7a                DynBtnDelete
+                0x00004dbe                DynBtnTrackPen
+ *fill*         0x00004e6e        0x2 00
+ .text          0x00004e70        0x4 diddlebug-sections.o
+                0x00004e70                _GccRelocateData
+ .text          0x00004e74      0xeb8 time.o
+                0x000059c6                DoAbsoluteSnoozeDialog
+ .text          0x00005d2c      0xbe0 png.o
+                0x00006506                DecodePNG
+ .text          0x0000690c      0x6bc snappermail.o
+                0x00006a90                ReceiveData
+ .text          0x00006fc8      0x138 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o)
+                0x00007078                TxtGlueTruncateString
+ .text          0x00007100       0xdc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueGetObjectUsable.o)
+                0x00007100                FrmGlueGetObjectUsable
+ .text          0x000071dc       0x36 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueSetHelpID.o)
+                0x000071dc                FrmGlueSetHelpID
+ *fill*         0x00007212        0x2 00
+ .text          0x00007214        0xa /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(Transliterate.o)
+                0x00007214                TxtGlueTransliterate
+ *fill*         0x0000721e        0x2 00
+ .text          0x00007220        0xa /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(SetNextChar.o)
+                0x00007220                TxtGlueSetNextChar
+ *fill*         0x0000722a        0x2 00
+ .text          0x0000722c        0xa /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(GetNextChar.o)
+                0x0000722c                TxtGlueGetNextChar
+ *fill*         0x00007236        0x2 00
+ .text          0x00007238      0x106 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWidthToOffset.o)
+                0x00007238                FntGlueWidthToOffset
+ *fill*         0x0000733e        0x2 00
+ .text          0x00007340       0xde /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueGetHorizEllipsisChar.o)
+                0x000073f0                TxtGlueGetHorizEllipsisChar
+ *fill*         0x0000741e        0x2 00
+ .text          0x00007420       0x32 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWCharWidth.o)
+                0x00007420                FntGlueWCharWidth
+ *fill*         0x00007452        0x2 00
+ .text          0x00007454       0x34 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(AccessorGlueEmu68KAccAvail.o)
+                0x00007454                AccessorGlueEmu68KAccAvail
+ .text          0x00007488       0x32 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(PalmOS4TrapsAvailable.o)
+                0x00007488                PalmOS4TrapsAvailable
+ *fill*         0x000074ba        0x2 00
+ .text          0x000074bc       0x24 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(CheckIntlDispatch.o)
+                0x000074bc                CheckIntlDispatch
+ .text          0x000074e0      0x20e /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinTransliterate.o)
+                0x000075d6                TxtLatinTransliterate
+ *fill*         0x000076ee        0x2 00
+ .text          0x000076f0      0x142 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinSetNextChar.o)
+                0x000077cc                TxtLatinSetNextChar
+ *fill*         0x00007832        0x2 00
+ .text          0x00007834      0x156 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinGetNextChar.o)
+                0x00007910                TxtLatinGetNextChar
+ *fill*         0x0000798a        0x2 00
+ .text          0x0000798c       0x5e /usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a(_udivsi3.o)
+                0x0000798c                __udivsi3
+ *fill*         0x000079ea        0x2 00
+ .text          0x000079ec       0x22 /usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a(_mulsi3.o)
+                0x000079ec                __mulsi3
+ *fill*         0x00007a0e        0x2 00
+ .text          0x00007a10       0x2a /usr/lib/gcc-lib/m68k-palmos/2.95.3-kgpd/libgcc.a(_umodsi3.o)
+                0x00007a10                __umodsi3
+ *fill*         0x00007a3a        0x2 00
+ .text          0x00007a3c       0x6c /usr/m68k-palmos/lib/libc.a(memcpy.o)
+                0x00007a3c                memcpy
+ .text          0x00007aa8       0x74 /usr/m68k-palmos/lib/libc.a(memset.o)
+                0x00007aa8                memset
+ .text          0x00007b1c      0x110 /usr/m68k-palmos/lib/libcrt.a(hooks.o)
+                0x00007bf2                __do_dtors
+                0x00007bb8                __do_ctors
+                0x00007b1c                __do_bhook
+                0x00007b6a                __do_ehook
+ .text          0x00007c2c       0x8e /usr/m68k-palmos/lib/libcrt.a(multi_dreloc.o)
+                0x00007c2c                _GccLoadCodeAndRelocateData
+ *fill*         0x00007cba        0x2 00
+ .text          0x00007cbc       0x44 /usr/m68k-palmos/lib/libcrt.a(multi_free.o)
+                0x00007cbc                _GccReleaseCode
+ .text          0x00007d00       0x26 /usr/m68k-palmos/lib/libcrt.a(reloc_chain.o)
+                0x00007d00                _RelocateChain
+                0x00007d28                . = ALIGN (0x4)
+ *fill*         0x00007d26        0x2 00
+                0x00007d28                bhook_start = .
+ *(bhook)
+ bhook          0x00007d28        0x4 /usr/m68k-palmos/lib/gdbstub.o
+                0x00007d2c                bhook_end = .
+                0x00007d2c                . = ALIGN (0x4)
+                0x00007d2c                ehook_start = .
+ *(ehook)
+ ehook          0x00007d2c        0x4 diddlebug-sections.o
+                0x00007d30                ehook_end = .
+                0x00007d30                . = ALIGN (0x4)
+                0x00007d30                ctors_start = .
+ *(.ctors)
+                0x00007d30                ctors_end = .
+                0x00007d30                . = ALIGN (0x4)
+                0x00007d30                dtors_start = .
+ *(.dtors)
+                0x00007d30                dtors_end = .
+
+.data           0x00000000      0x5cc
+                0x00000000                data_start = .
+ *(.data)
+ .data          0x00000000        0x4 diddlebug.o
+                0x00000000                maskPattern
+ .data          0x00000004        0x4 xfer.o
+ .data          0x00000008       0xdc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o)
+                0x00000008                _GLOBAL_$F$TxtGlueTruncateString
+ .data          0x000000e4       0x54 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueGetObjectUsable.o)
+                0x000000e4                _GLOBAL_$F$FrmGlueGetObjectUsable
+ .data          0x00000138       0x48 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueSetHelpID.o)
+                0x00000138                _GLOBAL_$F$FrmGlueSetHelpID
+ .data          0x00000180       0x18 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(Transliterate.o)
+                0x00000180                _GLOBAL_$F$Src_IntlGlue.cpVthoOb
+ .data          0x00000198       0x18 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(SetNextChar.o)
+                0x00000198                _GLOBAL_$F$Src_IntlGlue.cpCyaDka
+ .data          0x000001b0       0x18 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(GetNextChar.o)
+                0x000001b0                _GLOBAL_$F$Src_IntlGlue.cpHzSCde
+ .data          0x000001c8       0x5c /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWidthToOffset.o)
+                0x000001c8                _GLOBAL_$F$FntGlueWidthToOffset
+ .data          0x00000224       0xb4 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueGetHorizEllipsisChar.o)
+                0x00000224                _GLOBAL_$F$TxtGlueGetHorizEllipsisChar
+ .data          0x000002d8       0x48 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWCharWidth.o)
+                0x000002d8                _GLOBAL_$F$FntGlueWCharWidth
+ .data          0x00000320       0x40 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(AccessorGlueEmu68KAccAvail.o)
+                0x00000320                _GLOBAL_$F$AccessorGlueEmu68KAccAvail
+ .data          0x00000360       0x3c /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(PalmOS4TrapsAvailable.o)
+                0x00000360                _GLOBAL_$F$PalmOS4TrapsAvailable
+ .data          0x0000039c       0x18 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(CheckIntlDispatch.o)
+                0x0000039c                _GLOBAL_$F$Src_IntlGlue.cptKerGb
+ .data          0x000003b4       0xc0 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinTransliterate.o)
+                0x000003b4                _GLOBAL_$F$TxtLatinTransliterate
+ .data          0x00000474       0xa8 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinSetNextChar.o)
+                0x00000474                _GLOBAL_$F$TxtLatinSetNextChar
+ .data          0x0000051c       0xb0 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinGetNextChar.o)
+                0x0000051c                _GLOBAL_$F$TxtLatinGetNextChar
+ *(.gcc_exc)
+
+.bss            0x000005cc      0x50e
+                0x000005cc                bss_start = .
+                0x000005cc                PROVIDE (__text__, .)
+ *(.bss)
+ .bss           0x000005cc       0x14 diddlebug-sections.o
+                0x000005d4                __text__util2
+                0x000005d8                __text__util3
+                0x000005dc                __text__util4
+                0x000005cc                __text__
+                0x000005d0                __text__util1
+ *(COMMON)
+ COMMON         0x000005e0      0x4fa diddlebug.o
+                                  0x0 (size before relaxing)
+                0x000005e0                p
+                0x00000688                ep
+                0x000006e0                d
+                0x00000adc                end = ALIGN (0x4)
+                0x00000adc                edata = ALIGN (0x4)
+
+.trap
+ *(.trap)
+
+.disposn
+ *(.disposn)
+OUTPUT(DiddleBug-schinese coff-m68k)
+
+util2           0x00000000     0x7724
+ *(util2)
+ util2          0x00000000     0x2a90 diddlebug.o
+                0x00000fc0                TruncatePopupTriggerText
+                0x000012ea                SwitchCategoryForGoto
+                0x00000f26                LabelMIDITrigger
+                0x0000017a                AllocImage
+                0x00000a92                InitMIDIList
+                0x00001226                DoNoteDialog
+                0x00002044                PushKeyDownEvent
+                0x0000109c                SetupSignalList
+                0x00002076                PushNonKeyCommandEvent
+                0x00001036                BitmapGadgetEvent
+ util2          0x00002a90     0x155e repeat.o
+                0x00003e38                RepeatHandleEvent
+                0x00003bac                RepeatInit
+                0x00002fe6                RepeatDrawDescription
+ *fill*         0x00003fee        0x2 00
+ util2          0x00003ff0      0x3ec notes.o
+ util2          0x000043dc      0x7ca xfer.o
+                0x000049c6                XferPenDown
+                0x00004914                CancelXferMode
+                0x00004786                ToggleButtonBar
+                0x000044d6                DrawPlugButton
+                0x000047fc                StartXferMode
+                0x000043dc                DrawXferDoneButton
+                0x00004b10                XferDoneGadgetEvent
+                0x00004a30                XferDetailsGadgetEvent
+ *fill*         0x00004ba6        0x2 00
+ util2          0x00004ba8      0x9fe listview.o
+                0x00005026                ListViewHandleEvent
+ *fill*         0x000055a6        0x2 00
+ util2          0x000055a8      0x856 prefs.o
+                0x000055b2                PrefExtEvent
+                0x000058b6                DoAlarmPreferences
+                0x000057ea                PrefEvent
+                0x00005c5a                PrefHWEvent
+ *fill*         0x00005dfe        0x2 00
+ util2          0x00005e00      0x9a6 time.o
+                0x0000609e                TimeEvent
+ *fill*         0x000067a6        0x2 00
+ util2          0x000067a8      0xeb8 thumbnails.o
+                0x00006c8e                ThumbnailViewNextCategory
+ util2          0x00007660       0xc2 thumbnails_details.o
+                0x00007660                ThumbnailDetailViewNextCategory
+
+util3           0x00000000     0x73cc
+ *(util3)
+ util3          0x00000000     0x2744 diddlebug.o
+                0x000000a8                SortByAlarmTime
+                0x0000104a                SetDrawingAreaClip
+                0x0000253a                FreeWindowAndBitmap
+                0x000007da                MirrorPartialRealCanvas
+                0x000018ea                HandleNonKeyCommandCode
+                0x00000e9a                SetupSignalDialog
+                0x00000000                SortByName
+                0x0000109e                ResetDrawingAreaClip
+                0x00000638                ResetDrawingAreaRectangle
+ util3          0x00002744     0x1168 shape.o
+                0x00002772                LoadShapeRect
+                0x000030c6                DoLine
+                0x00002fd4                ClearOldLine
+                0x000028c6                ClearOldShape
+                0x0000303a                LineRectangle
+                0x00002990                EndShape
+                0x00003154                EndLine
+                0x000028fe                DoShape
+                0x00003526                FloodFill
+ util3          0x000038ac      0x2a0 util.o
+                0x00003a8e                UnFlashMessage
+                0x00003aea                FlashWaitMessage
+                0x000038ba                FlashMessage
+ util3          0x00003b4c      0x6b0 clipboard.o
+                0x00003b4c                ClearOldPaste
+                0x00003d42                ClearOldCutCopy
+                0x00003c7e                EndPaste
+                0x00003be8                DoPaste
+                0x00003d8c                CutCopyRectangle
+                0x0000417c                EndCut
+                0x00004142                EndCopy
+                0x00003e1a                DoCutCopy
+                0x00003b84                PasteRectangle
+ util3          0x000041fc      0x4b0 prefs.o
+ util3          0x000046ac      0x278 text.o
+                0x000047e0                EndTextInsert
+                0x000046ac                ClearOldText
+                0x0000473a                DoTextInsert
+                0x000046e4                TextRectangle
+ util3          0x00004924      0x69e thumbnails.o
+                0x00004ada                ThumbnailViewHandleEvent
+ *fill*         0x00004fc2        0x2 00
+ util3          0x00004fc4     0x1b98 thumbnails_details.o
+                0x00006534                ThumbnailDetailViewHandleEvent
+                0x0000580c                ThumbnailDetailViewLoadRecords
+ util3          0x00006b5c      0x86e png.o
+                0x00006bcc                EncodePNG
+
+util4           0x00000000      0xdbc
+ *(util4)
+ util4          0x00000000      0x3ca diddlebug.o
+ *fill*         0x000003ca        0x2 00
+ util4          0x000003cc      0x564 details.o
+                0x000003de                RecordDetailsEvent
+ util4          0x00000930      0x48c snappermail.o
+                0x00000c3a                Send
+                0x00000930                Switch
+                0x00000988                EscapeDotsInFilename
+                0x00000a82                SendCurrentRecord
+
+.reloc          0x00000000      0x138
+ .reloc         0x00000000        0xc diddlebug.o
+ .reloc         0x0000000c        0xc xfer.o
+ .reloc         0x00000018       0x24 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueTruncateString.o)
+ .reloc         0x0000003c        0xc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueGetObjectUsable.o)
+ .reloc         0x00000048        0xc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FrmGlueSetHelpID.o)
+ .reloc         0x00000054        0xc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWidthToOffset.o)
+ .reloc         0x00000060       0x24 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtGlueGetHorizEllipsisChar.o)
+ .reloc         0x00000084        0xc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(FntGlueWCharWidth.o)
+ .reloc         0x00000090        0xc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(AccessorGlueEmu68KAccAvail.o)
+ .reloc         0x0000009c        0xc /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(PalmOS4TrapsAvailable.o)
+ .reloc         0x000000a8       0x30 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinTransliterate.o)
+ .reloc         0x000000d8       0x30 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinSetNextChar.o)
+ .reloc         0x00000108       0x30 /PalmDev/sdk-5r4/lib/m68k-palmos-coff/libPalmOSGlue.a(TxtLatinGetNextChar.o)

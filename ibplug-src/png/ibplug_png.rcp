@@ -1,0 +1,72 @@
+// Resource makefile for PNG 
+
+#include "ibplug_pngRsc.h"
+
+// 14x14 Bitmap for the button
+BITMAP ID boogerID_button "button.bmp"
+
+// The little bitmap for the drop-up list
+BITMAP ID boogerID_lilbutton "lilbutton.bmp"
+
+// The application name string - change as needed
+STRING ID boogerID_plugname "PNG"
+
+// The Goto behavior string
+// "a" = always Goto
+// "n" = never Goto
+// "o" = optional
+STRING ID boogerID_gotobehavior "n"
+STRING ID boogerID_completebehavior "n"
+
+// Alert for errors - uncomment if needed
+//ALERT ID alertID_error
+//BEGIN
+//    TITLE "Error"
+//    MESSAGE "^1"
+//    BUTTONS "OK"
+//END
+
+ALERT ID alertID_noFileName
+INFORMATION
+BEGIN
+    TITLE "Error"
+    MESSAGE "You have not supplied a filename."
+    BUTTONS "OK"
+END
+
+ALERT ID alertID_noVFSManager
+ERROR
+BEGIN
+    TITLE "Error"
+    MESSAGE "Your device does not have an expansion slot."
+    BUTTONS "OK"
+END
+
+ALERT ID alertID_noVolume
+ERROR
+BEGIN
+    TITLE "Error"
+    MESSAGE "No suitable expansion card found."
+    BUTTONS "OK"
+END
+
+ALERT ID alertID_fileExists
+ERROR
+BEGIN
+    TITLE "Error"
+    MESSAGE "A file named '^1' already exists.\n\nPlease choose a different name."
+    BUTTONS "OK"
+END
+
+ALERT ID alertID_diskFull
+ERROR
+BEGIN
+    TITLE "Error"
+    MESSAGE "No space left on expansion card."
+    BUTTONS "OK"
+END
+
+// Set by Makefile
+VERSION 1 "1.1"
+
+// EOF
