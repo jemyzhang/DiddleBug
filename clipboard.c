@@ -14,6 +14,9 @@
 #include "debug.h"
 #include "clipboard.h"
 
+/* Sony Clie */
+#include <SonyHRLib.h>
+
 /* Forward declarations for helper functions */
 static void CopySelection(Coord x, Coord y, RectangleType* r) SUTIL3;
 static void AnimateSelectionFinished(RectangleType* r) SUTIL3;
@@ -61,7 +64,10 @@ void DoPaste(Coord x, Coord y) {
   SetDrawingAreaClip(winH);
 
   /* Draw the shape of the clipboard item */
+  if (!d.sonyClie || !d.hires)
     WinPaintBitmap(WinGetBitmap(d.clipboard), x, y);
+  else
+    HRWinPaintBitmap(d.sonyHRRefNum, WinGetBitmap(d.clipboard), x, y);
   
   /* Save point for ClearOldShape */
   d.ox = x;
@@ -150,7 +156,10 @@ void DoCutCopy(Coord x, Coord y) {
 
   /* Draw the shape */
   CutCopyRectangle(x, y, &rect);
+  if (!d.sonyClie || !d.hires)
     WinDrawRectangleFrame(rectangleFrame, &rect);
+  else
+    HRWinDrawRectangleFrame(d.sonyHRRefNum, rectangleFrame, &rect);
   
   /* Save point for ClearOldShape */
   d.ox = x;
@@ -175,7 +184,10 @@ static void AnimateSelectionFinished(RectangleType* r) {
   WinSetForeColor(UIColorGetTableEntryIndex(UIObjectSelectedFill));
   WinSetBackColor(ep.paperColor);
   
+  if (!d.sonyClie || !d.hires)
     WinDrawRectangle(r, 0);
+  else
+    HRWinDrawRectangle(d.sonyHRRefNum, r, 0);
   
   r2.topLeft.x = 0;
   r2.topLeft.y = 0;
@@ -214,11 +226,19 @@ static void CopySelection(Coord x, Coord y, RectangleType* r) {
 
   /* Create the conversion bitmap */
   if (d.hires) {
+    if (!d.sonyClie) {
       d.clipboardBmp = BmpCreate(r->extent.x, r->extent.y, 1, NULL, &err);
       if (err) abort();
       enhancedBmp = BmpCreateBitmapV3(d.clipboardBmp, kDensityDouble, BmpGetBits(d.clipboardBmp), NULL);
       d.clipboard = WinCreateBitmapWindow((BitmapType*) enhancedBmp, &err);
       if (err) abort();
+    } else {
+      d.clipboardBmp = HRBmpCreate(d.sonyHRRefNum, r->extent.x, r->extent.y, 1, NULL, &err);
+      if (err) abort();
+      d.clipboard = HRWinCreateBitmapWindow(d.sonyHRRefNum, d.clipboardBmp, &err);
+      if (err) abort();
+      d.clipboardBmp = NULL; /* Otherwise the bitmap would be deleted twice */
+    }
   } else {
     d.clipboardBmp = BmpCreate(r->extent.x, r->extent.y, 1, NULL, &err);
     if (err) abort();

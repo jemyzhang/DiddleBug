@@ -6,7 +6,7 @@ VERSION=2.90.d.5
 DATE=`date -R`
 APPID = DIDB
 
-INCLUDES = -IPalmOne -IPalmOne/68K/System -IPalmOne/Common/System
+INCLUDES = -IPalmOne -IPalmOne/68K/System -IPalmOne/Common/System -Isony -Isony/Libraries -Isony/System -Iacer -Iacer/Libraries -Iacer/System
 
 STDCFLAGS = -palmos5r4 -Os $(DEFINES) $(INCLUDES) -Wall
 

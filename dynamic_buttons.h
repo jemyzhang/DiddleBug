@@ -33,6 +33,8 @@ typedef struct {
   Boolean center;            /* center button text? */
   BitmapType* bmp;           /* Auxilliary bitmap for OS5 hi-res */
   Boolean hires;             /* Should the content bitmap be hi-res? */
+  Boolean sonyClie;          /* are we running on a Sony Clie? (in hi-res) */
+  UInt16 sonyHRRefNum;       /* References number of Sony hi-res library */
  
   union {
     WinHandle bmpW;	     /* the bitmap for the gadget (wrapped in a window) */
@@ -48,6 +50,7 @@ typedef struct {
 */
 extern DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean full,
 				       Boolean screenDepth, Boolean sonyClie,
+				       UInt16 sonyHRRefNum, Boolean hires,
 				       UInt16 formID, DynBtnType type, 
 				       Int16 text_maxlength,
 				       const RectangleType* rect, Err* error);
@@ -59,6 +62,7 @@ extern DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boo
 */
 extern DynamicButtonType* DynBtnInitGadget(UInt16 id, FrameType f, Boolean gray,
 					   Boolean full, Boolean screenDepth, 
+					   Boolean sonyClie, UInt16 sonyHRRefNum,
 					   Boolean hires, DynBtnType type,
 					   Int16 text_maxlength, Err* err,
 					   FormType* frm, FormGadgetHandlerType handler);

@@ -703,28 +703,32 @@ static void ThumbnailDetailViewInit (FormPtr frm) {
   WinHandle oldH;
 
   for (i = 0; i < recordsPerPage; ++i) {
-    btn = DynBtnInitGadget(Thumb1 + i, rectangleFrame, true, true, false,false, dynBtnGraphical, 0, &err, frm,
+    btn = DynBtnInitGadget(Thumb1 + i, rectangleFrame, true, true, false, d.sonyClie,
+			   d.sonyHRRefNum, false, dynBtnGraphical, 0, &err, frm,
 			   ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
 
-    btn = DynBtnInitGadget(Thumb1Name + i, noFrame, false, true, false,d.hires, dynBtnText, TITLE_MAX_LEN, &err,
+    btn = DynBtnInitGadget(Thumb1Name + i, noFrame, false, true, false, d.sonyClie,
+			   d.sonyHRRefNum, d.hires, dynBtnText, TITLE_MAX_LEN, &err,
 			   frm, ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
     /*     btn->font = stdFont; */
 
     btn = DynBtnInitGadget(Thumb1NameMasked + i, noFrame, false, true, false, 
-			   d.hires,
+			   d.sonyClie, d.sonyHRRefNum, d.hires,
 			   dynBtnGraphical, 0, &err, frm,
 			   ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
     DrawMaskedRecord(btn->content.bmpW, maskPattern);
 
-    btn = DynBtnInitGadget(Thumb1Alarm + i, noFrame, false, true, false, d.hires, dynBtnText, 31, &err, frm,
+    btn = DynBtnInitGadget(Thumb1Alarm + i, noFrame, false, true, false, d.sonyClie,
+			   d.sonyHRRefNum, d.hires, dynBtnText, 31, &err, frm,
 			   ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
     btn->font = stdFont;
 
-    btn = DynBtnInitGadget(Line1 + i, noFrame, false, true, false, d.hires, dynBtnGraphical, 0, &err, frm,
+    btn = DynBtnInitGadget(Line1 + i, noFrame, false, true, false, d.sonyClie,
+			   d.sonyHRRefNum, d.hires, dynBtnGraphical, 0, &err, frm,
 			   ThumbnailLineEvent);
     if (err != errNone) abort();
 

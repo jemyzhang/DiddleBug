@@ -26,6 +26,9 @@ Portions copyright (c) 2000 Palm, Inc. or its subsidiaries.  All rights reserved
 #include "time.h"
 #include "alarm.h"
 
+/* Sony Clie */
+#include <SonyHRLib.h>
+
 /* Handspring/palmOne Treo 600 */
 #include <HsChars.h>
 #include <HsExt.h>
@@ -968,6 +971,9 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
     UInt16 attr;
     
     /* Hardware support... */
+    Boolean sonyClie;
+    UInt16 sonyHRRefNum;            /* References number of Sony hi-res library */
+    Boolean sonyLoadedHRLib;        /* Did we load the hi-res library ourselves? */
     Boolean hires;                  /* Device supports 320 x 320 pixels */
     Boolean treo600;
     UInt32 keyguard;                /* Is the keyguard enabled? */
@@ -1005,19 +1011,28 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
   s->os4 = CheckROMVersion(sysVersion40);
   s->os5 = CheckROMVersion(sysVersion50);
    
-  /* Check for OS5 double density screen */
+  /* Check for OS5 double density screen or Sony Clie hi-res */
   if (s->os5)
     s->hires = CheckForDoubleDensity();
+  else if ((s->sonyClie = CheckForSony(&s->hires)))
+    SetUpSony(&s->sonyHRRefNum, &s->sonyLoadedHRLib);
 
   /* Check for Treo 600 smartphone */
   s->treo600 = CheckForTreo600();
 
   /* Load image */
   if (s->hires) {
+    if (!s->sonyClie) {
       s->bmp = BmpCreate(MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, NULL, &s->err);
       if (s->err) abort();
       s->bmpV3 = BmpCreateBitmapV3(s->bmp, kDensityDouble, BmpGetBits(s->bmp), NULL);
       s->myBmp = (BitmapType*) s->bmpV3;
+    } else {
+      s->bmp = HRBmpCreate(s->sonyHRRefNum, MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, 
+			   NULL, &s->err);
+      if (s->err) abort();
+      s->myBmp = s->bmp;
+    }
   } else {
       s->bmp = BmpCreate(MAX_PIXELS, MAX_PIXELS, 1, NULL, &s->err);
       if (s->err) abort();
@@ -1042,7 +1057,7 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
   
   /* Initialize the clock */
   s->btn = DynBtnInitGadget(AlarmClockGadget, rectangleFrame, false, true, false, 
-			    s->hires, dynBtnText, 
+			    s->sonyClie, s->sonyHRRefNum, s->hires, dynBtnText, 
 			    timeStringLength, &s->err, frm, ClockGadgetEvent);
   if (s->err) abort();
   s->btn->font = boldFont;
@@ -1054,7 +1069,7 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
 
   /* Initialize big OK button */
   s->btn = DynBtnInitGadget(AlarmBigOkButton, noFrame, false, true, false, 
-			    s->hires, dynBtnGraphical, 
+			    s->sonyClie, s->sonyHRRefNum, s->hires, dynBtnGraphical, 
 			    0, &s->err, frm, BigOKGadgetEvent);
   if (s->err) abort();
   s->winH = WinSetDrawWindow(s->btn->content.bmpW);
@@ -1063,8 +1078,12 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
   WinSetForeColor(1); /* otherwise pixels are screwed-up on PalmOS 5 */
 
   if (s->hires) {
+    if (!s->sonyClie) {
       WinSetCoordinateSystem(kCoordinatesNative);
       WinDrawBitmap((BitmapType*) s->bmpV3, 0, 0);
+    } else {
+      HRWinDrawBitmap(s->sonyHRRefNum, s->bmp, 0, 0);
+    }
   } else {
     WinDrawBitmap(s->bmp, 0, 0);
   }
@@ -1116,6 +1135,14 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
 
   FrmDeleteForm (frm);
   FrmSetActiveForm(s->curForm);
+
+  /* Clean up HR library we're running on a Sony */
+  if (s->hires && s->sonyClie) {
+    HRClose(s->sonyHRRefNum);
+
+    if (s->sonyLoadedHRLib)
+      SysLibRemove(s->sonyHRRefNum);
+  }
 
   /* Clean up virtual stack frame */
   MemPtrFree(s);

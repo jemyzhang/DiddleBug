@@ -505,7 +505,8 @@ static void ThumbnailViewInit (FormPtr frm) {
   DynamicButtonType* btn;
 
   for (i = Thumb1; i <= Thumb30; ++i) {
-    btn = DynBtnInitGadget(i, rectangleFrame, true, true, false, false, dynBtnGraphical, 0, &err, frm,
+    btn = DynBtnInitGadget(i, rectangleFrame, true, true, false, d.sonyClie, 
+			   d.sonyHRRefNum, false, dynBtnGraphical, 0, &err, frm,
 			   ThumbnailGadgetEvent);
     if (err != errNone) abort();
   }

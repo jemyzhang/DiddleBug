@@ -19,6 +19,9 @@
 #include "diddlebugRsc.h"
 #include "shape.h"
 
+/* Sony Clie */
+#include <SonyHRLib.h>
+
 /* static functions */
 static Boolean WithinBounds(Coord x, Coord y) SUTIL3;
 static Boolean GetPatternPixel(Coord x, Coord y, 
@@ -118,7 +121,10 @@ void DoShape(Coord x, Coord y) {
   SetDrawingAreaClip(winH);
 
   /* Draw the shape */
+  if (!d.sonyClie || !d.hires)
     WinDrawRectangle(&rect, LoadShapeRect(x, y, &rect));
+  else
+    HRWinDrawRectangle(d.sonyHRRefNum, &rect, LoadShapeRect(x, y, &rect));
   
   /* Save point for ClearOldShape */
   d.ox = x;
@@ -144,8 +150,8 @@ void EndShape(Coord x, Coord y) {
   /* Ensure that the right rectangle is used for hi- and lo-res... */
   const RectangleType* rightR = d.hires ? &d.r_hires : &p.r;
   /* ...and scale spacings for Sony Clie*/
-  const Coord px8 = PixelOffset(8, d.hires);
-  const Coord px16 = PixelOffset(16, d.hires);
+  const Coord px8 = PixelOffset(8, d.hires, d.sonyClie);
+  const Coord px16 = PixelOffset(16, d.hires, d.sonyClie);
   UInt16 corner = LoadShapeRect(x, y, &rect);
   const Coord origx = rect.topLeft.x;
   const Coord origy = rect.topLeft.y;
@@ -162,6 +168,7 @@ void EndShape(Coord x, Coord y) {
   case dbsFillOutlineXOR:
     /* Create the offscreen window to hold rectangle */
     if (d.hires) {
+      if (!d.sonyClie) {
 	bmp1 = BmpCreate(rect.extent.x + px16, rect.extent.y + px16, 1, NULL, &error);
 	if (error) abort();
 	bmpV3 = BmpCreateBitmapV3(bmp1, kDensityDouble, BmpGetBits(bmp1), NULL);
@@ -169,6 +176,13 @@ void EndShape(Coord x, Coord y) {
 	osmh = WinCreateBitmapWindow((BitmapType*)bmpV3, &error);
 	ASSERT(osmh);
 	if (error) abort();
+      } else {
+	bmp1 = HRBmpCreate(d.sonyHRRefNum, rect.extent.x + px16, rect.extent.y + px16, 1, NULL, &error);
+	if (error) abort();
+	osmh = HRWinCreateBitmapWindow(d.sonyHRRefNum, bmp1, &error);
+	ASSERT(osmh);
+	bmp1 = NULL; /* Bitmap should not be deleted twice */
+      }
     } else {
       bmp1 = BmpCreate(rect.extent.x + px16, rect.extent.y + px16, 1, NULL, &error);
       if (error) abort();
@@ -182,12 +196,20 @@ void EndShape(Coord x, Coord y) {
    
     /* Create second off-screen rectangle for pen-shaped shape */
     if (d.hires) {
+      if (!d.sonyClie) {
 	bmp2 = BmpCreate(rect.extent.x + px16, rect.extent.y + px16, 1, NULL, &error);
 	if (error) abort();
 	bmpV3 = BmpCreateBitmapV3(bmp2, kDensityDouble, BmpGetBits(bmp2), NULL);
 	ASSERT(bmpV3);
 	oseh = WinCreateBitmapWindow((BitmapType*)bmpV3, &error);
 	if (error) abort();
+      } else {
+	bmp2 = HRBmpCreate(d.sonyHRRefNum, rect.extent.x + px16, rect.extent.y + px16, 1, NULL, &error);
+	if (error) abort();
+	oseh = HRWinCreateBitmapWindow(d.sonyHRRefNum, bmp2, &error);
+	if (error) abort();
+	bmp2 = NULL; /* Bitmap should not be deleted twice */
+      }
     } else {
       bmp2 = BmpCreate(rect.extent.x + px16, rect.extent.y + px16, 1, NULL, &error);
       if (error) abort();
@@ -328,7 +350,10 @@ void DoLine(Coord x, Coord y) {
   SetDrawingAreaClip(winH);
 
   /* Draw the line */
+  if (!d.sonyClie || !d.hires) 
     WinDrawLine(d.anchor.x, d.anchor.y, x, y);
+  else
+    HRWinDrawLine(d.sonyHRRefNum, d.anchor.x, d.anchor.y, x, y);
 
   /* Save point for ClearOldLine */
   d.ox = x;
@@ -356,7 +381,6 @@ void EndLine(Coord x, Coord y) {
   /* Ensure background pixels off */
   WinSetBackColor(0);
 
-
   /* Draw the lines defined by the pen */
   for (; i < NPENPIX && p.penpix[i] != 0; ++i) {
     dx = dxFromPenpix(p.penpix[i]);
@@ -383,12 +407,21 @@ void EndLine(Coord x, Coord y) {
 ** Check boundaries for flood fill.
 */
 static Boolean WithinBounds(Coord x, Coord y) {
+  if (!d.sonyClie || !d.hires) {
     const Coord max = MAX_PIXELS - 1;
     
     if ((x < 0)||(x > max)||(y < 0)||( y > max))
       return false;
     else
       return WinGetPixel(x, y) == 0;
+  } else {
+    const Coord max = MAX_PIXELS_HIRES - 1;
+    
+    if ((x < 0)||(x > max)||(y < 0)||( y > max))
+      return false;
+    else
+      return HRWinGetPixel(d.sonyHRRefNum, x, y) == 0;
+  }
 }
 
 /*
@@ -444,12 +477,21 @@ static void MarkAndDrawPixel(Coord x, Coord y, const CustomPatternType* pattern,
   ASSERT(pattern);
   ASSERT(bufferH);
 
+  if (!d.sonyClie || !d.hires) {
     WinDrawPixel(x, y);
     if (GetPatternPixel(x, y, pattern)) {
       WinSetDrawWindow(d.realCanvas);
       WinDrawPixel(x, y);
       WinSetDrawWindow(bufferH);
     }
+  } else {
+    HRWinDrawPixel(d.sonyHRRefNum, x, y);
+    if (GetPatternPixel(x, y, pattern)) {
+      WinSetDrawWindow(d.realCanvas);
+      HRWinDrawPixel(d.sonyHRRefNum, x, y);
+      WinSetDrawWindow(bufferH);
+    }
+  }
 }
 
 /*
@@ -513,8 +555,10 @@ void FloodFill(Coord x, Coord y, const CustomPatternType* pattern) {
   
   /* Unscale coordinates */
   if (d.hires) {
+    if (!d.sonyClie) {
       x = WinUnscaleCoord(x, true);
       y = WinUnscaleCoord(y, true);
+    }
 
     /* Switch to lo-res mode - the pattern should be drawn normally */
     SwitchToLoRes();
@@ -522,6 +566,7 @@ void FloodFill(Coord x, Coord y, const CustomPatternType* pattern) {
 
   /* Initialize buffer window */
   if (d.hires) {
+    if (!d.sonyClie) {
       bufferB = BmpCreate(max, max, 1, NULL, &err);
       if (err != errNone) abort();
       bufferBV3 = BmpCreateBitmapV3(bufferB, kCoordinatesDouble, BmpGetBits(bufferB), NULL);
@@ -531,6 +576,15 @@ void FloodFill(Coord x, Coord y, const CustomPatternType* pattern) {
       WinGetDrawWindowBounds(&r);
       WinSetDrawWindow(bufferH);
       WinCopyRectangle(d.realCanvas, NULL, &r, 0, 0, winPaint);
+    } else {
+      bufferB = HRBmpCreate(d.sonyHRRefNum, max, max, 1, NULL, &err);
+      if (err != errNone) abort();
+      bufferH = HRWinCreateBitmapWindow(d.sonyHRRefNum, bufferB, &err);
+      if (err != errNone) abort();
+      HRWinGetWindowBounds(d.sonyHRRefNum, &r);
+      WinSetDrawWindow(bufferH);
+      HRWinCopyRectangle(d.sonyHRRefNum, d.realCanvas, NULL, &r, 0, 0, winPaint);    
+    }
   } else {
     bufferB = BmpCreate(max, max, 1, NULL, &err);
     if (err != errNone) abort();

@@ -40,11 +40,21 @@
 #define NON_PORTABLE
 #include <Core/Hardware/HwrMiscFlags.h>
 #undef NON_PORTABLE
+
+/* Sony Clie */
+#include <SonyHRLib.h>
+#include <SonyHwrOEMIDs.h>
+#include <SonyChars.h>
+#include <SonySystemFtr.h>
+
+/* Acer s50 and S60 */
+#include <AcerHwrOEMIDs.h>
+
 /* palmOne */
 #include "PalmChars.h"
 #include <PalmResources.h>
 
-/* palmOne Treo */
+/* Handspring/palmOne Treo */
 #include <HsExt.h>
 #include <HsKeyCodes.h>
 
@@ -110,6 +120,7 @@ static void UpgradeRecordFormatHiRes(void) SUTIL3;
 static void CreateBitmaps(void) SUTIL1;
 static UInt16 SwitchToHiRes(void) SUTIL2;
 static void UpdateDateTimeStamp(void) SUTIL2;
+static Boolean CheckForAcerS60(void) SUTIL3;
 static Boolean CommandBar(EventPtr e) SUTIL2;
 static Int32 TimeUntilNextTimePeriod(void) SUTIL2;
 static void CloseDatabases(void) SUTIL3;
@@ -123,10 +134,10 @@ static void DoDeviceSetup(void) SUTIL2;
 static Boolean CheckForPalmOne(void) SUTIL3;
 static Boolean UnlockMaskedRecords(void) SUTIL3;
 static Boolean TriggerGadgetEvent(FormGadgetTypeInCallback* gadgetP, 
-				  UInt16 cmd, void* paramP) SUTIL3;
+                  UInt16 cmd, void* paramP) SUTIL3;
 static void TrackTriggerPen(DynamicButtonType* btn, EventType* e) SUTIL3;
 static Boolean CanRectangleBeDrawn(const RectangleType* shapeR,
-				   const RectangleType* drawingAreaR) SUTIL3;
+                   const RectangleType* drawingAreaR) SUTIL3;
 static void CountdownDrawFunc(Int16 item, RectangleType* b, Char** text) SUTIL3;
 static Int16 GetAlarmSelectListWidth(void) SUTIL3;
 static void CountdownStuff(UInt16 listnum, Boolean action, Char* text) SUTIL3;
@@ -143,9 +154,9 @@ extended_pref ep; /* real initialization done by GetExtendedPreferences */
 /* Drop lists */
 static const UInt16 smoothDropList[4] = { cmdRough, cmdSmooth, cmdSmoother, 0 };
 static const UInt16 penDropList[8] =    { penFine, penMedium, penBold, penBroad,
-					  penFineItalic, penMediumItalic, penBroadItalic, 0 };
+                      penFineItalic, penMediumItalic, penBroadItalic, 0 };
 static const UInt16 inkDropList[10] =   { inkWhite, inkDith12, inkDith25, inkDith37, inkDith50,
-					  inkDith62, inkDith75, inkDith87, inkBlack, 0 };
+                      inkDith62, inkDith75, inkDith87, inkBlack, 0 };
 
 /*
 ** Default penpixel set.
@@ -154,24 +165,24 @@ static const UInt8 penpixFine[] =         { 0x88, 0 };
 static const UInt8 penpixMedium[] =       { 0x88, 0x98, 0x89, 0x99, 0 };
 static const UInt8 penpixBold[] =         { 0x77, 0x87, 0x97, 0x78, 0x98, 0x79, 0x89, 0x99, 0 };
 static const UInt8 penpixBroad[] =        { 0x66, 0x76, 0x86, 0x96, 0xA6, 0x67, 0xA7, 0X68,
-					    0xA8, 0x69, 0xA9, 0x6A, 0x7A, 0x8A, 0x9A, 0xAA, 0 };
+                        0xA8, 0x69, 0xA9, 0x6A, 0x7A, 0x8A, 0x9A, 0xAA, 0 };
 static const UInt8 penpixFineItalic[] =   { 0x78, 0x88, 0x87, 0x97, 0 };
 static const UInt8 penpixMediumItalic[] = { 0x69, 0x79, 0x78, 0x78, 0x88, 0x87, 0x97, 0x96, 0xA6, 0 };
 static const UInt8 penpixBroadItalic[] =  { 0x5A, 0x6A, 0x69, 0x79, 0x78, 0x88, 0x87, 0x97, 0x96,
-					    0xA6, 0xA5, 0xB5, 0 };
+                        0xA6, 0xA5, 0xB5, 0 };
 
 static const UInt8 penpixVeryBroad[] =    { 0x44, 0x54, 0x64, 0x74, 0x84, 0x94, 0xA4, 0xB4, 0xC4,
-					    0x45,                                           0xC5,
-					    0x46,                                           0xC6,
-					    0x47,                                           0xC7,
-					    0x48,                                           0xC8,
-					    0x49,                                           0xC9, 
-					    0x4A,                                           0xCA,
-					    0x4B,                                           0xCB,
-					    0x4C, 0x5C, 0x6C, 0x7C, 0x8C, 0x9C, 0xAC, 0xBC, 0xCC,
-					    0 };
+                        0x45,                                           0xC5,
+                        0x46,                                           0xC6,
+                        0x47,                                           0xC7,
+                        0x48,                                           0xC8,
+                        0x49,                                           0xC9, 
+                        0x4A,                                           0xCA,
+                        0x4B,                                           0xCB,
+                        0x4C, 0x5C, 0x6C, 0x7C, 0x8C, 0x9C, 0xAC, 0xBC, 0xCC,
+                        0 };
 static const UInt8 penpixVeryBroadItalic[] = { 0x4B, 0x5B, 0x5A, 0x6A, 0x69, 0x79, 0x78, 0x88, 0x87,
-					       0x97, 0x96, 0xA6, 0xA5, 0xB5, 0xB4, 0xC4, 0 };
+                           0x97, 0x96, 0xA6, 0xA5, 0xB5, 0xB4, 0xC4, 0 };
 
 /*
 ** Default ink pattern set.
@@ -231,12 +242,20 @@ void DatabaseError(DmOpenRef dbR, UInt16 dbI) {
 UInt16 SwitchToHiRes(void) {
   UInt16 oldCoordinateSystem = 0;
 
+  if (!d.sonyClie) {
     oldCoordinateSystem = WinSetCoordinateSystem(kCoordinatesNative);
     
     if (oldCoordinateSystem == kCoordinatesStandard) {
       RctCopyRectangle(&p.r, &d.r_hires);
       WinScaleRectangle(&d.r_hires);
     }
+  } else {
+    RctCopyRectangle(&p.r, &d.r_hires);
+    d.r_hires.topLeft.x *= HiResCoef;
+    d.r_hires.topLeft.y *= HiResCoef;
+    d.r_hires.extent.x *= HiResCoef;
+    d.r_hires.extent.y *= HiResCoef;
+  }
 
   return oldCoordinateSystem;
 }
@@ -245,7 +264,7 @@ UInt16 SwitchToHiRes(void) {
 ** Switch back to standard mode 
 */
 UInt16 SwitchToLoRes(void) {
-  if (d.hires)
+  if (d.hires && !d.sonyClie)
     return WinSetCoordinateSystem(kCoordinatesStandard);
   else
     return 0;
@@ -255,7 +274,7 @@ UInt16 SwitchToLoRes(void) {
 ** Switch back previous mode 
 */
 static UInt16 SwitchToPreviousCoordinates(UInt16 oldCoordinateSystem) {
-  if (d.hires)
+  if (d.hires && !d.sonyClie)
     return WinSetCoordinateSystem(oldCoordinateSystem);
   else
     return 0;
@@ -294,8 +313,8 @@ static UInt16 GetObjectIndexFromPointer(FormPtr frm, void* obj) {
 ** Sort database by sketch title.
 */
 Int16 SortByName(void *rec1, void *rec2, Int16 other,
-		      SortRecordInfoPtr rec1SortInfo, SortRecordInfoPtr rec2SortInfo,
-		      MemHandle appInfoH) {
+              SortRecordInfoPtr rec1SortInfo, SortRecordInfoPtr rec2SortInfo,
+              MemHandle appInfoH) {
   DiddleBugRecordType record1, record2;
   Int16 result = 0;
   const Char* name1 = NULL;
@@ -339,8 +358,8 @@ Int16 SortByName(void *rec1, void *rec2, Int16 other,
 ** Sort database by alarm time.
 */
 Int16 SortByAlarmTime(void *rec1, void *rec2, Int16 other,
-		      SortRecordInfoPtr rec1SortInfo, SortRecordInfoPtr rec2SortInfo,
-		      MemHandle appInfoH) {
+              SortRecordInfoPtr rec1SortInfo, SortRecordInfoPtr rec2SortInfo,
+              MemHandle appInfoH) {
   DiddleBugRecordType record1, record2;
   UInt32 alarm1, alarm2;
   Int16 result = 0;
@@ -386,7 +405,7 @@ void MirrorRealCanvas(void) {
   RectangleType* r = NULL;
 
   if (d.hires) {
-    if (WinGetCoordinateSystem() == kCoordinatesStandard)
+    if (!d.sonyClie && WinGetCoordinateSystem() == kCoordinatesStandard)
       r = &p.r;
     else
       r = &d.r_hires;
@@ -476,9 +495,11 @@ void FlushToBuffer(void) {
     WinSetBackColor(0);
     WinSetForeColor(1);
 
-    if (!d.hires) {
+    if (!d.sonyClie || !d.hires) {
       SwitchToLoRes();
       WinCopyRectangle(d.realCanvas, NULL, &p.r, 0, 0, winPaint);
+    } else {
+      HRWinCopyRectangle(d.sonyHRRefNum, d.realCanvas, NULL, &d.r_hires, 0, 0, winPaint);
     }
 
     WinPopDrawState();
@@ -502,16 +523,21 @@ static void LoadFromBuffer(void) {
   WinSetBackColor(0);
   WinSetForeColor(1);
 
-  if (!d.hires) {
+  if (!d.sonyClie || !d.hires) {
     SwitchToLoRes();
     RctCopyRectangle(&p.r, &tempRect);
     tempRect.topLeft.x = 0;
     tempRect.topLeft.y = 0;
     
     WinCopyRectangle(d.winbufM, d.realCanvas, &tempRect, p.r.topLeft.x,
-		     p.r.topLeft.y, winPaint);
+             p.r.topLeft.y, winPaint);
   } else {
     RctCopyRectangle(&d.r_hires, &tempRect);
+    tempRect.topLeft.x = 0;
+    tempRect.topLeft.y = 0;
+    
+    HRWinCopyRectangle(d.sonyHRRefNum, d.winbufM, d.realCanvas, &tempRect,
+               d.r_hires.topLeft.x, d.r_hires.topLeft.y, winPaint);
   }
 
   /* Clean up */
@@ -531,9 +557,9 @@ static void LoadFromBuffer(void) {
 **                  returns a locked pointer to the current record
 */
 MemPtr CompressSketch(Boolean hires, DmOpenRef dbR, UInt16 dbI,
-		      MemHandle rec_name, MemHandle rec_note,
-		      AlarmSoundInfoType* rec_sound, UInt16* extraLength,
-		      UInt16* size, UInt8* uPtr) {
+              MemHandle rec_name, MemHandle rec_note,
+              AlarmSoundInfoType* rec_sound, UInt16* extraLength,
+              UInt16* size, UInt8* uPtr) {
   UInt8* dataPtr, *headPtr, *buffer, *cuPtr;
   MemHandle t;
   MemPtr ptr;
@@ -571,110 +597,110 @@ MemPtr CompressSketch(Boolean hires, DmOpenRef dbR, UInt16 dbI,
     for (j=0; j < 8; j++) {
       for (k=0; k < bytesPerRow; k++) {
         if (cuPtr[0]) {
-	  /* Set the bit in the thumbnail */
-	  thumbByte = (i*4/thumbnailAdjustment) + (k/8/thumbnailAdjustment);
-	  
-	  if (i % thumbnailAdjustment == 0) {
-	    switch (k/thumbnailAdjustment%8) {
-	    case 0: mask = 0x80; break;
-	    case 1: mask = 0x40; break;
-	    case 2: mask = 0x20; break;
-	    case 3: mask = 0x10; break;
-	    case 4: mask = 0x08; break;
-	    case 5: mask = 0x04; break;
-	    case 6: mask = 0x02; break;
-	    case 7: mask = 0x01; break;
-	    default: mask = 0x00;
-	    }
-	  
-	    buffer[thumbByte] |= mask;
-	  }
+      /* Set the bit in the thumbnail */
+      thumbByte = (i*4/thumbnailAdjustment) + (k/8/thumbnailAdjustment);
+      
+      if (i % thumbnailAdjustment == 0) {
+        switch (k/thumbnailAdjustment%8) {
+        case 0: mask = 0x80; break;
+        case 1: mask = 0x40; break;
+        case 2: mask = 0x20; break;
+        case 3: mask = 0x10; break;
+        case 4: mask = 0x08; break;
+        case 5: mask = 0x04; break;
+        case 6: mask = 0x02; break;
+        case 7: mask = 0x01; break;
+        default: mask = 0x00;
+        }
+      
+        buffer[thumbByte] |= mask;
+      }
 
-	  if (cuPtr[0] == 0xff) {
-	    /* Black */
-	    if (headPtr[0]&0x80) {
-	      if (headPtr[0]&0x40) {
-		/* headPtr is mixed */
-		if (dataPtr[0] == 0xff) {
-		  /* Previous byte was also black */
-		  headPtr[0]--;
-		  headPtr = dataPtr; headPtr[0] = 0x81;
-		}
-		else {
-		  /* Previous byte was not black */
-		  if ((headPtr[0]&0x3f) < 63) {
-		    headPtr[0]++;
-		    dataPtr++; dataPtr[0] = 0xff; (*size)++;
-		  }
-		  else {
-		    headPtr = dataPtr+1; headPtr[0] = 0x80;
-		    (*size)++;
-		  }
-		}
-	      }
-	      else {
-		/* headPtr is black */
-		if ((headPtr[0]&0x3f) < 63) headPtr[0]++;
-		else { headPtr++; headPtr[0] = 0x80; (*size)++; }
-	      }
-	    }
-	    else {
-	      /* headPtr is white, create a new headPtr */
-	      headPtr++; headPtr[0] = 0x80; (*size)++;
-	    }
-	  }
-	  else {
-	    /* Mixed */
-	    if ((headPtr[0]&0xc0) == 0xc0) {
-	      /* Add to the mixture */
-	      if ((headPtr[0]&0x3f) < 63) {
-		headPtr[0]++;
-	      }
-	      else {
-		dataPtr++; headPtr = dataPtr; headPtr[0] = 0xc0;
-		(*size)++;
-	      }
-	      dataPtr++; dataPtr[0] = cuPtr[0]; (*size)++;
-	    }
-	    else {
-	      /* Create new headPtr for mixture */
-	      headPtr++; headPtr[0] = 0xc0; (*size)++;
-	      dataPtr = headPtr+1; dataPtr[0] = cuPtr[0]; (*size)++;
-	    }
-	  }
+      if (cuPtr[0] == 0xff) {
+        /* Black */
+        if (headPtr[0]&0x80) {
+          if (headPtr[0]&0x40) {
+        /* headPtr is mixed */
+        if (dataPtr[0] == 0xff) {
+          /* Previous byte was also black */
+          headPtr[0]--;
+          headPtr = dataPtr; headPtr[0] = 0x81;
         }
         else {
-	  /* White */
-	  if (headPtr[0]&0x80) {
-	    if (headPtr[0]&0x40) {
-	      /* headPtr is mixed */
-	      if (dataPtr[0]) {
-		/* Previous byte was not white */
-		if ((headPtr[0]&0x3f) < 63) {
-		  headPtr[0]++;
-		  dataPtr++; dataPtr[0] = 0x00; (*size)++;
-		}
-		else {
-		  headPtr = dataPtr+1; headPtr[0] = 0x00;
-		  (*size)++;
-		}
-	      }
-	      else {
-		/* Previous byte was also white */
-		headPtr[0]--;
-		headPtr = dataPtr; headPtr[0] = 0x01;
-	      }
-	    }
-	    else {
-	      /* headPtr is black, create a new headPtr */
-	      headPtr++; headPtr[0] = 0x00; (*size)++;
-	    }
-	  }
-	  else {
-	    /* headPtr is white */
-	    if (headPtr[0] < 127) headPtr[0]++;
-	    else { headPtr++; headPtr[0] = 0x00; (*size)++; }
-	  }
+          /* Previous byte was not black */
+          if ((headPtr[0]&0x3f) < 63) {
+            headPtr[0]++;
+            dataPtr++; dataPtr[0] = 0xff; (*size)++;
+          }
+          else {
+            headPtr = dataPtr+1; headPtr[0] = 0x80;
+            (*size)++;
+          }
+        }
+          }
+          else {
+        /* headPtr is black */
+        if ((headPtr[0]&0x3f) < 63) headPtr[0]++;
+        else { headPtr++; headPtr[0] = 0x80; (*size)++; }
+          }
+        }
+        else {
+          /* headPtr is white, create a new headPtr */
+          headPtr++; headPtr[0] = 0x80; (*size)++;
+        }
+      }
+      else {
+        /* Mixed */
+        if ((headPtr[0]&0xc0) == 0xc0) {
+          /* Add to the mixture */
+          if ((headPtr[0]&0x3f) < 63) {
+        headPtr[0]++;
+          }
+          else {
+        dataPtr++; headPtr = dataPtr; headPtr[0] = 0xc0;
+        (*size)++;
+          }
+          dataPtr++; dataPtr[0] = cuPtr[0]; (*size)++;
+        }
+        else {
+          /* Create new headPtr for mixture */
+          headPtr++; headPtr[0] = 0xc0; (*size)++;
+          dataPtr = headPtr+1; dataPtr[0] = cuPtr[0]; (*size)++;
+        }
+      }
+        }
+        else {
+      /* White */
+      if (headPtr[0]&0x80) {
+        if (headPtr[0]&0x40) {
+          /* headPtr is mixed */
+          if (dataPtr[0]) {
+        /* Previous byte was not white */
+        if ((headPtr[0]&0x3f) < 63) {
+          headPtr[0]++;
+          dataPtr++; dataPtr[0] = 0x00; (*size)++;
+        }
+        else {
+          headPtr = dataPtr+1; headPtr[0] = 0x00;
+          (*size)++;
+        }
+          }
+          else {
+        /* Previous byte was also white */
+        headPtr[0]--;
+        headPtr = dataPtr; headPtr[0] = 0x01;
+          }
+        }
+        else {
+          /* headPtr is black, create a new headPtr */
+          headPtr++; headPtr[0] = 0x00; (*size)++;
+        }
+      }
+      else {
+        /* headPtr is white */
+        if (headPtr[0] < 127) headPtr[0]++;
+        else { headPtr++; headPtr[0] = 0x00; (*size)++; }
+      }
         }
         cuPtr++;
       }
@@ -701,7 +727,7 @@ MemPtr CompressSketch(Boolean hires, DmOpenRef dbR, UInt16 dbI,
 
   /* Resize the record */
   t = DmResizeRecord(dbR, dbI,
-		     sketchDataOffset + (*size) + name_len + note_len + sizeof(AlarmSoundInfoType));
+             sketchDataOffset + (*size) + name_len + note_len + sizeof(AlarmSoundInfoType));
   if (!t) {
     MemPtrFree(buffer);
     DatabaseError(dbR, dbI);
@@ -824,8 +850,8 @@ void FlushToDisk(Boolean flushSketchData) {
 
     /* ptr is locked on return */
     ptr = CompressSketch(d.hires, d.dbR, p.dbI, d.record_name, d.record_note,
-			 &d.record_sound, &d.record.extraLength,
-			 &d.record.sketchLength, BmpGetBits(WinGetBitmap(d.winbufM)));
+             &d.record_sound, &d.record.extraLength,
+             &d.record.sketchLength, BmpGetBits(WinGetBitmap(d.winbufM)));
   }
   else {
     ptr = FlushExtraData();
@@ -861,15 +887,15 @@ Boolean UncompressSketch(UInt8* cPtr, UInt8* uPtr, UInt32 size, Boolean hires) {
       ++num_bytes;
 
       if (num_bytes > (maxBytes - j))
-	return false; /* indicate an error to our caller */
+    return false; /* indicate an error to our caller */
 
       if (cPtr[i] & 0x40) {
-	/* Mixed */
-	MemMove(uPtr + j, cPtr + i + 1, num_bytes);
-	i += num_bytes;
+    /* Mixed */
+    MemMove(uPtr + j, cPtr + i + 1, num_bytes);
+    i += num_bytes;
       } else {
-	/* Black */
-	MemSet(uPtr + j, num_bytes, 0xff);
+    /* Black */
+    MemSet(uPtr + j, num_bytes, 0xff);
       }
     } else {
       /* White */
@@ -877,7 +903,7 @@ Boolean UncompressSketch(UInt8* cPtr, UInt8* uPtr, UInt32 size, Boolean hires) {
       ++num_bytes;
 
       if (num_bytes > (maxBytes - j))
-	return false; /* indicate an error to our caller */
+    return false; /* indicate an error to our caller */
 
       MemSet(uPtr + j, num_bytes, 0x00);
     }
@@ -1023,16 +1049,16 @@ void LoadFromDisk(void) {
   } else {
     /* Uncompress to the offscreen window */
     if (!UncompressSketch(sketchPtr, BmpGetBits(WinGetBitmap(d.winbufM)),
-			  d.record.sketchLength - sketchThumbnailSize - 1, d.hires)) {
+              d.record.sketchLength - sketchThumbnailSize - 1, d.hires)) {
       /* An error has occured. Either we get permission to delete */
       /* the current sketch, or we crash now.                     */
       if (FrmAlert(DeleteCorruptedSketchAlert) == 0) {
-	MemHandleUnlock(t);
-	RemoveImage();
-	return;
+    MemHandleUnlock(t);
+    RemoveImage();
+    return;
       } else {
-	MemHandleUnlock(t);
-	ErrThrow(dbErrCorruptedSketch);
+    MemHandleUnlock(t);
+    ErrThrow(dbErrCorruptedSketch);
       }
     }
   }
@@ -1098,7 +1124,8 @@ static void DrawBitmapLabel(UInt16 bitmapID, Int16 x, Int16 y) {
   ASSERT(t);
   bitmapP = MemHandleLock(t);
 
-  WinDrawBitmap(bitmapP, x, y);
+  /* Should draw larger bitmap for HandEra, doesn't work though */
+    WinDrawBitmap(bitmapP, x, y);
 
   MemHandleUnlock(t);
   DmReleaseResource(t);
@@ -1110,7 +1137,7 @@ static void DrawBitmapLabel(UInt16 bitmapID, Int16 x, Int16 y) {
 static void DrawPenLabel(const UInt8 *pen, Coord x, Coord y) {
   UInt16 i = 0;
   UInt16 used = 0;
-  RectangleType rect = { {x, y}, {14, 10} };
+  RectangleType rect = { {x, y}, {handera(14), handera(10)} };
   PointType pts[NPENPIX];
 
   WinEraseRectangle(&rect, 4);
@@ -1120,13 +1147,18 @@ static void DrawPenLabel(const UInt8 *pen, Coord x, Coord y) {
 
   if (d.hires) {
     SwitchToHiRes();
+    if (!d.sonyClie) {
       x = WinScaleCoord(x, true);
       y = WinScaleCoord(y, true);
+    } else {
+      x *= HiResCoef;
+      y *= HiResCoef;
+    }
   }
 
   for (; i < NPENPIX && pen[i] != 0; i += 1) {
-    pts[used].x = x + AdjustSpacing(6) + dxFromPenpix(pen[i]);
-    pts[used].y = y + AdjustSpacing(4) + dyFromPenpix(pen[i]);
+    pts[used].x = x + AdjustSpacing(handera(6)) + dxFromPenpix(pen[i]);
+    pts[used].y = y + AdjustSpacing(handera(4)) + dyFromPenpix(pen[i]);
 
     ++used;
   }
@@ -1134,8 +1166,10 @@ static void DrawPenLabel(const UInt8 *pen, Coord x, Coord y) {
   /* WinPaintPixels uses the current pattern */
   WinSetPatternType(blackPattern);
 
-  if (!d.hires)
+  if (!d.sonyClie || !d.hires)
     WinPaintPixels(used, pts);
+  else
+    HRWinPaintPixels(d.sonyHRRefNum, used, pts);
 
   /* Clean up */
   WinPopDrawState();
@@ -1218,25 +1252,25 @@ void LabelAlarm(void) {
       cdowndays = DateToDays(cdowndate);
 
       if (cdowndays == 0) {
-	if (real_alarm_secs != d.record.snoozeSecs)
-	  SysCopyStringResource(dateStr, CountdownString);
-	else
-	  SysCopyStringResource(dateStr, SnoozeString);
-	StrNCopy(btn->content.text, dateStr, ALARM_STRING_LENGTH);
+    if (real_alarm_secs != d.record.snoozeSecs)
+      SysCopyStringResource(dateStr, CountdownString);
+    else
+      SysCopyStringResource(dateStr, SnoozeString);
+    StrNCopy(btn->content.text, dateStr, ALARM_STRING_LENGTH);
       } else if (cdowndays == 1) {
-	SysCopyStringResource(dateStr, SingleDayString);
-	StrNCopy(btn->content.text, dateStr, ALARM_STRING_LENGTH);
+    SysCopyStringResource(dateStr, SingleDayString);
+    StrNCopy(btn->content.text, dateStr, ALARM_STRING_LENGTH);
       } else {
-	StrIToA(btn->content.text, cdowndays);
-	SysCopyStringResource(dateStr, MultiDayString);
-	StrNCat(btn->content.text, dateStr, ALARM_STRING_LENGTH);
+    StrIToA(btn->content.text, cdowndays);
+    SysCopyStringResource(dateStr, MultiDayString);
+    StrNCat(btn->content.text, dateStr, ALARM_STRING_LENGTH);
       }
 
       StrIToA(dateStr, cdown.hour);
       if (StrLen(dateStr) == 1) {
-	dateStr[2] = nullChr;
-	dateStr[1] = dateStr[0];
-	dateStr[0] = '0';
+    dateStr[2] = nullChr;
+    dateStr[1] = dateStr[0];
+    dateStr[0] = '0';
       }
 
       StrNCat(btn->content.text, dateStr, ALARM_STRING_LENGTH);
@@ -1244,9 +1278,9 @@ void LabelAlarm(void) {
       StrIToA(dateStr, cdown.minute);
 
       if (StrLen(dateStr) == 1) {
-	dateStr[2] = nullChr;
-	dateStr[1] = dateStr[0];
-	dateStr[0] = '0';
+    dateStr[2] = nullChr;
+    dateStr[1] = dateStr[0];
+    dateStr[0] = '0';
       }
 
       StrNCat(btn->content.text, dateStr, ALARM_STRING_LENGTH);
@@ -1254,23 +1288,23 @@ void LabelAlarm(void) {
       StrIToA(dateStr, cdown.second);
 
       if (StrLen(dateStr) == 1) {
-	dateStr[2] = nullChr;
-	dateStr[1] = dateStr[0];
-	dateStr[0] = '0';
+    dateStr[2] = nullChr;
+    dateStr[1] = dateStr[0];
+    dateStr[0] = '0';
       }
 
       StrNCat(btn->content.text, dateStr, ALARM_STRING_LENGTH);
     } else {
       TimSecondsToDateTime(current_secs, &curr);
       if ((curr.day == date.day) && (curr.month == date.month) &&
-	  (curr.year == date.year)) {
-	SysCopyStringResource(btn->content.text, TodayString);
+      (curr.year == date.year)) {
+    SysCopyStringResource(btn->content.text, TodayString);
       } else if (((curr.day+1) == date.day) && (curr.month == date.month) &&
-		 (curr.year == date.year)) {
-	SysCopyStringResource(btn->content.text, TomorrowString);
+         (curr.year == date.year)) {
+    SysCopyStringResource(btn->content.text, TomorrowString);
       } else {
-	GetFormattedDate(&date, dateStr, true);
-	StrNCopy(btn->content.text, dateStr, ALARM_STRING_LENGTH);
+    GetFormattedDate(&date, dateStr, true);
+    StrNCopy(btn->content.text, dateStr, ALARM_STRING_LENGTH);
       }
 
       TimeToAscii(date.hour, date.minute, PrefGetPreference(prefTimeFormat), dateStr);
@@ -1296,7 +1330,7 @@ void LabelAlarm(void) {
 ** Draw current ink label in given window.
 */
 static void DrawInkLabelDynamic(WinHandle w, UInt16 offset_x, UInt16 offset_y,
-				UInt16 round, const CustomPatternType* ink) {
+                UInt16 round, const CustomPatternType* ink) {
   RectangleType r;
   WinHandle oldH = WinSetDrawWindow(w);
 
@@ -1317,7 +1351,7 @@ static void DrawInkLabelDynamic(WinHandle w, UInt16 offset_x, UInt16 offset_y,
 ** Draw current pen label in given window.
 */
 static void DrawPenLabelDynamic(WinHandle w, UInt16 offset_x, UInt16 offset_y,
-				UInt16 round, const UInt8* pen) {
+                UInt16 round, const UInt8* pen) {
   UInt16 i = 0;
   UInt16 used = 0;
   RectangleType r;
@@ -1336,13 +1370,20 @@ static void DrawPenLabelDynamic(WinHandle w, UInt16 offset_x, UInt16 offset_y,
   /* Set up hi-res */
   if (d.hires) {
     SwitchToHiRes();
+    if (!d.sonyClie) {
       offset_x = WinScaleCoord(offset_x, true);
       offset_y = WinScaleCoord(offset_y, true);
       WinScaleRectangle(&r);
+    } else {
+      HRWinGetWindowBounds(d.sonyHRRefNum, &r);
+      offset_x *= HiResCoef;
+      offset_y *= HiResCoef;
+    }
   }
 
-  x = r.topLeft.x;
-  y = r.topLeft.y;
+  /* Scale top left point for HandEra */
+  x = handera(r.topLeft.x);
+  y = handera(r.topLeft.y);
 
   for (i = 0; i < NPENPIX && pen[i] != 0; i += 1) {
     pts[used].x = x + offset_x + AdjustSpacing(6) + dxFromPenpix(pen[i]);
@@ -1354,8 +1395,10 @@ static void DrawPenLabelDynamic(WinHandle w, UInt16 offset_x, UInt16 offset_y,
   /* WinPaintPixels uses the current pattern */
   WinSetPatternType(blackPattern);
 
-  if (!d.hires)
+  if (!d.sonyClie || !d.hires)
     WinPaintPixels(used, pts);
+  else /* Sony Clie in hi-res mode */
+    HRWinPaintPixels(d.sonyHRRefNum, used, pts);
 
   /* Clean up */
   WinPopDrawState();
@@ -1374,11 +1417,15 @@ static void ClearImage(void) {
 
   WinSetBackColor(0);
 
-  if (!d.hires) {
+  if (!d.sonyClie || !d.hires) {
     WinEraseRectangle(&screen_rect, 0);
   } else {
     RectangleType r;
     RctCopyRectangle(&screen_rect, &r);
+    r.extent.x *= HiResCoef;
+    r.extent.y *= HiResCoef;
+
+    HRWinEraseRectangle(d.sonyHRRefNum, &r, 0);
   }
 
   /* Restore old state */
@@ -1403,7 +1450,7 @@ static Boolean SketchIsEmpty(MemHandle sketchHandle) {
 
   /* Take advantage of the fact that all whitespace is 181 bytes */
   return ((record.sketchLength == EmptySketchSize(d.hires)) &&
-	  !(record.flags&RECORD_FLAG_ALARM_SET));
+      !(record.flags&RECORD_FLAG_ALARM_SET));
 }
 
 /*
@@ -1418,7 +1465,7 @@ static void UpdateDateTimeStamp(void) {
 
   MakeDateTimeStamp(TimGetSeconds(), name);
   additionalSize = StrLen(name);
-	    
+        
   t = DmGetRecord(d.dbR, p.dbI);
   if (!t) 
     DatabaseError(d.dbR, p.dbI);
@@ -1436,7 +1483,7 @@ static void UpdateDateTimeStamp(void) {
 
   /* Save the new name (date/time stamp) */
   DmSet(ptr, sketchDataOffset + record.sketchLength, 
-	MinRecordSize(d.hires) + additionalSize - sketchDataOffset - record.sketchLength, 0);
+    MinRecordSize(d.hires) + additionalSize - sketchDataOffset - record.sketchLength, 0);
   DmStrCopy(ptr, sketchDataOffset + record.sketchLength, name);
 
   /* Clean up */
@@ -1465,8 +1512,8 @@ static void NewScratchImage(void) {
     if (SketchIsEmpty(t)) {
       /* Update title before returning */
       if ((! (p.flags & PFLAGS_NEVER_OVERWRITE_TITLE))
-	  && p.flags & PFLAGS_AUTO_DATETIME_STAMP) {
-	UpdateDateTimeStamp();	
+      && p.flags & PFLAGS_AUTO_DATETIME_STAMP) {
+    UpdateDateTimeStamp();  
       }
       return; /* we found a scratch image */
     }
@@ -1479,12 +1526,12 @@ static void NewScratchImage(void) {
       t = DmQueryRecord(d.dbR, p.dbI);
 
       if (SketchIsEmpty(t)) {
-	/* Update title before returning */
-	if ((! (p.flags & PFLAGS_NEVER_OVERWRITE_TITLE))
-	    && p.flags & PFLAGS_AUTO_DATETIME_STAMP) {
-	  UpdateDateTimeStamp();	
-	}
-	return; /* we found a scratch image */
+    /* Update title before returning */
+    if ((! (p.flags & PFLAGS_NEVER_OVERWRITE_TITLE))
+        && p.flags & PFLAGS_AUTO_DATETIME_STAMP) {
+      UpdateDateTimeStamp();    
+    }
+    return; /* we found a scratch image */
       }
     }
   }
@@ -1512,11 +1559,15 @@ static void FillImage(void) {
   WinSetBackColor(0);
   WinSetPattern((const CustomPatternType*) &p.inkpat);
   
-  if (!d.hires) {
+  if (!d.sonyClie || !d.hires) {
     WinFillRectangle(&screen_rect, 0);
   } else {
     RectangleType r;
     RctCopyRectangle(&screen_rect, &r);
+    r.extent.x *= HiResCoef;
+    r.extent.y *= HiResCoef;
+
+    HRWinFillRectangle(d.sonyHRRefNum, &r, 0);  
   }
 
   /* Restore old state */
@@ -1535,11 +1586,15 @@ static void InvertImage(void) {
   FlushToBuffer();
   WinSetDrawWindow(d.winbufM);
 
-  if (!d.hires) {
+  if (!d.sonyClie || !d.hires) {
     WinInvertRectangle(&screen_rect, 0);
   } else {
     RectangleType r;
     RctCopyRectangle(&screen_rect, &r);
+    r.extent.x *= HiResCoef;
+    r.extent.y *= HiResCoef;
+
+    HRWinInvertRectangle(d.sonyHRRefNum, &r, 0);
   }
 
   WinSetDrawWindow(d.winM);
@@ -1793,8 +1848,8 @@ static void DoTextPopup(void) {
       StrNCopy(d.InsertionText, str, 31);
       /* Signal the new mode for the Pen Handler */
       if (StrLen(d.InsertionText) > 0) {
-	d.drawmode = dbModeText;
-	d.last_insert = d.drawmode;
+    d.drawmode = dbModeText;
+    d.last_insert = d.drawmode;
       }
       d.txt_oldfont = FntSetFont(p.txt_font);
     }
@@ -1876,17 +1931,17 @@ static Boolean ShapeGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd, v
     {
       EventType* e = (EventType*) paramP;
       if (e->eType == frmGadgetEnterEvent) {
-	if (DynBtnTrackPen(btn)) {
-	  /* Handle the selection */
-	  DialogButtonDrop(btn->id);
+    if (DynBtnTrackPen(btn)) {
+      /* Handle the selection */
+      DialogButtonDrop(btn->id);
 
-	  if (btn->id == InkButton)
-	    DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 0, d.inkList[d.tmp_ink]);
-	  else
-	    DrawPenLabelDynamic(btn->content.bmpW, 1, 2, 0, d.penpixList[d.tmp_pen]);
+      if (btn->id == InkButton)
+        DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 0, d.inkList[d.tmp_ink]);
+      else
+        DrawPenLabelDynamic(btn->content.bmpW, 1, 2, 0, d.penpixList[d.tmp_pen]);
 
-	  DynBtnDraw(btn);
-	}
+      DynBtnDraw(btn);
+    }
       }
 
       handled = true;
@@ -1926,14 +1981,16 @@ static void DoShapePopup(void) {
 
   /* Initialize gadgets */
   /* Setup PenButton    */
-  btn = DynBtnInitGadget(PenButton, rectangleFrame, true, true, false, d.hires, dynBtnGraphical, 0, &err, frm, 
-			 ShapeGadgetEvent);
+  btn = DynBtnInitGadget(PenButton, rectangleFrame, true, true, false, d.sonyClie,
+             d.sonyHRRefNum, d.hires, dynBtnGraphical, 0, &err, frm, 
+             ShapeGadgetEvent);
   if (err) abort();
   DrawPenLabelDynamic(btn->content.bmpW, 1, 2, 0, d.penpixList[d.tmp_pen]);
 
   /* Setup InkButton */
-  btn = DynBtnInitGadget(InkButton, rectangleFrame, true, true, false,d.hires, dynBtnGraphical, 0, &err, frm, 
-			 ShapeGadgetEvent);
+  btn = DynBtnInitGadget(InkButton, rectangleFrame, true, true, false, d.sonyClie,
+             d.sonyHRRefNum, d.hires, dynBtnGraphical, 0, &err, frm, 
+             ShapeGadgetEvent);
   if (err) abort();
   DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 0, d.inkList[d.tmp_ink]);
 
@@ -2075,13 +2132,13 @@ static void LoadInkNoUpdate(Int16 selection) {
       ib = p.inkpat[id = i/8] & (im = 1<<(i%8));
       jb = p.inkpat[jd = j/8] & (jm = 1<<(j%8));
       if (ib)
-	p.inkpat[jd] |= jm;
+    p.inkpat[jd] |= jm;
       else
-	p.inkpat[jd] &= ~jm;
+    p.inkpat[jd] &= ~jm;
       if (jb)
-	p.inkpat[id] |= im;
+    p.inkpat[id] |= im;
       else
-	p.inkpat[id] &= ~im;
+    p.inkpat[id] &= ~im;
     }
   }
 
@@ -2245,7 +2302,7 @@ void DoCmdRemove(void) {
       RemoveImage();
   } else if (p.flags&PFLAGS_CONFIRM_DELETE) {
     if (SketchIsEmpty(DmQueryRecord(d.dbR, p.dbI)) ||
-	(FrmAlert(ConfirmDeleteForm) == 0)) {
+    (FrmAlert(ConfirmDeleteForm) == 0)) {
       p.dbI = oldDbI; /* Mysteriously p.dbI gets overwritten during FrmAlert when called from ThumbnailDetailForm */
       RemoveImage();
     } else {
@@ -2363,12 +2420,12 @@ static void ChangeIndexInCategory(UInt16 amount, Boolean forward) {
 
   for (i = 0; i < amount; ++i) {
     err = DmSeekRecordInCategory(d.dbR, &idx, 1,
-				 forward ? dmSeekForward : dmSeekBackward, p.category);
+                 forward ? dmSeekForward : dmSeekBackward, p.category);
 
     if (err == dmErrSeekFailed) {
       idx = forward ? 0 : n;
       err = DmSeekRecordInCategory(d.dbR, &idx, 0,
-				   forward ? dmSeekForward : dmSeekBackward, p.category);
+                   forward ? dmSeekForward : dmSeekBackward, p.category);
     }
 
     if (err == errNone)
@@ -2401,7 +2458,7 @@ void DoCmdSecurity(void) {
     d.records_in_cat = DmNumRecordsInCategory(d.dbR, p.category);
 
     if (FrmGetActiveFormID() == DiddleTForm
-	&& (!d.record_private || d.privateRecordStatus != hidePrivateRecords)) {
+    && (!d.record_private || d.privateRecordStatus != hidePrivateRecords)) {
       UpdatePageButton();
     }
   }
@@ -2429,35 +2486,43 @@ void ResetDrawingAreaRectangle(Boolean withTitle, Boolean withToolbar) {
   if (withToolbar) {
     if (withTitle) {
       RctSetRectangle(&p.r,
-		      screen_above_bar_rect.topLeft.x,
-		      screen_above_bar_rect.topLeft.y + title_bar_rect.extent.y,
-		      screen_above_bar_rect.extent.x,
-		      screen_above_bar_rect.extent.y - title_bar_rect.extent.y);
+              screen_above_bar_rect.topLeft.x,
+              screen_above_bar_rect.topLeft.y + title_bar_rect.extent.y,
+              screen_above_bar_rect.extent.x,
+              screen_above_bar_rect.extent.y - title_bar_rect.extent.y);
     } else {
       RctCopyRectangle(&screen_above_bar_rect, &p.r);
     }
   } else {
     if (withTitle) {
       RctSetRectangle(&p.r,
-		      screen_above_bar_rect.topLeft.x,
-		      screen_above_bar_rect.topLeft.y + title_bar_rect.extent.y,
-		      screen_above_bar_rect.extent.x,
-		      screen_above_bar_rect.extent.y - title_bar_rect.extent.y + bottom_bar_rect.extent.y);
+              screen_above_bar_rect.topLeft.x,
+              screen_above_bar_rect.topLeft.y + title_bar_rect.extent.y,
+              screen_above_bar_rect.extent.x,
+              screen_above_bar_rect.extent.y - title_bar_rect.extent.y + bottom_bar_rect.extent.y);
     } else {
       RctSetRectangle(&p.r,
-		      screen_above_bar_rect.topLeft.x,
-		      screen_above_bar_rect.topLeft.y,
-		      screen_above_bar_rect.extent.x,
-		      screen_above_bar_rect.extent.y + bottom_bar_rect.extent.y);
+              screen_above_bar_rect.topLeft.x,
+              screen_above_bar_rect.topLeft.y,
+              screen_above_bar_rect.extent.x,
+              screen_above_bar_rect.extent.y + bottom_bar_rect.extent.y);
     }
   }
 
   /* Update hi-res rectangle */
   if (d.hires) {
+    if (!d.sonyClie) {
       if (WinGetCoordinateSystem() != kCoordinatesStandard) {
-	RctCopyRectangle(&p.r, &d.r_hires);
-	WinScaleRectangle(&d.r_hires);
+    RctCopyRectangle(&p.r, &d.r_hires);
+    WinScaleRectangle(&d.r_hires);
       }
+    } else {
+      RctCopyRectangle(&p.r, &d.r_hires);
+      d.r_hires.extent.x *= HiResCoef;
+      d.r_hires.extent.y *= HiResCoef;
+      d.r_hires.topLeft.x *= HiResCoef;
+      d.r_hires.topLeft.y *= HiResCoef;
+    }
   }
 }
 
@@ -2626,19 +2691,19 @@ Boolean KeyDown(UInt16 chr) {
 
       switch(p.formID) {
       case DiddleListForm:
-	id = DiddleListHelpString;
-	break;
+    id = DiddleListHelpString;
+    break;
 
       case DiddleThumbnailForm:
-	id = DiddleThumbnailHelpString;
-	break;
+    id = DiddleThumbnailHelpString;
+    break;
 
       case DiddleThumbnailDetailForm:
-	id = DiddleThumbnailDetailHelpString;
-	break;
+    id = DiddleThumbnailDetailHelpString;
+    break;
 
       default:
-	id = DiddleBugHelpString;
+    id = DiddleBugHelpString;
       }
 
       FrmHelp(id);
@@ -2708,7 +2773,7 @@ Boolean KeyDown(UInt16 chr) {
     if (recordIsDirty) {
       LockAsk();
       if (!recordIsLocked && (!(p.flags&PFLAGS_CONFIRM_CLEAR) || !FrmAlert(ConfirmUndoForm)))
-	LoadFromBuffer();
+    LoadFromBuffer();
     }
     else
       FlashWaitMessage(NoUndoString);
@@ -2749,19 +2814,19 @@ Boolean KeyDown(UInt16 chr) {
 
       switch (d.drawmode) {
       case dbModeShape:
-	/* temporary load selected pen/shape and store old values */
-	d.tmp_pen = p.penSelection;
-	LoadPen(p.shape_pen);
-	d.tmp_ink = p.inkSelection;
-	LoadInk(p.shape_ink);
-	break;
+    /* temporary load selected pen/shape and store old values */
+    d.tmp_pen = p.penSelection;
+    LoadPen(p.shape_pen);
+    d.tmp_ink = p.inkSelection;
+    LoadInk(p.shape_ink);
+    break;
 
       case dbModeText:
-	d.txt_oldfont = FntSetFont(p.txt_font);
-	break;
+    d.txt_oldfont = FntSetFont(p.txt_font);
+    break;
 
       default:
-	/* nothing */
+    /* nothing */
       }
 
       SndPlaySystemSound(sndClick);
@@ -2822,7 +2887,7 @@ Boolean KeyDown(UInt16 chr) {
 
   case cmdRemove:
     if (!d.record_private || d.privateRecordStatus == showPrivateRecords ||
-	d.unmaskedCurrentRecord || UnlockMaskedRecords())
+    d.unmaskedCurrentRecord || UnlockMaskedRecords())
       DoCmdRemove();
     res = true;
     break;
@@ -2909,8 +2974,8 @@ static void BDropDrawFunc(Int16 item, RectangleType* b, Char** text) {
   else if (d.dropList.type == DROPLIST_TYPE_INK)
     DrawInkLabel(d.inkList[item], b->topLeft.x, b->topLeft.y+1);
 
-  /* Draw the text label on correct pos */
-  WinDrawChars(text[item], StrLen(text[item]), b->topLeft.x + 17, b->topLeft.y);
+  /* Draw the text label on correct pos (* 1.5 for HandEra) */
+  WinDrawChars(text[item], StrLen(text[item]), b->topLeft.x + handera(17), b->topLeft.y);
 }
 
 /*
@@ -3034,13 +3099,13 @@ static void DialogButtonDrop(UInt16 ctlID) {
   list_selection = LstPopupList(list);
   if (list_selection != -1) {
     switch (droplist[list_selection]) {
-    case penFine:		d.tmp_pen=dbPenFine; break;
-    case penMedium:		d.tmp_pen=dbPenMedium; break;
-    case penBold: 		d.tmp_pen=dbPenBold; break;
-    case penBroad:		d.tmp_pen=dbPenBroad; break;
-    case penFineItalic:		d.tmp_pen=dbPenFineItalic; break;
-    case penMediumItalic:	d.tmp_pen=dbPenMediumItalic; break;
-    case penBroadItalic:	d.tmp_pen=dbPenBroadItalic; break;
+    case penFine:       d.tmp_pen=dbPenFine; break;
+    case penMedium:     d.tmp_pen=dbPenMedium; break;
+    case penBold:       d.tmp_pen=dbPenBold; break;
+    case penBroad:      d.tmp_pen=dbPenBroad; break;
+    case penFineItalic:     d.tmp_pen=dbPenFineItalic; break;
+    case penMediumItalic:   d.tmp_pen=dbPenMediumItalic; break;
+    case penBroadItalic:    d.tmp_pen=dbPenBroadItalic; break;
 
     case inkWhite:  d.tmp_ink=dbInkWhite; break;
     case inkDith12: d.tmp_ink=dbInk1_8; break;
@@ -3076,8 +3141,11 @@ void MirrorPartialRealCanvas(const RectangleType* r, Boolean clip) {
   if (clip)
     SetDrawingAreaClip(d.winM);
 
-  if (!d.hires)
+  if (!d.sonyClie || !d.hires)
     WinCopyRectangle(d.realCanvas, d.winM, r, r->topLeft.x, r->topLeft.y, winPaint);
+  else
+    HRWinCopyRectangle(d.sonyHRRefNum, d.realCanvas, d.winM, (RectangleType*) r,
+               r->topLeft.x, r->topLeft.y, winPaint);
 
   /* Clean up */
   WinSetBackColor(oldBackColor);
@@ -3152,8 +3220,10 @@ static void DiddlePenEvent(Coord nx, Coord ny) {
   }
   
   /* Do the actual drawing */
-  if (!d.hires) 
+  if (!d.sonyClie || !d.hires) 
     WinPaintLines(used, lines);
+  else 
+    HRWinPaintLines(d.sonyHRRefNum, used, lines);
   
   /* Show the "pen" while in eraser mode */
   if (p.modeSelection == dbmSelectionErase) {
@@ -3161,8 +3231,10 @@ static void DiddlePenEvent(Coord nx, Coord ny) {
     WinSetForeColor(UIColorGetTableEntryIndex(UIObjectSelectedFill));
     WinSetPatternType(blackPattern);
 
-    if (!d.hires) 
+    if (!d.sonyClie || !d.hires) 
       WinPaintLines(used, lines);
+    else 
+      HRWinPaintLines(d.sonyHRRefNum, used, lines);
     WinSetDrawWindow(d.realCanvas);
   }
 
@@ -3257,9 +3329,9 @@ static void CountdownStuff(UInt16 listnum, Boolean action, Char* text) {
       d.record.repeatInfo.repeatOn = 0;
 
       if (recordIsAlarmSet) {
-	recordUnsetAlarm();
-	FlushToDisk(false);
-	RescheduleAlarms(d.dbR);
+    recordUnsetAlarm();
+    FlushToDisk(false);
+    RescheduleAlarms(d.dbR);
       }
       /*       recordUnsetAlarm(); */
       LabelAlarm();
@@ -3517,7 +3589,7 @@ Boolean BitmapGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd, void* p
 ** Copies an icon/bitmap resource of a given application into the window.
 */
 void CopyAppBitmapToWindow(UInt32 creator, DmResType resType, DmResID resID,
-			   WinHandle win, Coord x, Coord y) {
+               WinHandle win, Coord x, Coord y) {
   BitmapType* bmp;
   MemHandle h;
   WinHandle oldH;
@@ -3528,7 +3600,7 @@ void CopyAppBitmapToWindow(UInt32 creator, DmResType resType, DmResID resID,
     WinSetDrawWindow(WinGetDisplayWindow());
 
   WinPushDrawState();
-  if (d.hires)
+  if (d.hires && !d.sonyClie)
     SwitchToHiRes();
 
   db = DmOpenDatabaseByTypeCreator(sysFileTApplication, creator, dmModeReadOnly);
@@ -3614,8 +3686,9 @@ void SetupSignalList(FormType* frm, UInt32 signalList, UInt32 signalPop, Int32 s
 ** Set up signal dialog - also used for Alarm Preferences form
 */
 void SetupSignalDialog(FormType* frm, Boolean led, Boolean vibrate,
-		       Int32 signal) {
+               Int32 signal) {
   UInt32 capabilities;
+  UInt32 sonyDeviceID = 0x0000;
   Boolean hasLED = false;
   Boolean hasVibrate = false;
 
@@ -3625,6 +3698,22 @@ void SetupSignalDialog(FormType* frm, Boolean led, Boolean vibrate,
   FtrGet(kAttnFtrCreator, kAttnFtrCapabilities, &capabilities);
   hasVibrate = capabilities & kAttnFlagsHasVibrate ? true : false;
   hasLED = capabilities & kAttnFlagsHasLED ? true : false;
+
+  /* Special handling for Sony Clie */
+  if (d.sonyClie) {
+    FtrGet(sysFtrCreator, sysFtrNumOEMHALID, &sonyDeviceID);
+    
+    switch (sonyDeviceID) {
+    case sonyHwrOEMDeviceIDVenice:
+    case sonyHwrOEMDeviceIDModena:
+    case sonyHwrOEMHALIDNaples:
+      hasVibrate = true;
+      hasLED = true;
+      break;
+    default:
+      /* nothing */
+    }
+  }
 
   /* Special handling for Treo 600 */
   if (d.treo600) {
@@ -3675,7 +3764,7 @@ void DoNoteDialog(UInt16 select_start, UInt16 select_length) {
   /* Execute dialog & save results*/
   FrmDoDialog(frm);
   p.dbI = oldDbI; /* Workaround for mysterious change in p.dbI when called from
-		     ThumbnailDetailView */
+             ThumbnailDetailView */
   FlushToDisk(false);
 
   /* Clean up */
@@ -3697,7 +3786,7 @@ void SwitchCategoryForGoto(void) {
       ChangeCategory(dmAllCategories);
 
       if (frm && FrmGetFormId(frm) == DiddleTForm)
-	CtlSetGraphics(GetObjectPointer(frm, CategoryButton), AllCategoriesBitmap, NULL);
+    CtlSetGraphics(GetObjectPointer(frm, CategoryButton), AllCategoriesBitmap, NULL);
     }
   }
 }
@@ -3705,7 +3794,7 @@ void SwitchCategoryForGoto(void) {
 ** Can the shape/line/text be drawn wholly inside the current drawing area?
 */
 static Boolean CanRectangleBeDrawn(const RectangleType* shapeR,
-				   const RectangleType* drawingAreaR) {
+                   const RectangleType* drawingAreaR) {
   RectangleType r;
 
   RctGetIntersection(shapeR, drawingAreaR, &r);
@@ -3721,7 +3810,7 @@ static Boolean CanRectangleBeDrawn(const RectangleType* shapeR,
 void SetDrawingAreaClip(WinHandle h) {
   WinHandle oldH = WinSetDrawWindow(h);
 
-  if (!d.hires) {
+  if (!d.sonyClie || !d.hires) {
     if (!d.hires || WinGetCoordinateSystem() == kCoordinatesStandard)
       WinSetClip(&p.r);
     else
@@ -3769,8 +3858,13 @@ static Boolean DoPenDown(EventPtr e) {
   /* Set up hi-res mode */
   if (d.hires) {
     oldCoords = SwitchToHiRes();
+    if (!d.sonyClie) {
       e->screenX = WinScaleCoord(e->screenX, false);
       e->screenY = WinScaleCoord(e->screenY, false);
+    } else {
+      e->screenX *= HiResCoef;
+      e->screenY *= HiResCoef;
+    }
     
     r = &d.r_hires;
   } else {
@@ -3785,9 +3879,16 @@ static Boolean DoPenDown(EventPtr e) {
     DoStroke(e->screenX, e->screenY);
 
     do {
-      if (d.hires) {
-	EvtGetPenNative(drawWindow, &x, &y, &penDown);
-      } 
+      if (d.hires && !d.sonyClie && !d.acer) {
+    EvtGetPenNative(drawWindow, &x, &y, &penDown);
+      } else {
+    EvtGetPen(&x, &y, &penDown);
+
+    if ((d.sonyClie || d.acer) && d.hires) {
+      x *= HiResCoef;
+      y *= HiResCoef;
+    }
+      }
 
       if ((x == d.ox) && (y == d.oy)) continue;
       
@@ -3880,23 +3981,30 @@ static Boolean DoPenDown(EventPtr e) {
     if (CanRectangleBeDrawn(&shapeR, r))
       (*do_func)(e->screenX, e->screenY);
 
-    if (d.hires )
+    if (d.hires && !d.sonyClie)
       oldCoords = WinSetCoordinateSystem(kCoordinatesNative);
 
     do {
-      if (d.hires) {
-	EvtGetPenNative(drawWindow, &x, &y, &penDown);
+      if (d.hires && !d.sonyClie && !d.acer) {
+    EvtGetPenNative(drawWindow, &x, &y, &penDown);
+      } else {
+    EvtGetPen(&x, &y, &penDown);
+
+    if ((d.sonyClie || d.acer) && d.hires) {
+      x *= HiResCoef;
+      y *= HiResCoef;
+    }
       }
  
       if ((x == d.ox) && (y == d.oy))
-	continue;
+    continue;
 
       (*rec_func)(d.ox, d.oy, &shapeR);
       if (CanRectangleBeDrawn(&shapeR, r))
-	(*clear_func)();
+    (*clear_func)();
       (*rec_func)(x, y, &shapeR);
       if (CanRectangleBeDrawn(&shapeR, r))
-	(*do_func)(x, y);
+    (*do_func)(x, y);
     } while (penDown && CanRectangleBeDrawn(&shapeR, r));
     
     (*rec_func)(d.ox, d.oy, &shapeR);
@@ -3910,7 +4018,7 @@ static Boolean DoPenDown(EventPtr e) {
       d.undo_mark = true;
     } else {
       if (d.drawmode == dbModeText) 
-	FntSetFont(d.txt_oldfont);
+    FntSetFont(d.txt_oldfont);
       SwitchToDoodleMode();
     }
 
@@ -4029,7 +4137,7 @@ static Boolean DoPageList(void) {
     } else {
       template = DmGetResource(strRsc, UntitledNoteTitleString);
       choices[i] = TxtParamString(MemHandleLock(template),
-				  StrIToA(num_str1, i + 1), StrIToA(num_str2, d.records_in_cat), NULL, NULL);
+                  StrIToA(num_str1, i + 1), StrIToA(num_str2, d.records_in_cat), NULL, NULL);
       ASSERT(choices[i]);
       len = StrLen(choices[i]) + 1;
       MemHandleUnlock(template);
@@ -4065,7 +4173,7 @@ static Boolean DoPageList(void) {
     ErrCatch(inErr) {
       /* Clean up */
       for (i = 0; i < d.records_in_cat; ++i)
-	MemPtrFree(choices[i]);
+    MemPtrFree(choices[i]);
       MemPtrFree(choices);
       MemPtrFree(d.pos_to_index);
       d.pos_to_index = NULL;
@@ -4115,17 +4223,17 @@ static Boolean GadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd, void* 
     {
       EventType* e = (EventType*) paramP;
       if (e->eType == frmGadgetEnterEvent) {
-	if (DynBtnTrackPen(btn)) {
-	  /* Handle the selection */
-	  ButtonDrop(btn->id);
+    if (DynBtnTrackPen(btn)) {
+      /* Handle the selection */
+      ButtonDrop(btn->id);
 
-	  if (btn->id == InkButton)
-	    DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 4, (const CustomPatternType*) &p.inkpat);
-	  else
-	    DrawPenLabelDynamic(btn->content.bmpW, 0, 0, 4, p.penpix);
+      if (btn->id == InkButton)
+        DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 4, (const CustomPatternType*) &p.inkpat);
+      else
+        DrawPenLabelDynamic(btn->content.bmpW, 0, 0, 4, p.penpix);
 
-	  DynBtnDraw(btn);
-	}
+      DynBtnDraw(btn);
+    }
       }
 
       handled = true;
@@ -4217,7 +4325,7 @@ static void TrackTriggerPen(DynamicButtonType* btn, EventType* e) {
 
     /* Drag text if in drawing area */
     if (y < btn->frameRect.topLeft.y && !recordIsLocked
-	&& !(d.record_private && d.privateRecordStatus == maskPrivateRecords)) {
+    && !(d.record_private && d.privateRecordStatus == maskPrivateRecords)) {
       EventType eDate;
       Int16 old_drawmode;
 
@@ -4246,16 +4354,16 @@ static void TrackTriggerPen(DynamicButtonType* btn, EventType* e) {
       KeyDown(cmdTransfer);
     } else if (x > right_limit) {
       if (recordIsLocked && recordIsAlarmSet) {
-	LockAsk();
+    LockAsk();
       } else {
-	recordUnsetCountdown();
-	FrmGotoForm(TimeForm);
+    recordUnsetCountdown();
+    FrmGotoForm(TimeForm);
       }
     } else if (RctPtInRectangle(x, y, &btn->frameRect)) {
       if (recordIsLocked && recordIsAlarmSet)
-	LockAsk();
+    LockAsk();
       else
-	DoDateSelect(x);
+    DoDateSelect(x);
     }
   }
 }
@@ -4290,10 +4398,10 @@ static Boolean TriggerGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd,
     EventType* e = (EventType*) paramP;
     if (e->eType == frmGadgetEnterEvent) {
       if (!d.record_private || d.privateRecordStatus == showPrivateRecords ||
-	  d.unmaskedCurrentRecord)
-	TrackTriggerPen(btn, e);
+      d.unmaskedCurrentRecord)
+    TrackTriggerPen(btn, e);
       else
-	UnlockMaskedRecords();
+    UnlockMaskedRecords();
     }
     
     handled = true;
@@ -4317,8 +4425,9 @@ void DoAboutDialog(void) {
     FlushToDisk(true);
   }
   frm = FrmInitForm(AboutForm);
-  btn = DynBtnInitGadget(AboutBitmapGadget, noFrame, false, true, true, d.hires, dynBtnGraphical, 0, &err, frm,
-			 BitmapGadgetEvent);
+  btn = DynBtnInitGadget(AboutBitmapGadget, noFrame, false, true, true, d.sonyClie,
+             d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnGraphical, 0, &err, frm,
+             BitmapGadgetEvent);
   if (err) abort();
   CopyAppBitmapToWindow(AppType, iconType, 1000, btn->content.bmpW, 0, 0);
 
@@ -4335,7 +4444,7 @@ void SwitchCategory(UInt16 old_cat, FormType* frm) {
   
   PRINT("Switching from category %hd, d.records_in_cat = %hd", old_cat, d.records_in_cat);
   PRINT("to category %hd, p.dbI = %hd, d.record_in_cat = %hd, total # records = %hd",
-	p.category, p.dbI, DmNumRecordsInCategory(d.dbR, p.category), DmNumRecords(d.dbR));
+    p.category, p.dbI, DmNumRecordsInCategory(d.dbR, p.category), DmNumRecords(d.dbR));
 
   /* update cached values */
   d.records_in_cat = DmNumRecordsInCategory(d.dbR, p.category);
@@ -4347,7 +4456,7 @@ void SwitchCategory(UInt16 old_cat, FormType* frm) {
 
     /* Delete active empty sketch */
     if (old_cat != p.category && old_cat != dmAllCategories
-	&& SketchIsEmpty(DmQueryRecord(d.dbR, p.dbI)))
+    && SketchIsEmpty(DmQueryRecord(d.dbR, p.dbI)))
       RemoveImage();
 
     if (p.category == dmAllCategories) {
@@ -4357,10 +4466,10 @@ void SwitchCategory(UInt16 old_cat, FormType* frm) {
       
       /* switch to a record within the category */
       if (DmSeekRecordInCategory(d.dbR, &idx, 0, dmSeekBackward, p.category) == errNone
-	  || DmSeekRecordInCategory(d.dbR, &idx, 0, dmSeekForward, p.category) == errNone)
-	p.dbI = idx;
+      || DmSeekRecordInCategory(d.dbR, &idx, 0, dmSeekForward, p.category) == errNone)
+    p.dbI = idx;
       else
-	AllocImage();
+    AllocImage();
       
       LoadFromDisk();
     }
@@ -4370,7 +4479,7 @@ void SwitchCategory(UInt16 old_cat, FormType* frm) {
   }
 
   PRINT("Switched to category %hd, p.dbI = %hd, d.records_in_cat = %hd, total # records = %hd",
-	p.category, p.dbI, d.records_in_cat, DmNumRecords(d.dbR));
+    p.category, p.dbI, d.records_in_cat, DmNumRecords(d.dbR));
   
   if (FrmGetFormId(frm) == DiddleTForm) {
     CtlSetGraphics(GetObjectPointer(frm, CategoryButton), bmpID, NULL);
@@ -4395,9 +4504,9 @@ static Boolean DiddleMenuEvent(EventType* e) {
     case menuitemID_XferPhoneLookup: 
       {
         FormType* frm = FrmGetActiveForm();
-	FieldPtr fld = GetObjectPointer(frm, XferField);
-	PhoneNumberLookup(fld);
-	handled = true;
+    FieldPtr fld = GetObjectPointer(frm, XferField);
+    PhoneNumberLookup(fld);
+    handled = true;
       }
       break;
     }
@@ -4501,9 +4610,9 @@ static Boolean DiddleSelectEvent(EventPtr e) {
       Int16 offset;
 
       if (p.modeSelection == dbmSelectionErase)
-	offset = ep.eraseFiltSelection;
+    offset = ep.eraseFiltSelection;
       else
-	offset = p.filtSelection;
+    offset = p.filtSelection;
 
       CtlSetGraphics(GetObjectPointer(FrmGetActiveForm(), SmoothButton), CmdRoughBitmap+offset, NULL);
     }
@@ -4552,7 +4661,7 @@ static Boolean DiddleSelectEvent(EventPtr e) {
 
       CategoryGetName(d.dbR, p.category, categoryName);
       CategorySelect(d.dbR, frm, CategoryPop, CategoryList, true,
-		     &p.category, categoryName, 1, categoryDefaultEditCategoryString);
+             &p.category, categoryName, 1, categoryDefaultEditCategoryString);
 
       SwitchCategory(old_cat, frm);
     }
@@ -4677,75 +4786,79 @@ static Boolean DiddleEvent(EventPtr e) {
       
     case frmOpenEvent:
       {
-	FormType* frm = FrmGetActiveForm();
-	Err err = 0;
-	const Boolean titlebar = p.formID == DiddleTForm;
-	const Boolean toolbar = p.flags & PFLAGS_WITHOUT_TOOLBAR ? false : true;
-	/* Switch to standard coordinate system */
-	if (!WinGetDrawWindow())
-	  WinSetDrawWindow(WinGetDisplayWindow());
-	WinPushDrawState();
-	SwitchToLoRes();
+    FormType* frm = FrmGetActiveForm();
+    Err err = 0;
+    const Boolean titlebar = p.formID == DiddleTForm;
+    const Boolean toolbar = p.flags & PFLAGS_WITHOUT_TOOLBAR ? false : true;
+    /* Switch to standard coordinate system */
+    if (!WinGetDrawWindow())
+      WinSetDrawWindow(WinGetDisplayWindow());
+    WinPushDrawState();
+    SwitchToLoRes();
 
-	d.winM = FrmGetWindowHandle(frm);
-	ResetDrawingAreaRectangle(titlebar, toolbar);
-	
-	if (!toolbar)
-	  ToggleButtonBar(frm, false);
-	
-	if (titlebar) {
-	  /* Set up PenButton */
-	  btn = DynBtnInitGadget(PenButton, noFrame, false, false, false, d.hires, dynBtnGraphical, 0,
-				 &err, frm, GadgetEvent);
-	  if (err) abort();
-	  DrawPenLabelDynamic(btn->content.bmpW, 0, 0, 4, p.penpix);
-	  
-	  /* Set up InkButton */
-	  btn = DynBtnInitGadget(InkButton, roundFrame, false, true, false, d.hires, dynBtnGraphical, 0,
-				 &err, frm, GadgetEvent);
-	  if (err) abort();
-	  DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 4, (const CustomPatternType*) &p.inkpat);
-	  
-	  /* Update normal buttons */
-	  CtlSetGraphics(GetObjectPointer(frm, ModeButton), CmdPaintBitmap+p.modeSelection, NULL);
-	  if (p.modeSelection == dbmSelectionErase)
-	    CtlSetGraphics(GetObjectPointer(FrmGetActiveForm(), SmoothButton), CmdRoughBitmap+ep.eraseFiltSelection, NULL);
-	  else
-	    CtlSetGraphics(GetObjectPointer(FrmGetActiveForm(), SmoothButton), CmdRoughBitmap+p.filtSelection, NULL);
-	  
-	  /* Update category button */
-	  if (p.category == dmAllCategories)
-	    CtlSetGraphics(GetObjectPointer(frm, CategoryButton), AllCategoriesBitmap, NULL);
-	  else
-	    CtlSetGraphics(GetObjectPointer(frm, CategoryButton), CategoryBitmap, NULL);
-	}
-	
-	/* Setup alarm trigger */
-	btn = DynBtnInitGadget(MainDateSelTrig, rectangleFrame, true, false,false,d.hires, dynBtnText, 
-			       ALARM_STRING_LENGTH, &err, frm, TriggerGadgetEvent);
-	if (err) abort();
+    d.winM = FrmGetWindowHandle(frm);
+    ResetDrawingAreaRectangle(titlebar, toolbar);
+    
+    if (!toolbar)
+      ToggleButtonBar(frm, false);
+    
+    if (titlebar) {
+      /* Set up PenButton */
+      btn = DynBtnInitGadget(PenButton, noFrame, false, false, false, d.sonyClie,
+                 d.sonyHRRefNum, d.hires, dynBtnGraphical, 0,
+                 &err, frm, GadgetEvent);
+      if (err) abort();
+      DrawPenLabelDynamic(btn->content.bmpW, 0, 0, 4, p.penpix);
+      
+      /* Set up InkButton */
+      btn = DynBtnInitGadget(InkButton, roundFrame, false, true, false, d.sonyClie,
+                 d.sonyHRRefNum, d.hires, dynBtnGraphical, 0,
+                 &err, frm, GadgetEvent);
+      if (err) abort();
+      DrawInkLabelDynamic(btn->content.bmpW, 0, 0, 4, (const CustomPatternType*) &p.inkpat);
+      
+      /* Update normal buttons */
+      CtlSetGraphics(GetObjectPointer(frm, ModeButton), CmdPaintBitmap+p.modeSelection, NULL);
+      if (p.modeSelection == dbmSelectionErase)
+        CtlSetGraphics(GetObjectPointer(FrmGetActiveForm(), SmoothButton), CmdRoughBitmap+ep.eraseFiltSelection, NULL);
+      else
+        CtlSetGraphics(GetObjectPointer(FrmGetActiveForm(), SmoothButton), CmdRoughBitmap+p.filtSelection, NULL);
+      
+      /* Update category button */
+      if (p.category == dmAllCategories)
+        CtlSetGraphics(GetObjectPointer(frm, CategoryButton), AllCategoriesBitmap, NULL);
+      else
+        CtlSetGraphics(GetObjectPointer(frm, CategoryButton), CategoryBitmap, NULL);
+    }
+    
+    /* Setup alarm trigger */
+    btn = DynBtnInitGadget(MainDateSelTrig, rectangleFrame, true, false, false,
+                   d.sonyClie, d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnText, 
+                   ALARM_STRING_LENGTH, &err, frm, TriggerGadgetEvent);
+    if (err) abort();
 
-	/* Setup transfer buttons */
-	btn = DynBtnInitGadget(XferDoneButton, noFrame, false, true, false,d.hires, dynBtnGraphical, 0,
-			       &err, frm, XferDoneGadgetEvent);
-	if (err) abort();
-	DrawXferDoneButton(btn);
-	btn = DynBtnInitGadget(XferDetailsButton, noFrame, false, true, false, 
-			       d.hires, 
-			       dynBtnGraphical, 0, &err, frm, XferDetailsGadgetEvent);
-	if (err) abort();
-	DrawPlugButton(btn);
+    /* Setup transfer buttons */
+    btn = DynBtnInitGadget(XferDoneButton, noFrame, false, true, false, d.sonyClie,
+                   d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnGraphical, 0,
+                   &err, frm, XferDoneGadgetEvent);
+    if (err) abort();
+    DrawXferDoneButton(btn);
+    btn = DynBtnInitGadget(XferDetailsButton, noFrame, false, true, false, 
+                   d.sonyClie, d.sonyHRRefNum, d.hires && !d.sonyClie, 
+                   dynBtnGraphical, 0, &err, frm, XferDetailsGadgetEvent);
+    if (err) abort();
+    DrawPlugButton(btn);
 
-	LabelTitle();
+    LabelTitle();
 
-	/* Switch back to previous coordinate system */
-	WinPopDrawState();
+    /* Switch back to previous coordinate system */
+    WinPopDrawState();
 
-	FrmDrawForm(frm);
-	LoadFromDisk();
-	LabelAlarm();
-	d.nextPeriod = TimGetTicks() + 100;
-	handled = true;
+    FrmDrawForm(frm);
+    LoadFromDisk();
+    LabelAlarm();
+    d.nextPeriod = TimGetTicks() + 100;
+    handled = true;
       }
       break;
 
@@ -4758,26 +4871,26 @@ static Boolean DiddleEvent(EventPtr e) {
     case frmUpdateEvent:
       switch (e->data.frmUpdate.updateCode) {
       case fUpdateDeletedCurrent:
-	if (d.is_xfer_mode) CancelXferMode();
-	LoadFromDisk();
-	LabelAlarm();
-	if (e->data.frmUpdate.formID == DiddleTForm)
-	  UpdatePageButton();
-	break;
+    if (d.is_xfer_mode) CancelXferMode();
+    LoadFromDisk();
+    LabelAlarm();
+    if (e->data.frmUpdate.formID == DiddleTForm)
+      UpdatePageButton();
+    break;
 
       case fUpdateDeletedAny:
-	LabelAlarm();
-	if (e->data.frmUpdate.formID == DiddleTForm)
-	  UpdatePageButton();
-	break;
+    LabelAlarm();
+    if (e->data.frmUpdate.formID == DiddleTForm)
+      UpdatePageButton();
+    break;
 
       case fUpdateEraseToolbar:
-	WinEraseRectangle(&bottom_bar_rect, 0);	
-	break;
+    WinEraseRectangle(&bottom_bar_rect, 0); 
+    break;
 
       default:
-	FrmDrawForm(FrmGetFormPtr(e->data.frmUpdate.formID));
-	MirrorRealCanvas();
+    FrmDrawForm(FrmGetFormPtr(e->data.frmUpdate.formID));
+    MirrorRealCanvas();
       }
       handled = true;
       break;
@@ -4797,26 +4910,26 @@ static Boolean DiddleEvent(EventPtr e) {
     case dbOpenRecordFieldEvent:
       switch (e->data.frmGoto.matchFieldNum) {
       case ffNote:
-	DoNoteDialog(e->data.frmGoto.matchPos, e->data.frmGoto.matchLen);
-	break;
+    DoNoteDialog(e->data.frmGoto.matchPos, e->data.frmGoto.matchLen);
+    break;
 
       case ffDetails:
-	d.detailsWithSketch = true;
-	FrmPopupForm(RecordDetailsForm);
-	break;
+    d.detailsWithSketch = true;
+    FrmPopupForm(RecordDetailsForm);
+    break;
 
       case ffAlarm:
-	recordUnsetCountdown();
-	FrmGotoForm(TimeForm);
-	break;
+    recordUnsetCountdown();
+    FrmGotoForm(TimeForm);
+    break;
 
       default:
-	/* ignore */
+    /* ignore */
       }
 
       /* Update x/y button & note button*/
       if (FrmGetActiveFormID() == DiddleTForm)
-	UpdateNoteButton();
+    UpdateNoteButton();
 
       handled = true;
       break;
@@ -4833,8 +4946,8 @@ static Boolean DiddleEvent(EventPtr e) {
     case keyDownEvent:
       /*     SwitchToDoodleMode(); */
       if (e->data.keyDown.chr == alarmChr) {
-	FlushToDisk(true);
-	handled = true;
+    FlushToDisk(true);
+    handled = true;
       }
       else handled = KeyDown(e->data.keyDown.chr);
       break;
@@ -4842,19 +4955,19 @@ static Boolean DiddleEvent(EventPtr e) {
     case ctlEnterEvent:
       switch (e->data.ctlEnter.controlID) {
       case PageButton:
-	d.pbPoint.x = e->screenX;
-	d.pbPoint.y = e->screenY;
-	break;
+    d.pbPoint.x = e->screenX;
+    d.pbPoint.y = e->screenY;
+    break;
       }
       break;
 
     case ctlExitEvent:
       switch (e->data.ctlEnter.controlID) {
       case PageButton:
-	handled = CheckPageButtonDrag(&d.pbPoint, e->screenX, e->screenY);
-	d.pbPoint.x = 0;
-	d.pbPoint.y = 0;
-	break;
+    handled = CheckPageButtonDrag(&d.pbPoint, e->screenX, e->screenY);
+    d.pbPoint.x = 0;
+    d.pbPoint.y = 0;
+    break;
       }
       break;
 
@@ -4865,38 +4978,38 @@ static Boolean DiddleEvent(EventPtr e) {
     case penDownEvent:
       DiddlePenClear();
       if (d.is_xfer_mode) {
-	handled = XferPenDown(e);
+    handled = XferPenDown(e);
       }
       else if (RctPtInRectangle(e->screenX, e->screenY, &p.r)) {
-	if (recordIsLocked) {
-	  LockWarn();
-	  handled = true;
-	}
-	else if (d.record_private && d.privateRecordStatus == maskPrivateRecords && !d.unmaskedCurrentRecord) {
-	  UnlockMaskedRecords();
-	  handled = true;
-	} else {
-	  d.drawing = true;
-	  handled = DoPenDown(e);
-	}
+    if (recordIsLocked) {
+      LockWarn();
+      handled = true;
+    }
+    else if (d.record_private && d.privateRecordStatus == maskPrivateRecords && !d.unmaskedCurrentRecord) {
+      UnlockMaskedRecords();
+      handled = true;
+    } else {
+      d.drawing = true;
+      handled = DoPenDown(e);
+    }
       }
       break;
 
     case penMoveEvent:
       if (d.is_xfer_mode) {
-	handled = XferPenDown(e);
+    handled = XferPenDown(e);
       }
       else if (RctPtInRectangle(e->screenX, e->screenY, &p.r)) {
-	if (d.record_private && d.privateRecordStatus == maskPrivateRecords && !d.unmaskedCurrentRecord) {
-	  UnlockMaskedRecords();
-	  handled = true;
-	} else if (!recordIsLocked) {
-	  if (d.drawing)
-	    handled = DoPenDown(e);
-	} else {
-	  //LockWarn();
-	  handled = true;
-	}
+    if (d.record_private && d.privateRecordStatus == maskPrivateRecords && !d.unmaskedCurrentRecord) {
+      UnlockMaskedRecords();
+      handled = true;
+    } else if (!recordIsLocked) {
+      if (d.drawing)
+        handled = DoPenDown(e);
+    } else {
+      //LockWarn();
+      handled = true;
+    }
       }
       break;
 
@@ -4911,29 +5024,29 @@ static Boolean DiddleEvent(EventPtr e) {
 
     case frmTitleEnterEvent:
       {
-	Boolean penDown;
+    Boolean penDown;
 
-	EvtGetPen(&d.title_enter_pos.x, &d.title_enter_pos.y, &penDown);
+    EvtGetPen(&d.title_enter_pos.x, &d.title_enter_pos.y, &penDown);
       }
       break;
 
     case frmTitleSelectEvent:
       {
-	PointType newPos;
-	Boolean penDown;
+    PointType newPos;
+    Boolean penDown;
 
-	EvtGetPen(&newPos.x, &newPos.y, &penDown);
+    EvtGetPen(&newPos.x, &newPos.y, &penDown);
 
-	if (newPos.x < (d.title_enter_pos.x - p.min_swipe)
-	    || newPos.x > (d.title_enter_pos.x + p.min_swipe)) {
-	  if (!(p.flags & PFLAGS_SWITCH_TITLE_ACTION)) {
-	    ShortCutPop(scHigh);
-	    handled = true;
-	  }
-	} else if (p.flags & PFLAGS_SWITCH_TITLE_ACTION) {
-	  ShortCutPop(scHigh);
-	  handled = true;
-	}
+    if (newPos.x < (d.title_enter_pos.x - p.min_swipe)
+        || newPos.x > (d.title_enter_pos.x + p.min_swipe)) {
+      if (!(p.flags & PFLAGS_SWITCH_TITLE_ACTION)) {
+        ShortCutPop(scHigh);
+        handled = true;
+      }
+    } else if (p.flags & PFLAGS_SWITCH_TITLE_ACTION) {
+      ShortCutPop(scHigh);
+      handled = true;
+    }
       }
       break;
 
@@ -4943,17 +5056,17 @@ static Boolean DiddleEvent(EventPtr e) {
   
     case winExitEvent:
       /* We may not update the title of the form because it is obscured by some
-	 other window (possibly by a menu). */
+     other window (possibly by a menu). */
       if (e->data.winExit.exitWindow == (WinHandle) FrmGetFormPtr(DiddleTForm)) {
-	d.doNotUpdateFormTitle = true;
+    d.doNotUpdateFormTitle = true;
       }
       break;
 
     case winEnterEvent:
       /* We can start updating the form title again */
       if (e->data.winEnter.enterWindow == (WinHandle) FrmGetFormPtr(DiddleTForm) 
-	  && e->data.winEnter.enterWindow == (WinHandle) FrmGetFirstForm()) { 
-	d.doNotUpdateFormTitle = false; 
+      && e->data.winEnter.enterWindow == (WinHandle) FrmGetFirstForm()) { 
+    d.doNotUpdateFormTitle = false; 
       }
       break;
 
@@ -5094,8 +5207,8 @@ static Boolean HandleHardwareButton(Int8 index) {
 
   default:
     if (DmGetNextDatabaseByTypeCreator(true, &searchstate, sysFileTApplication,
-				       p.hardware_action[index] - HW_MAX_ACTIONS,
-				       true, &cardNo, &dbID))
+                       p.hardware_action[index] - HW_MAX_ACTIONS,
+                       true, &cardNo, &dbID))
       return true;
 
     SndPlaySystemSound(sndClick);
@@ -5123,47 +5236,57 @@ static Boolean SpecialKeyDown(EventPtr e) {
     if (chr == vchrMenu) {
       /* Do not update form title while a menu is visible */
       /* This is a kludge because the canonical way (winEnter/winExit events)
-	 does not work */
+     does not work */
       d.doNotUpdateFormTitle = true;
       return false;
     }
 
     if (chr == vchrHard1 || chr == vchrHard2 ||
-	chr == vchrHard3 || chr == vchrHard4)
+    chr == vchrHard3 || chr == vchrHard4)
       return HandleHardwareButton(chr - vchrHard1);
 
     if (d.formID == DiddleForm || d.formID == DiddleTForm) {
       /* Support the 5-way navigator */
       if (chr == vchrNavChange) {
-	if (NavDirectionPressed(e, Left)) {
-	  return KeyDown(pageUpChr);
-	} else if (NavDirectionPressed(e, Right)) {
-	  return KeyDown(pageDownChr);
-	} else if (NavSelectPressed(e)) {
-	  KeyDown(cmdListView);
-	  return true;
-	}
+    if (NavDirectionPressed(e, Left)) {
+      return KeyDown(pageUpChr);
+    } else if (NavDirectionPressed(e, Right)) {
+      return KeyDown(pageDownChr);
+    } else if (NavSelectPressed(e)) {
+      KeyDown(cmdListView);
+      return true;
+    }
       }
       
+      /* Support for Sony jog-dial */
+      if (chr == vchrJogUp) {
+    return false; /* Let the OS handle this */
+      } else if (chr == vchrJogDown) {
+    return false; /* Let the OS handle this */
+      } else if (chr == vchrJogPress) {
+    PushKeyDownEvent(cmdListView);
+    return true;
+      }
+
       /* Support Handspring special keys */
       if (chr == keyDelete) {
-	PushKeyDownEvent(cmdRemove);
-	return true;
+    PushKeyDownEvent(cmdRemove);
+    return true;
       } else if (chr == vchrRockerCenter && !d.doNotUpdateFormTitle) {
-	KeyDown(cmdListView);
-	return true;
+    KeyDown(cmdListView);
+    return true;
       }
     
       /* No softkeys in transfer mode */
       if (d.is_xfer_mode) return false;
     
       if (chr == keyboardAlphaChr) {
-	PushKeyDownEvent(cmdTitle);
-	return true;
+    PushKeyDownEvent(cmdTitle);
+    return true;
       } else if (chr == keyboardNumericChr) {
-	SwitchToDoodleMode();
-	ShortCutPop(scLow);
-	return true;
+    SwitchToDoodleMode();
+    ShortCutPop(scLow);
+    return true;
       }
     }
   }
@@ -5178,20 +5301,20 @@ static Boolean SpecialKeyDown(EventPtr e) {
  * DESCRIPTION: This routine draws the description, date, and time of
  *              an appointment found by the text search routine.
  *
- * PARAMETERS:	apptRecP - pointer to an appointment record.
+ * PARAMETERS:  apptRecP - pointer to an appointment record.
  *              x        - draw position
  *              y        - draw position
  *              width    - maximum width to draw.
  *
- * RETURNED:	 nothing
+ * RETURNED:     nothing
  *
  ***********************************************************************/
 
 // FIXME - these should be based on the screen width, not hard coded.
 
-#define maxSearchRepeatDescWidth    	       100
-#define maxSearchDateWidth			42
-#define maxSearchTimeWidth			39
+#define maxSearchRepeatDescWidth               100
+#define maxSearchDateWidth          42
+#define maxSearchTimeWidth          39
 
 static void SearchDraw (DiddleBugRecordType* rec, Char* record_name, Int16 x, Int16 y, Int16 width) {
   Char timeStr [timeStringLength];
@@ -5255,9 +5378,9 @@ static void SearchDraw (DiddleBugRecordType* rec, Char* record_name, Int16 x, In
  * DESCRIPTION: This routine searchs the database for records
  *              containing the string passed (in name or note field).
  *
- * PARAMETERS:	findParams - text search parameter block
+ * PARAMETERS:  findParams - text search parameter block
  *
- * RETURNED:	nothing
+ * RETURNED:    nothing
  *
  ***********************************************************************/
 static void GlobalFind(FindParamsType* params)
@@ -5364,13 +5487,13 @@ static void GlobalFind(FindParamsType* params)
       done = FindSaveMatch (params, recordNum, pos, field, matchLength, cardNo, dbID);
 
       if (!done) {
-	/* Get the bounds of the region where we will draw the results. */
-	FindGetLineBounds (params, &r);
+    /* Get the bounds of the region where we will draw the results. */
+    FindGetLineBounds (params, &r);
 
-	/* Display the title of the description. */
-	SearchDraw(&record, record_name, r.topLeft.x+1, r.topLeft.y, r.extent.x-2);
+    /* Display the title of the description. */
+    SearchDraw(&record, record_name, r.topLeft.x+1, r.topLeft.y, r.extent.x-2);
 
-	params->lineNumber++;
+    params->lineNumber++;
       }
     }
 
@@ -5401,9 +5524,9 @@ Boolean GetPreferences(pref* prefs, UInt16* size, Int16* oldVersion, Boolean hir
     /* Save old version */
     if (oldVersion) {
       if (version != noPreferenceFound)
-	*oldVersion = prefs->version;
+    *oldVersion = prefs->version;
       else
-	*oldVersion = noPreferenceFound;
+    *oldVersion = noPreferenceFound;
     }
 
     /* Set up defaults */
@@ -5413,10 +5536,10 @@ Boolean GetPreferences(pref* prefs, UInt16* size, Int16* oldVersion, Boolean hir
     prefs->flags = PFLAGS_CONFIRM_CLEAR | PFLAGS_CONFIRM_DELETE /* flags - confirm clear, confirm delete */
       | PFLAGS_XFER_GOTO | PFLAGS_WITH_TITLEBAR; /* flags - xfer goto, titlebar on */
     RctSetRectangle(&prefs->r,
-		    screen_above_bar_rect.topLeft.x + title_bar_rect.extent.x,
-		    screen_above_bar_rect.topLeft.y,
-		    screen_above_bar_rect.extent.x,
-		    screen_above_bar_rect.extent.y - title_bar_rect.extent.y);
+            screen_above_bar_rect.topLeft.x + title_bar_rect.extent.x,
+            screen_above_bar_rect.topLeft.y,
+            screen_above_bar_rect.extent.x,
+            screen_above_bar_rect.extent.y - title_bar_rect.extent.y);
     prefs->modeSelection = dbmSelectionPaint;
     prefs->filtSelection = dbFilterRough;
     prefs->penSelection = dbPenMedium;
@@ -5477,9 +5600,9 @@ Boolean GetExtendedPreferences(extended_pref* prefs, UInt16* size, Int16* oldVer
     /* Save old version */
     if (oldVersion) {
       if (version != noPreferenceFound)
-	*oldVersion = prefs->version;
+    *oldVersion = prefs->version;
       else
-	*oldVersion = noPreferenceFound;
+    *oldVersion = noPreferenceFound;
     }
 
     /* Set up defaults */
@@ -5579,8 +5702,8 @@ static void UpgradeRecordFormat(void) {
     /* The compression routine uses p.dbI */
     sketchSize = 0;
     ptr = CompressSketch(d.hires, d.dbR, i, d.record_name, d.record_note,
-			 &d.record_sound, &d.record.extraLength,
-			 &sketchSize, winPtr);
+             &d.record_sound, &d.record.extraLength,
+             &sketchSize, winPtr);
     /* Write the high data to disk */
     DmSet(ptr, sketchDataOffset+sketchSize, 2, 0);
     /* Fill the record structure */
@@ -5637,13 +5760,13 @@ static Err RomVersionCompatible(UInt32 requiredVersion, UInt16 launchFlags) {
   FtrGet(sysFtrCreator, sysFtrNumROMVersion, &romVersion);
   if (romVersion < requiredVersion) {
     if ((launchFlags & (sysAppLaunchFlagNewGlobals | sysAppLaunchFlagUIApp)) ==
-	(sysAppLaunchFlagNewGlobals | sysAppLaunchFlagUIApp)) {
+    (sysAppLaunchFlagNewGlobals | sysAppLaunchFlagUIApp)) {
       FrmAlert (RomIncompatibleAlert);
 
       /* Palm OS 1.0 will continuously relaunch this app unless we switch to */
       /* another safe one.                                                   */
       if (romVersion < sysVersion20) {
-	AppLaunchWithCommand(sysFileCDefaultApp, sysAppLaunchCmdNormalLaunch, NULL);
+    AppLaunchWithCommand(sysFileCDefaultApp, sysAppLaunchCmdNormalLaunch, NULL);
       }
     }
 
@@ -5717,10 +5840,10 @@ static void UpgradeRecordFormatHiRes(void) {
 
   /* Should we upgrade the old database? */
   err = DmGetNextDatabaseByTypeCreator(true, &search, DBType, AppType, true, 
-				       &cardNo, &dbID);
+                       &cardNo, &dbID);
   if (err) return;
   err = DmDatabaseInfo(cardNo, dbID, dbName, NULL, NULL, NULL, NULL, 
-		       NULL, NULL, NULL, NULL, NULL, NULL);
+               NULL, NULL, NULL, NULL, NULL, NULL);
   if (err) return; /* abort? */
   if (!StrCompare(dbName, DBNameHR) || DmFindDatabase(cardNo, DBNameHR))
     return;
@@ -5742,14 +5865,23 @@ static void UpgradeRecordFormatHiRes(void) {
   srcBmp = BmpCreate(MAX_PIXELS, MAX_PIXELS, 1, NULL, &err);
   if (err) abort();
   if (d.hires) {
+    if (!d.sonyClie) {
       tmpBmp = BmpCreate(MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, NULL, &err);
       
       if (err) abort();
       tmpBmpV3 = BmpCreateBitmapV3(tmpBmp, kDensityDouble, 
-				   BmpGetBits(tmpBmp), NULL);
+                   BmpGetBits(tmpBmp), NULL);
       dstBmp = (BitmapType*) tmpBmpV3;
       dstWin = WinCreateBitmapWindow(dstBmp, &err);
       if (err) abort();
+    } else {
+      tmpBmp = HRBmpCreate(d.sonyHRRefNum, MAX_PIXELS_HIRES, MAX_PIXELS_HIRES,
+               1, NULL, &err);
+      if (err) abort();
+      dstBmp = tmpBmp;
+      dstWin = HRWinCreateBitmapWindow(d.sonyHRRefNum, dstBmp, &err);
+      if (err) abort();
+    }
   }
 
   /* Set up draw state */
@@ -5770,8 +5902,8 @@ static void UpgradeRecordFormatHiRes(void) {
 
     /* Read lo-res sketch */
     if (!UncompressSketch(ptr1 + sketchDataOffset + sketchThumbnailSize + 1,
-			  BmpGetBits(srcBmp),
-			  record.sketchLength - sketchThumbnailSize - 1, false)) {
+              BmpGetBits(srcBmp),
+              record.sketchLength - sketchThumbnailSize - 1, false)) {
       /* An error occured while uncompressing the sketch */
       abort();
     }
@@ -5805,7 +5937,39 @@ static void UpgradeRecordFormatHiRes(void) {
       MemMove(&rec_sound, ptr1 + highDataOffset, record.extraLength);
 
     /* Copy it to the hi-res bitmap */
+    if (!d.sonyClie) {
       WinDrawBitmap(srcBmp, 0, 0);
+    } else {
+      Coord x, y;
+      PointType pts[4];
+      WinHandle srcWin = WinCreateBitmapWindow(srcBmp, &err);
+      if (err) abort();
+
+      /* Clear destination window */
+      WinSetDrawWindow(dstWin);
+      WinEraseWindow();
+
+      for (x = 0; x < MAX_PIXELS; ++x) {
+    for (y = 0; y < MAX_PIXELS; ++y) {
+      WinSetDrawWindow(srcWin);
+      if (WinGetPixel(x, y)) {
+        const Coord x2 = x * HiResCoef;
+        const Coord y2 = y * HiResCoef;
+        
+        pts[0].x = pts[1].x = x2;
+        pts[2].x = pts[3].x = x2 + 1;
+        pts[0].y = pts[2].y = y2;
+        pts[1].y = pts[3].y = y2 + 1;
+        
+        WinSetDrawWindow(dstWin);
+        HRWinPaintPixels(d.sonyHRRefNum, 4, pts);
+      }
+    }
+      }
+
+      /* Clean up */
+      WinDeleteWindow(srcWin, false);
+    }
 
     /* Create new record in hi-res database */
     t2 = DmNewRecord(newDBRef, &i, MinRecordSize(true) + additionalSize);
@@ -5855,7 +6019,7 @@ static void UpgradeRecordFormatHiRes(void) {
     if (!appInfoH2) abort();
     appInfoID2 = MemHandleToLocalID(appInfoH2);
     DmSetDatabaseInfo(0, dbIDNew, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-		      &appInfoID2, NULL, NULL, NULL);
+              &appInfoID2, NULL, NULL, NULL);
     appInfoP1 = MemLocalIDToLockedPtr(appInfoID1, 0);
     appInfoP2 = MemLocalIDToLockedPtr(appInfoID2, 0);
     DmWrite(appInfoP2, 0, appInfoP1, sizeof(AppInfoType));
@@ -5895,11 +6059,19 @@ static void CreateBitmaps(void) {
 
   /* Create the offscreen buffer */
   if (d.hires) {
+    if (!d.sonyClie) {
       d.winbufBmp = BmpCreate(MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, NULL, &err);
       if (err) abort();
       enhancedBmp = BmpCreateBitmapV3(d.winbufBmp, kDensityDouble, BmpGetBits(d.winbufBmp), NULL);
       d.winbufM = WinCreateBitmapWindow((BitmapType*) enhancedBmp, &err);
       if (err) abort();
+    } else {
+      d.winbufBmp = HRBmpCreate(d.sonyHRRefNum, MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, NULL, &err);
+      if (err) abort();
+      d.winbufM = HRWinCreateBitmapWindow(d.sonyHRRefNum, d.winbufBmp, &err);
+      if (err) abort();
+      d.winbufBmp = NULL; /* Otherwise the bitmap would be deleted twice */
+    }
   } else {
       d.winbufBmp = BmpCreate(MAX_PIXELS, MAX_PIXELS, 1, NULL, &err);
       if (err) abort();
@@ -5910,11 +6082,19 @@ static void CreateBitmaps(void) {
 
   /* Create the conversion bitmap */
   if (d.hires) {
+    if (!d.sonyClie) {
       d.realCanvasBmp = BmpCreate(MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, NULL, &err);
       if (err) abort();
       enhancedBmp = BmpCreateBitmapV3(d.realCanvasBmp, kDensityDouble, BmpGetBits(d.realCanvasBmp), NULL);
       d.realCanvas = WinCreateBitmapWindow((BitmapType*) enhancedBmp, &err);
       if (err) abort();
+    } else {
+      d.realCanvasBmp = HRBmpCreate(d.sonyHRRefNum, MAX_PIXELS_HIRES, MAX_PIXELS_HIRES, 1, NULL, &err);
+      if (err) abort();
+      d.realCanvas = HRWinCreateBitmapWindow(d.sonyHRRefNum, d.realCanvasBmp, &err);
+      if (err) abort();
+      d.realCanvasBmp = NULL; /* Otherwise the bitmap would be deleted twice */
+    }
   } else {
     d.realCanvasBmp = BmpCreate(MAX_PIXELS, MAX_PIXELS, 1, NULL, &err);
     if (err) abort();
@@ -5950,6 +6130,8 @@ static Err OpenDatabases(void) {
   HostTraceInit();
 #endif /* DIDDLEDEBUG */
 
+  d.handera = false;
+
   /* Create buffer bitmaps */
   CreateBitmaps();
 
@@ -5963,35 +6145,35 @@ static Err OpenDatabases(void) {
     if (GetPreferences(&p, &prefsSize, &oldVersion, d.hires)) {
       /* Upgrade records for versions before 2.6 */
       if (!oldVersion == noPreferenceFound) {
-	if (oldVersion < 6)
-	  UpgradeRecordFormat();
-	/* or before 2.50 */
-	else if (oldVersion < 7)
-	  UpgradeRecordFormat2_15();
+    if (oldVersion < 6)
+      UpgradeRecordFormat();
+    /* or before 2.50 */
+    else if (oldVersion < 7)
+      UpgradeRecordFormat2_15();
       }
 
       /* Check if we need to upgrade the database format */
       if (d.hires)
-	UpgradeRecordFormatHiRes();
+    UpgradeRecordFormatHiRes();
 
       /* Correctly set PFLAGS_WITH_TITLEBAR */
       if (p.formID == DiddleTForm)
-	p.flags |= PFLAGS_WITH_TITLEBAR;
+    p.flags |= PFLAGS_WITH_TITLEBAR;
     }
 
     /* Also load extended preferences */
     if (GetExtendedPreferences(&ep, &prefsSize, &oldVersion)) {
       if (!oldVersion == noPreferenceFound) {
-	/* Do any necessary upgrades here */
+    /* Do any necessary upgrades here */
       }
     }
   } else {
     if (d.hires) {
       if ((err = DmCreateDatabase(0, DBNameHR, AppType, DBType, false)))
-	return err;
+    return err;
     } else {
       if ((err = DmCreateDatabase(0, DBName, AppType, DBType, false)))
-	return err;
+    return err;
     }
     d.dbR = DmOpenDatabaseByTypeCreator(DBType, AppType, mode);
 
@@ -6007,7 +6189,7 @@ static Err OpenDatabases(void) {
     return err;
   }
   if ((err = DmDatabaseInfo(0, dbID, NULL, &dbAttrs, NULL, NULL, NULL,
-			    NULL, NULL, NULL, NULL, NULL, NULL))) {
+                NULL, NULL, NULL, NULL, NULL, NULL))) {
     CloseDatabases();
     return err;
   }
@@ -6020,23 +6202,23 @@ static Err OpenDatabases(void) {
     if (!h) return dmErrMemError;
     appInfoID = MemHandleToLocalID(h);
     DmSetDatabaseInfo(0, dbID, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-		      &appInfoID, NULL, NULL, NULL);
+              &appInfoID, NULL, NULL, NULL);
     appInfoP = MemLocalIDToLockedPtr(appInfoID, 0);
     DmSet(appInfoP, 0, sizeof(AppInfoType), 0);
     CategoryInitialize(appInfoP, DefaultCategories);
     MemPtrUnlock(appInfoP);
   }
   if ((err = DmSetDatabaseInfo(0, dbID, NULL, &dbAttrs, NULL, NULL,
-			       NULL, NULL, NULL, NULL, NULL, NULL,
-			       NULL))) {
+                   NULL, NULL, NULL, NULL, NULL, NULL,
+                   NULL))) {
     CloseDatabases();
     return err;
   }
 
   /* Get the cardNo and dbID of the application (for alarms) */
   if ((err = DmGetNextDatabaseByTypeCreator(true, &searchstate,
-					    sysFileTApplication, AppType, true,
-					    &(d.cardNo), &(d.dbID)))) {
+                        sysFileTApplication, AppType, true,
+                        &(d.cardNo), &(d.dbID)))) {
     CloseDatabases();
     return err;
   }
@@ -6142,14 +6324,14 @@ static Int32 TimeUntilNextTimePeriod(void) {
     if (!timeRemaining) {
       if (d.formID == DiddleTForm) LabelTitle();
       if ((recordIsCountdown || realAlarmSecs == d.record.snoozeSecs) &&
-	  recordIsAlarmSet) {
-	LabelAlarm();
-	d.nextPeriod = ticks + 100;
+      recordIsAlarmSet) {
+    LabelAlarm();
+    d.nextPeriod = ticks + 100;
       } else {
-	d.nextPeriod = ticks + 6000;
+    d.nextPeriod = ticks + 6000;
       }
     } else if ((recordIsCountdown|| realAlarmSecs == d.record.snoozeSecs) &&
-	       recordIsAlarmSet && (d.nextPeriod > (ticks + 100))) {
+           recordIsAlarmSet && (d.nextPeriod > (ticks + 100))) {
       d.nextPeriod = ticks+100;
     }
   } else {
@@ -6170,15 +6352,15 @@ static Boolean CommandBar(EventPtr e) {
   case DiddleForm:
   case DiddleTForm:
     MenuCmdBarAddButton(menuCmdBarOnRight, BarInfoBitmap,
-			menuCmdBarResultMenuItem, menuitemID_CmdDetails, NULL);
+            menuCmdBarResultMenuItem, menuitemID_CmdDetails, NULL);
     MenuCmdBarAddButton(menuCmdBarOnRight, BarBeamBitmap,
-			menuCmdBarResultMenuItem, menuitemID_CmdBeam, NULL);
+            menuCmdBarResultMenuItem, menuitemID_CmdBeam, NULL);
     MenuCmdBarAddButton(menuCmdBarOnRight, BarSecureBitmap,
-			menuCmdBarResultMenuItem, menuitemID_CmdSecurity, NULL);
+            menuCmdBarResultMenuItem, menuitemID_CmdSecurity, NULL);
 
     if (recordIsDirty) {
       MenuCmdBarAddButton(menuCmdBarOnRight, BarUndoBitmap,
-			  menuCmdBarResultMenuItem, menuitemID_CmdSketchUndo, NULL);
+              menuCmdBarResultMenuItem, menuitemID_CmdSketchUndo, NULL);
     }
     break;
 
@@ -6219,43 +6401,43 @@ static void EventLoop(void) {
       if (CommandBar(&e)) continue;
       
       if ((e.eType == frmLoadEvent) && (d.formID != e.data.frmLoad.formID)) {
-	frm = FrmInitForm(d.formID = e.data.frmLoad.formID);
-	FrmSetActiveForm(frm);
-	switch (d.formID) {
-	case DiddleForm:
-	case DiddleTForm:
-	  p.formID = d.formID;
-	  FrmSetEventHandler(frm, DiddleEvent);
-	  break;
-	case DiddleListForm:
-	  p.formID = ep.listFormID = d.formID;
-	  FrmSetEventHandler(frm, ListViewHandleEvent);
-	  break;
-	case DiddleThumbnailForm:
-	  p.formID = ep.listFormID = d.formID;
-	  FrmSetEventHandler(frm, ThumbnailViewHandleEvent);
-	  break;
-	case DiddleThumbnailDetailForm:
-	  p.formID = ep.listFormID = d.formID;
-	  FrmSetEventHandler(frm, ThumbnailDetailViewHandleEvent);
-	  break;
-	case TimeForm:
-	  FrmSetEventHandler(frm, TimeEvent);
-	  break;
-	case PrefForm:
-	  FrmSetEventHandler(frm, PrefEvent);
-	  break;
-	case PrefExtForm:
-	  FrmSetEventHandler(frm, PrefExtEvent);
-	  break;
-	case PrefHWForm:
-	  FrmSetEventHandler(frm, PrefHWEvent);
-	  break;
-	case RecordDetailsForm:
-	  FrmSetEventHandler(frm, RecordDetailsEvent);
-	  break;
-	}
-	continue;
+    frm = FrmInitForm(d.formID = e.data.frmLoad.formID);
+    FrmSetActiveForm(frm);
+    switch (d.formID) {
+    case DiddleForm:
+    case DiddleTForm:
+      p.formID = d.formID;
+      FrmSetEventHandler(frm, DiddleEvent);
+      break;
+    case DiddleListForm:
+      p.formID = ep.listFormID = d.formID;
+      FrmSetEventHandler(frm, ListViewHandleEvent);
+      break;
+    case DiddleThumbnailForm:
+      p.formID = ep.listFormID = d.formID;
+      FrmSetEventHandler(frm, ThumbnailViewHandleEvent);
+      break;
+    case DiddleThumbnailDetailForm:
+      p.formID = ep.listFormID = d.formID;
+      FrmSetEventHandler(frm, ThumbnailDetailViewHandleEvent);
+      break;
+    case TimeForm:
+      FrmSetEventHandler(frm, TimeEvent);
+      break;
+    case PrefForm:
+      FrmSetEventHandler(frm, PrefEvent);
+      break;
+    case PrefExtForm:
+      FrmSetEventHandler(frm, PrefExtEvent);
+      break;
+    case PrefHWForm:
+      FrmSetEventHandler(frm, PrefHWEvent);
+      break;
+    case RecordDetailsForm:
+      FrmSetEventHandler(frm, RecordDetailsEvent);
+      break;
+    }
+    continue;
       }
       
       FrmDispatchEvent(&e);
@@ -6315,6 +6497,14 @@ static void StopApplication(void) {
   FreeWindowAndBitmap(d.winbufM, d.winbufBmp);
   FreeWindowAndBitmap(d.realCanvas, d.realCanvasBmp);
   FreeWindowAndBitmap(d.clipboard, d.clipboardBmp);
+
+  /* Clean up HR library we're running on a Sony */
+  if (d.sonyClie && d.hires) {
+    HRClose(d.sonyHRRefNum);
+
+    if (d.sonyLoadedHRLib)
+      SysLibRemove(d.sonyHRRefNum);
+  }
 
 #ifdef DIDDLEDEBUG
   HostTraceClose();
@@ -6396,6 +6586,52 @@ static void BeamSend(void) {
   MemPtrFree(exgSock.description);
 }
 
+/*
+** Check whether DiddleBug is running on a Sony Clie
+*/
+Boolean CheckForSony(Boolean* hires) {
+  SonySysFtrSysInfoP sonySysFtrSysInfoP;
+
+  if (!FtrGet(sonySysFtrCreator, sonySysFtrNumSysInfoP, (UInt32*)&sonySysFtrSysInfoP)) {
+    /* Running on a Sony... */ 
+    if (sonySysFtrSysInfoP->libr & sonySysFtrSysInfoLibrHR) {
+      /*... and hi-res library available */
+      *hires = true;
+    }
+
+    return true;
+  }
+  
+  *hires = false;
+
+  return false;
+}
+
+/*
+** Set up hi-res mode for Sony Clies
+**
+** Also stores the refNum of the HR library.
+*/
+extern void SetUpSony(UInt16* refNum, Boolean* loadedHRLib) {
+  Err error = 0;
+
+  if ((error = SysLibFind(sonySysLibNameHR, refNum))) {
+    if (error == sysErrLibNotFound) {
+      /* couldn't find lib */
+      error = SysLibLoad('libr', sonySysFileCHRLib, refNum);
+      *loadedHRLib = true;
+    }
+  } if (!error) {
+    /* Now we can use HR lib */
+
+    UInt32 width = hrWidth;
+    UInt32 height = hrHeight;
+
+    /* Set compatibility mode */
+    HROpen(*refNum);
+    HRWinScreenMode(*refNum, winScreenModeSet, &width, &height, NULL, NULL);
+  }
+}
 
 /*
 ** Is this a hi-res double-density device?
@@ -6415,6 +6651,23 @@ Boolean CheckForDoubleDensity(void) {
 }
 
 /*
+** Check if we are running on an Acer s50 or s60
+*/
+static Boolean CheckForAcerS60(void) {
+  Err err;
+  UInt32 deviceID, manufacturerID;
+
+  err = FtrGet(sysFtrCreator, sysFtrNumOEMCompanyID, &manufacturerID);
+  if (err == errNone && manufacturerID == acerHwrOEMCompanyID_Sony) {
+    err = FtrGet(sysFtrCreator, sysFtrNumOEMDeviceID, &deviceID);
+    if (err == errNone && deviceID == sonyHwrOEMDeviceIDColor)
+      return true;
+  }
+
+  return false;
+}
+
+/*
 ** ChangeGeneralColor:
 ** Change the screen depth. Display some UI controls in grey and
 ** change the color of several item in the UI interface.
@@ -6426,7 +6679,7 @@ static void ChangeGeneralColor(void) {
 
   /* Retrieve and store the original screen settings */
   WinScreenMode(winScreenModeGet, &d.oldScreen.width, &d.oldScreen.height,
-		&d.oldScreen.depth, &d.oldScreen.color);
+        &d.oldScreen.depth, &d.oldScreen.color);
 
   /* Retrieve the supported screen depth. */
   WinScreenMode(winScreenModeGetSupportedDepths, NULL, NULL, &depth, NULL);
@@ -6490,10 +6743,9 @@ Boolean CheckForTreo600(void) {
   Boolean res = false;
 
   FtrGet(sysFtrCreator, sysFtrNumOEMCompanyID, &company);
-  if (company == hwrOEMCompanyIDHandspring) {
+  if (company == hwrOEMCompanyIDHandspring || company == 'Palm' || company == 'palm') {
     FtrGet(sysFtrCreator, sysFtrNumOEMDeviceID, &device);
-    if (device == hsDeviceIDOs5Device1 || device == kPalmOneDeviceIDTreo600Sim ||
-		device == kPalmOneDeviceIDTreo650 || device == kPalmOneDeviceIDTreo650Sim)
+    if (device == kPalmOneDeviceIDTreo650 || device == kPalmOneDeviceIDTreo650Sim || device == 'D053') /* 'D053' is the ID for treo680*/
       res = true;
   }
 
@@ -6517,7 +6769,6 @@ static Boolean CheckForPalmOne(void) {
 
     switch (device) {
     case kPalmOneDeviceIDZire:
-    case kPalmOneDeviceIDZire21:
     case kPalmOneDeviceIDTungstenT:
     case kPalmOneDeviceIDTungstenW:
     case kPalmOneDeviceIDTungstenC:
@@ -6525,8 +6776,7 @@ static Boolean CheckForPalmOne(void) {
     case kPalmOneDeviceIDTungstenT2:
     case kPalmOneDeviceIDTungstenT3:
     case kPalmOneDeviceIDTungstenTE:
-    case kPalmDeviceIDTX:
-    case kPalmDeviceIDZ22:
+    case kPalmOneDeviceIDZire21:
       res = true;
       break;
       
@@ -6550,16 +6800,19 @@ static void DoDeviceSetup(void) {
   d.os4 = CheckROMVersion(sysVersion40);
   d.os5 = CheckROMVersion(sysVersion50);
 
-  /* Check for OS5 double density screen  */
+  /* Check for OS5 double density screen or Sony Clie hi-res */
   if (d.os5) {
     d.hires = CheckForDoubleDensity();
       
     /* The Treo 600 smartphone needs special handling */
     d.treo600 = CheckForTreo600();
-  }
+  } else if ((d.sonyClie = CheckForSony(&d.hires)))
+    SetUpSony(&d.sonyHRRefNum, &d.sonyLoadedHRLib);
   else if (d.os4) { /* Palm Tungsten W is an OS4 device with double density */
     d.hires = CheckForDoubleDensity();
       
+    /* Acer s50/s60 are as well and need special handling */
+    d.acer = CheckForAcerS60();
   }
 
   /* Check for palmOne devices (exluding the Treo 600) */
@@ -6604,11 +6857,11 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
     /* If necessary, open a new record for immediate scribbling */
     if (p.flags & PFLAGS_OPEN_NEW_RECORD) {
       ErrTry {
-	NewScratchImage();
+    NewScratchImage();
       }
       ErrCatch(inErr) {
-	ErrAlert(inErr);
-	goto cleanup;
+    ErrAlert(inErr);
+    goto cleanup;
       } ErrEndCatch;
 
       FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
@@ -6621,17 +6874,17 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
       /* If secret records are being hidden, also check if the */
       /* the current record is marked secret.                  */
       if (DmQueryRecord(d.dbR, p.dbI) != NULL) {
-	DmRecordInfo (d.dbR, p.dbI, &attr, &uniqueID, NULL);
-	found = /* (uniqueID == currentRecordID) && */
-	  ((d.privateRecordStatus != hidePrivateRecords) || (!(attr & dmRecAttrSecret)));
+    DmRecordInfo (d.dbR, p.dbI, &attr, &uniqueID, NULL);
+    found = /* (uniqueID == currentRecordID) && */
+      ((d.privateRecordStatus != hidePrivateRecords) || (!(attr & dmRecAttrSecret)));
       }
 
       if (!found && DmNumRecords(d.dbR) != 0) {
-	SetTopVisibleRecord(0);
-	p.dbI = noRecordSelected;
-	FrmGotoForm(ep.listFormID);
+    SetTopVisibleRecord(0);
+    p.dbI = noRecordSelected;
+    FrmGotoForm(ep.listFormID);
       } else {
-	FrmGotoForm(p.formID);
+    FrmGotoForm(p.formID);
       }
     }
 
@@ -6645,7 +6898,7 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
     /* Get back to the previous screen state */
     if (d.oldScreen.width && d.oldScreen.height)
       WinScreenMode(winScreenModeSet, &d.oldScreen.width, &d.oldScreen.height,
-		    &d.oldScreen.depth, &d.oldScreen.color);
+            &d.oldScreen.depth, &d.oldScreen.color);
     break;
 
   case sysAppLaunchCmdAlarmTriggered:
@@ -6670,11 +6923,11 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
 
       FtrGet(sysFtrCreator, sysFtrNumROMVersion, &romVersion);
       if (romVersion < sysVersion40) {
-	ExgRegisterData(AppType, exgRegTypeID, "image/png");
-	ExgRegisterData(AppType, exgRegExtensionID, "PNG");
+    ExgRegisterData(AppType, exgRegTypeID, "image/png");
+    ExgRegisterData(AppType, exgRegExtensionID, "PNG");
       } else {
-	ExgRegisterDatatype(AppType, exgRegTypeID, "image/png", "image", 0);
-	ExgRegisterDatatype(AppType, exgRegExtensionID, " PNG", "image", 0);
+    ExgRegisterDatatype(AppType, exgRegTypeID, "image/png", "image", 0);
+    ExgRegisterDatatype(AppType, exgRegExtensionID, " PNG", "image", 0);
       }
     }
     break;
@@ -6690,11 +6943,11 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
 
       FtrGet(sysFtrCreator, sysFtrNumROMVersion, &romVersion);
       if (romVersion < sysVersion40) {
-	ExgRegisterData(AppType, exgRegTypeID, "image/png");
-	ExgRegisterData(AppType, exgRegExtensionID, "PNG");
+    ExgRegisterData(AppType, exgRegTypeID, "image/png");
+    ExgRegisterData(AppType, exgRegExtensionID, "PNG");
       } else {
-	ExgRegisterDatatype(AppType, exgRegTypeID, "image/png", "image", 0);
-	ExgRegisterDatatype(AppType, exgRegExtensionID, " PNG", "image", 0);
+    ExgRegisterDatatype(AppType, exgRegTypeID, "image/png", "image", 0);
+    ExgRegisterDatatype(AppType, exgRegExtensionID, " PNG", "image", 0);
       }
     }
     break;
@@ -6715,46 +6968,46 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
       GoToParamsPtr par = (GoToParamsPtr) cmdPBP;
 
       if (launchFlags&sysAppLaunchFlagNewGlobals) {
-	DoDeviceSetup();
+    DoDeviceSetup();
 
-	if ((err = OpenDatabases())) return err;
-	p.dbI = par->recordNum;
-	if ((p.dbI < 0) || (p.dbI >= DmNumRecords(d.dbR))) {
-	  StopApplication();
-	  return 0;
-	}
+    if ((err = OpenDatabases())) return err;
+    p.dbI = par->recordNum;
+    if ((p.dbI < 0) || (p.dbI >= DmNumRecords(d.dbR))) {
+      StopApplication();
+      return 0;
+    }
 
-	/* Fix ink and paper colors if necessary */
-	FixInkAndPaperColors();
+    /* Fix ink and paper colors if necessary */
+    FixInkAndPaperColors();
 
-	/* Change category to "All" if necessary */
-	SwitchCategoryForGoto();
+    /* Change category to "All" if necessary */
+    SwitchCategoryForGoto();
 
-	FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
-	{
-	  /* Open note dialog if necessary */
-	  EventType e;
+    FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
+    {
+      /* Open note dialog if necessary */
+      EventType e;
 
-	  e.eType = dbOpenRecordFieldEvent;
-	  e.data.frmGoto.matchFieldNum = par->matchFieldNum;
-	  e.data.frmGoto.matchPos = par->matchPos;
-	  e.data.frmGoto.matchLen = par->matchCustom;
+      e.eType = dbOpenRecordFieldEvent;
+      e.data.frmGoto.matchFieldNum = par->matchFieldNum;
+      e.data.frmGoto.matchPos = par->matchPos;
+      e.data.frmGoto.matchLen = par->matchCustom;
 
-	  EvtAddEventToQueue(&e);
-	}
-	
-	EventLoop();
+      EvtAddEventToQueue(&e);
+    }
+    
+    EventLoop();
 
-	/* Clean up */
-	StopApplication();
+    /* Clean up */
+    StopApplication();
 
-	/* Get back to the previous screen state */
-	if (d.oldScreen.width && d.oldScreen.height)
-	  WinScreenMode(winScreenModeSet, &d.oldScreen.width, &d.oldScreen.height,
-			&d.oldScreen.depth, &d.oldScreen.color);
+    /* Get back to the previous screen state */
+    if (d.oldScreen.width && d.oldScreen.height)
+      WinScreenMode(winScreenModeSet, &d.oldScreen.width, &d.oldScreen.height,
+            &d.oldScreen.depth, &d.oldScreen.color);
       }
       else {
-	SendGotoEvent(par->recordNum, par->matchFieldNum, par->matchPos, par->matchCustom);
+    SendGotoEvent(par->recordNum, par->matchFieldNum, par->matchPos, par->matchCustom);
       }
     }
     break;
@@ -6770,9 +7023,9 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
       info.categoryIndex = dmUnfiledCategory;
 
       if (ExgDoDialog(par->socketP, &info, &err))
-	par->result = exgAskOk;
+    par->result = exgAskOk;
       else
-	par->result = exgAskCancel;
+    par->result = exgAskCancel;
 
       /* Save chosen category */
       par->socketP->appData = info.categoryIndex;

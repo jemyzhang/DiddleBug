@@ -129,6 +129,8 @@ Err ReceiveData(ExgSocketPtr exgSocketP, Boolean appIsActive) {
   /* Check for resolution */
   if (CheckROMVersion(sysVersion50))
     s->hires = CheckForDoubleDensity();
+  else 
+    CheckForSony(&s->hires);
   
   /* Set up buffer size */
   if (s->hires)

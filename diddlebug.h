@@ -328,6 +328,16 @@ typedef DiddleBugRecordType *DiddleBugRecordPtr;
 #define recordIsCustomSignalSet ((d.record.flags)&RECORD_FLAG_CUSTOM_SIGNAL)
 
 /*
+** Adjust offset for HandEra 330 if necessary
+**
+** Floating point operations do not work for code not in segment 0
+** (actually, that's not true anymore - but we will avoid
+** floating ops altogether for performance reasons)
+*/
+#define handeraD(A)             ((A) * 3 / 2)
+#define handera(A)		(d.handera ? ((A) * 3 / 2) : (A))
+
+/*
 ** Drop List info
 */
 typedef struct {
@@ -432,7 +442,12 @@ typedef struct {
   Boolean drawing;                /* Are we currently drawing? */
 
   /* Hardware support... */
+  Boolean handera;		  /* Device is a HandEra 330 */
+  Boolean sonyClie;               /* Device is a Sony Clie */
+  UInt16 sonyHRRefNum;            /* References number of Sony hi-res library */
+  Boolean sonyLoadedHRLib;        /* Did we load the hi-res library ourselves? */
   Boolean hires;                  /* Device supports 320 x 320 pixels */
+  Boolean acer;                   /* Acer s50 and s60 need special handling... */
   Boolean treo600;                /* ...the Treo 600 smartphone as well... */
   Boolean palmOne;                /* ...even the Tungsten and Zire device do */
 

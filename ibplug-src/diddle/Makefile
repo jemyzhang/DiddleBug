@@ -13,7 +13,7 @@ LIBS =
 CC = m68k-palmos-gcc
 REAL_CC = gcc
 
-CFLAGS = -Wall -g -O2 -palmos4.0
+CFLAGS = -Wall -g -O2 -palmos5r4
 
 PILRC = pilrc
 

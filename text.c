@@ -17,21 +17,35 @@
 #include "debug.h"
 #include "text.h"
 
+/* Sony Clie */
+#include <SonyHRLib.h>
+
 /*
 ** Clean up the textual doggie-doos left while placing text.
 */
 void ClearOldText(void) {  /* Size the rectangle */
   RectangleType r;
+  HRFontID oldFont = 0;
 
+  if (d.sonyClie && d.hires)
+    oldFont = HRFntSetFont(d.sonyHRRefNum, HRFntGetFont(d.sonyHRRefNum) + 8);
+  
   TextRectangle(d.ox, d.oy, &r);
   MirrorPartialRealCanvas(&r, true);
 
+  /* Clean up */
+  if (d.sonyClie && d.hires)
+    HRFntSetFont(d.sonyHRRefNum, oldFont);
 }
 
 /*
 ** Returns the bounding rectangle of the text.
 */
 void TextRectangle(Coord x, Coord y, RectangleType* r) {
+  HRFontID oldFont = 0;
+
+  if (d.sonyClie && d.hires)
+    oldFont = HRFntSetFont(d.sonyHRRefNum, HRFntGetFont(d.sonyHRRefNum) + 8);
 
   /* Set up area to restore */
   r->topLeft.x = x;
@@ -39,6 +53,9 @@ void TextRectangle(Coord x, Coord y, RectangleType* r) {
   r->extent.x = FntCharsWidth(d.InsertionText, StrLen(d.InsertionText));
   r->extent.y = FntCharHeight();
 
+  /* Clean up */
+  if (d.sonyClie && d.hires)
+    HRFntSetFont(d.sonyHRRefNum, oldFont);
 }
 
 /*
@@ -51,7 +68,16 @@ void DoTextInsert(Coord x, Coord y) {
 
   SetDrawingAreaClip(d.winM);
 
+  if (!d.sonyClie || !d.hires) {
     WinPaintChars(d.InsertionText, StrLen(d.InsertionText), x, y);
+  } else {
+    /* Use the hi-res version of the current font*/
+    const HRFontID oldFont = HRFntSetFont(d.sonyHRRefNum, HRFntGetFont(d.sonyHRRefNum) + 8); 
+    HRWinPaintChars(d.sonyHRRefNum, d.InsertionText, StrLen(d.InsertionText), x, y);
+
+    /* Clean up */
+    HRFntSetFont(d.sonyHRRefNum, oldFont);
+  }
 
   /* Save point for ClearOldText */
   d.ox = x;
@@ -70,6 +96,12 @@ void DoTextInsert(Coord x, Coord y) {
 void EndTextInsert(Coord x, Coord y) {
   RectangleType rect;
   WinHandle oldH = NULL;
+
+  /* Set right font on Sony Clie */
+  if (d.sonyClie && d.hires) {
+    /* Use the hi-res version of the current font*/
+    HRFntSetFont(d.sonyHRRefNum, HRFntGetFont(d.sonyHRRefNum) + 8);
+  }
 
   /* Size the rectangle */
   rect.topLeft.x = x - 3;
@@ -111,7 +143,11 @@ void EndTextInsert(Coord x, Coord y) {
     break;
   }
 
+  /* Now draw the text */
+  if (!d.sonyClie || !d.hires)
     WinPaintChars(d.InsertionText, StrLen(d.InsertionText), x, y);
+  else
+    HRWinPaintChars(d.sonyHRRefNum, d.InsertionText, StrLen(d.InsertionText), x, y);
 
   /* Clean up */
   SwitchToDoodleMode();

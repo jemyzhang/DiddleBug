@@ -8,6 +8,9 @@ Licensed under the GNU General Public License (GPL).
 #include "dynamic_buttons.h"
 #include "debug.h"
 
+/* Sony Clie */
+#include <SonyHRLib.h>
+
 /* Hi-res multiplier */
 #define HiResCoef 2
 
@@ -25,7 +28,8 @@ extern inline IndexedColorType FormBackColor(const DynamicButtonType* btn) {
 ** Creates a new dynamic button and returns a locked pointer to it.
 */
 DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean full,
-				Boolean screenDepth, Boolean hires, UInt16 formID,
+				Boolean screenDepth, Boolean sonyClie, 
+				UInt16 sonyHRRefNum, Boolean hires, UInt16 formID,
 				DynBtnType type, Int16 text_maxlength,
 				const RectangleType* rect, Err* error) {
   DynamicButtonType* btn
@@ -47,6 +51,8 @@ DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean fu
   RctCopyRectangle(rect, &btn->frameRect);
   btn->font = boldFont;
   btn->center = false;
+  btn->sonyClie = sonyClie;
+  btn->sonyHRRefNum = sonyHRRefNum;
   btn->hires = hires;
 
   /*
@@ -66,6 +72,7 @@ DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean fu
     BitmapTypeV3* bmpV3 = NULL;
     Coord x, y;
 
+    if (!btn->sonyClie) {
       if (btn->hires) {
 	/* Set things up for hi-res */
 	if (!WinGetDrawWindow())
@@ -78,7 +85,19 @@ DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean fu
       } else {
 	x = btn->contentRect.extent.x;
 	y = btn->contentRect.extent.y;
-	}
+      }
+    } else {
+      if (btn->hires) {
+	/* Set things up for hi-res */
+	x = btn->contentRect.extent.x * HiResCoef;
+	y = btn->contentRect.extent.y * HiResCoef;
+	btn->contentRect.topLeft.x *= HiResCoef;
+	btn->contentRect.topLeft.y *= HiResCoef;
+      } else {
+	x = btn->contentRect.extent.x;
+	y = btn->contentRect.extent.y;
+      }
+    }
 
     if (!screenDepth) {
       btn->bmp = BmpCreate(x, y, 1, NULL, error);
@@ -93,6 +112,7 @@ DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean fu
       return NULL;
     }
 
+    if (!btn->sonyClie) {
       if (btn->hires) {
 	/* Make this a double density bitmap */
 	bmpV3 = BmpCreateBitmapV3(btn->bmp, kDensityDouble, BmpGetBits(btn->bmp), NULL);
@@ -104,6 +124,17 @@ DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean fu
 	ASSERT(btn->content.bmpW);
 	btn->bmp = NULL;
       }
+    } else {
+      if (btn->hires) {
+	btn->content.bmpW = HRWinCreateBitmapWindow(btn->sonyHRRefNum, btn->bmp, error);
+	ASSERT(btn->content.bmpW);
+	btn->bmp = NULL;
+      } else {
+	btn->content.bmpW = WinCreateBitmapWindow(btn->bmp, error);
+	ASSERT(btn->content.bmpW);
+	btn->bmp = NULL;
+      }
+    }
 
     /* Make background "transparent" */
     if (screenDepth) {
@@ -139,6 +170,7 @@ DynamicButtonType* DynBtnCreate(UInt16 id, FrameType f, Boolean gray, Boolean fu
 */
 DynamicButtonType* DynBtnInitGadget(UInt16 id, FrameType f, Boolean gray, 
 				    Boolean full, Boolean screenDepth, 
+				    Boolean sonyClie, UInt16 sonyHRRefNum,
 				    Boolean hires, DynBtnType type,
 				    Int16 text_maxlength, Err* err,
 				    FormType* frm, FormGadgetHandlerType handler) {
@@ -149,7 +181,7 @@ DynamicButtonType* DynBtnInitGadget(UInt16 id, FrameType f, Boolean gray,
   ASSERT(frm);
 
   FrmGetObjectBounds(frm, idx, &r);
-  btn = DynBtnCreate(id, f, gray, full, screenDepth,
+  btn = DynBtnCreate(id, f, gray, full, screenDepth, sonyClie, sonyHRRefNum,
 		     hires, FrmGetFormId(frm), type, text_maxlength, &r, err);
   ASSERT(btn);
 
@@ -214,10 +246,17 @@ void DynBtnDraw(DynamicButtonType* btn) {
     WinSetForeColor(foreColor);
 
     /* Draw the bitmap label */
+    if (btn->sonyClie && btn->hires) {
+      WinSetDrawMode(winErase);
+      HRWinPaintBitmap(btn->sonyHRRefNum, WinGetBitmap(btn->content.bmpW), btn->contentRect.topLeft.x, btn->contentRect.topLeft.y);
+      WinSetDrawMode(winOverlay);
+      HRWinPaintBitmap(btn->sonyHRRefNum, WinGetBitmap(btn->content.bmpW), btn->contentRect.topLeft.x, btn->contentRect.topLeft.y);
+    } else {
       WinSetDrawMode(winErase);
       WinPaintBitmap(WinGetBitmap(btn->content.bmpW), btn->contentRect.topLeft.x, btn->contentRect.topLeft.y);
       WinSetDrawMode(winOverlay);
       WinPaintBitmap(WinGetBitmap(btn->content.bmpW), btn->contentRect.topLeft.x, btn->contentRect.topLeft.y);
+    }
   } else {
     Coord x, y;
 

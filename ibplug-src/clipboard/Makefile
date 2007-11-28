@@ -14,7 +14,7 @@ CC = m68k-palmos-gcc
 REAL_CC = gcc
 
 #CFLAGS = -Wall -g -O2
-CFLAGS = -palmos4.0 -Wall -O2
+CFLAGS = -palmos5r4 -Wall -O2
 
 PILRC = pilrc
 

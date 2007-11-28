@@ -104,8 +104,8 @@ extern inline UInt32 EmptySketchSize(Boolean hires) {
 /*
 ** Returns the pixel offset to be used in EndShape.
 */
-extern inline Coord PixelOffset(Coord px, Boolean hires) {
-  return (hires) ? px * HiResCoef : px;
+extern inline Coord PixelOffset(Coord px, Boolean hires, Boolean sonyClie) {
+  return (hires && sonyClie) ? px * HiResCoef : px;
 }
 
 /*

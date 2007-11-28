@@ -22,6 +22,9 @@
 #include "linker.h"
 #include "dynamic_buttons.h"
 
+/* Sony Clie */
+#include <SonyHRLib.h>
+
 #include "xfer.h"
 
 /* Prototypes for static functions, ensuring that they are in the right code section */
@@ -222,7 +225,7 @@ void DrawPlugButton(DynamicButtonType* btn) {
     Err err = errNone;
 
     /* Hi-res 1-bpp-bug-workaround, part 1 */
-    if (d.hires) {
+    if (d.hires && !d.sonyClie) {
       /* Create a new temporary bitmap with screen depth */
       BmpGetDimensions(btn->bmp, &x, &y, NULL);
       WinScreenMode(winScreenModeGet, NULL, NULL, &depth, NULL);
@@ -247,7 +250,7 @@ void DrawPlugButton(DynamicButtonType* btn) {
     DrawPlugBitmap(i, boogerID_button, 0, 0);
 
     /* Hi-res 1-bpp-bug-workaround, part 2 */
-    if (d.hires) {
+    if (d.hires && !d.sonyClie) {
       /* Copy the icon to the actual button */
       WinSetDrawWindow(btn->content.bmpW);
       WinPaintBitmap(WinGetBitmap(tmpH), 0, 0);
@@ -628,8 +631,13 @@ void FinishXferMode(void) {
 
   /* Load the sketch data */
   if (kleenex.version & IBVERSION_PICTURE) {
+    if (!d.sonyClie || !d.hires) {
       kleenex.data = BmpGetBits(WinGetBitmap(d.winbufM));
       kleenex.data_size = BmpBitsSize(WinGetBitmap(d.winbufM));
+    } else {
+      kleenex.data = BmpGetBits(WinGetBitmap(d.winbufM));
+      kleenex.data_size = HRBmpBitsSize(d.sonyHRRefNum, WinGetBitmap(d.winbufM));
+    }
   }
 
   /* Call the plugin */
@@ -712,7 +720,7 @@ static void XferDoneListDrawFunc(Int16 item, RectangleType* b, Char** itemsText)
   SysCopyStringResource(str, XferMenuOptionsStrings + d.xfer.choice_map[item]);
 
   /* Draw the text label on the right pos (* 1.5 for HandEra) */
-  WinDrawChars(str, StrLen(str), b->topLeft.x + 15, b->topLeft.y);
+  WinDrawChars(str, StrLen(str), b->topLeft.x + handera(15), b->topLeft.y);
 }
 
 /*

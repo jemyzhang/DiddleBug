@@ -581,11 +581,11 @@ static void InitExtPrefForm(FormType* frm) {
     WinSetDrawWindow(FrmGetWindowHandle(frm));
 
   btn = DynBtnInitGadget(PrefExtForegroundColorGadget, rectangleFrame, true, false,
-			 true, d.hires, 
+			 true, d.sonyClie, d.sonyHRRefNum, d.hires, 
 			 dynBtnGraphical, 0, &err, frm, ColorGadgetEvent);
 
   btn = DynBtnInitGadget(PrefExtBackgroundColorGadget, rectangleFrame, true, false,
-			 true, d.hires, 
+			 true, d.sonyClie, d.sonyHRRefNum, d.hires, 
 			 dynBtnGraphical, 0, &err, frm, ColorGadgetEvent);
 }
 
@@ -820,7 +820,9 @@ static void InitHardwarePrefForm(FormType* frm) {
   DynamicButtonType* btn = NULL;
 
   /* Set up offset for DateBook button */
-  if (d.hires)
+  if (d.sonyClie)
+    xOffset = 0;
+  else if (d.hires)
     xOffset = 3;
   else
     xOffset = 3;
@@ -830,7 +832,8 @@ static void InitHardwarePrefForm(FormType* frm) {
     EnlargeBitmapAndMoveTrigger(frm, PrefHardware1Bitmap, PrefHardware1SelTrig, 6);
 
   /* Draw bitmap for DateBook button */
-  btn = DynBtnInitGadget(PrefHardware1Bitmap, noFrame, false, true, true, d.hires, dynBtnGraphical, 0,
+  btn = DynBtnInitGadget(PrefHardware1Bitmap, noFrame, false, true, true, d.sonyClie,
+			 d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnGraphical, 0,
 			 &err, frm, BitmapGadgetEvent);
   if (err) abort();
   if (d.treo600)
@@ -839,7 +842,9 @@ static void InitHardwarePrefForm(FormType* frm) {
     CopyAppBitmapToWindow(sysFileCDefaultButton1App, iconType, 1000, btn->content.bmpW, xOffset, 0);
 
   /* Set up offset for Address button */
-  if (d.treo600)
+  if (d.sonyClie)
+    xOffset = 0;
+  else if (d.treo600)
     xOffset = 3;
   else if (d.hires)
     xOffset = 3;
@@ -851,7 +856,8 @@ static void InitHardwarePrefForm(FormType* frm) {
     EnlargeBitmapAndMoveTrigger(frm, PrefHardware2Bitmap, PrefHardware2SelTrig, 6);
 
   /* Draw bitmap for Address button */
-  btn = DynBtnInitGadget(PrefHardware2Bitmap, noFrame, false, true, true, d.hires, dynBtnGraphical, 0,
+  btn = DynBtnInitGadget(PrefHardware2Bitmap, noFrame, false, true, true, d.sonyClie,
+			 d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnGraphical, 0,
 			 &err, frm, BitmapGadgetEvent);
   if (err) abort();
   if (d.treo600)
@@ -860,7 +866,9 @@ static void InitHardwarePrefForm(FormType* frm) {
   CopyAppBitmapToWindow(sysFileCDefaultButton2App, iconType, 1000, btn->content.bmpW, xOffset, 0);
 
   /* Set up offset for ToDo button */
-  if (d.hires)
+  if (d.sonyClie)
+    xOffset = 0;
+  else if (d.hires)
     xOffset = 3;
   else
     xOffset = 3;
@@ -870,7 +878,8 @@ static void InitHardwarePrefForm(FormType* frm) {
     EnlargeBitmapAndMoveTrigger(frm, PrefHardware3Bitmap, PrefHardware3SelTrig, 6);
 
   /* Draw bitmap for ToDo button */
-  btn = DynBtnInitGadget(PrefHardware3Bitmap, noFrame, false, true, true,d.hires, dynBtnGraphical, 0,
+  btn = DynBtnInitGadget(PrefHardware3Bitmap, noFrame, false, true, true, d.sonyClie,
+			 d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnGraphical, 0,
 			 &err, frm, BitmapGadgetEvent);
   if (err) abort();
   if (d.treo600)
@@ -879,7 +888,9 @@ static void InitHardwarePrefForm(FormType* frm) {
   CopyAppBitmapToWindow(sysFileCDefaultButton3App, iconType, 1000, btn->content.bmpW, xOffset, 0);
 
   /* Set up offset for MemoPad/NotePad button */
-  if (d.hires)
+  if (d.sonyClie)
+    xOffset = 0;
+  else if (d.hires)
     xOffset = 3;
   else 
     xOffset = 3;
@@ -889,7 +900,8 @@ static void InitHardwarePrefForm(FormType* frm) {
     EnlargeBitmapAndMoveTrigger(frm, PrefHardware4Bitmap, PrefHardware4SelTrig, 6);
 
   /* Draw bitmap for MemoPad/NotePad button */
-  btn = DynBtnInitGadget(PrefHardware4Bitmap, noFrame, false, true, true,d.hires, dynBtnGraphical, 0,
+  btn = DynBtnInitGadget(PrefHardware4Bitmap, noFrame, false, true, true, d.sonyClie,
+			 d.sonyHRRefNum, d.hires && !d.sonyClie, dynBtnGraphical, 0,
 			 &err, frm, BitmapGadgetEvent);
   if (err) abort();
   if (d.treo600)
