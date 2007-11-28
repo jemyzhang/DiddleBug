@@ -1,1 +1,1 @@
-include Makefile.english
+include Makefile.schinese

@@ -212,9 +212,9 @@ STRING ID MultiDayString 	" 天， "
 STRING ID TodayString 		"今天， "
 STRING ID TomorrowString 	"明天， "
 STRING ID NoCountdownString 	" 未设定倒数 "
-STRING ID NoAlarmString 	" 未设定响闹 "
+STRING ID NoAlarmString 	" 未设定闹铃 "
 STRING ID OffString 		"关闭"
-STRING ID AbsoluteString 	"设定响闹…"
+STRING ID AbsoluteString 	"设定闹铃…"
 STRING ID CustomString 		"设定倒数…"
 STRING ID MinString 		" 分"
 STRING ID MinsString 		" 分"
@@ -224,7 +224,7 @@ STRING ID DayString 		" 天"
 STRING ID DaysString 		" 天"
 STRING ID WeekString 		" 星期"
 STRING ID WeeksString 		" 星期"
-STRING ID SelectDateString 	"选择响闹日期"
+STRING ID SelectDateString 	"选择闹铃日期"
 STRING ID NoActionString 	"无指定动作"
 STRING ID LaunchString 		"执行 ^1"
 STRING ID NewReminderString 	"新增图页"
@@ -445,7 +445,7 @@ END
 STRING ID DiddleThumbnailDetailHelpString "你可在此选择要观看之图页。\n" \
 					  "\n" \
 					  "你可点选图页的名称以更改其属性， " \
-					  "你亦可点选响闹时间或时钟图符以设定响闹时间。" \
+					  "你亦可点选闹铃时间或时钟图符以设定闹铃时间。" \
 					  "\n" \
 					  "点选记事本图符以观看备忘。" \
 					  "\n" \
@@ -520,10 +520,10 @@ DEFAULTBTNID TimeCancelButton
 NOFRAME
 USABLE
 BEGIN
-    TITLE "响闹设定"
+    TITLE "闹铃设定"
     LABEL "重响至：" ID TimeSnoozeUntilLabel AT (0 13) FONT 1 NONUSABLE
-    CHECKBOX "响闹" ID TimeSetCheck AT (1 13 AUTO AUTO) USABLE FONT 0
-    LABEL "响闹时间：" ID TimeAlarmAtLabel AT (PREVLEFT PREVBOTTOM+1) FONT 1
+    CHECKBOX "闹铃" ID TimeSetCheck AT (1 13 AUTO AUTO) USABLE FONT 0
+    LABEL "闹铃时间：" ID TimeAlarmAtLabel AT (PREVLEFT PREVBOTTOM+1) FONT 1
 
     POPUPTRIGGER "" ID TimeDatePop AT (1 PREVBOTTOM AUTO AUTO) LEFTANCHOR FONT 0
     LIST "今天" "明天" "后天" "下星期五" "下星期一" "一星期后" "下月初" "选择日期..." ID TimeDateList AT (PREVLEFT PREVBOTTOM 90 AUTO) NONUSABLE VISIBLEITEMS 8
@@ -575,7 +575,7 @@ NAVIGATIONMAP
 	ROW TimeOkButton TimeCancelButton
 END
 
-STRING ID TimeFormHelpString "你可在此更改响闹之详细设定。"
+STRING ID TimeFormHelpString "你可在此更改闹铃之详细设定。"
 
 STRING ID TimeSnoozeHelpString "你可在此设定重响之时间。\n" \
 			       "\n" \
@@ -588,7 +588,7 @@ SAVEBEHIND
 DEFAULTBTNID RepeatCancelButton
 HELPID RepeatHelpString
 BEGIN
-    TITLE "更改响闹重复"
+    TITLE "更改闹铃重复"
     PUSHBUTTON "无" ID RepeatNone AT (4 20 23 11) USABLE GROUP 1
     PUSHBUTTON "小时" ID RepeatHourly AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
     PUSHBUTTON "日" ID RepeatDaily AT (PREVRIGHT+1 PREVTOP AUTO PREVHEIGHT) USABLE GROUP 1
@@ -651,7 +651,7 @@ NAVIGATIONMAP
             RepeatCancelButton
 END
 
-STRING ID RepeatHelpString "你可以在此设定响闹重复周期及结束日期。"
+STRING ID RepeatHelpString "你可以在此设定闹铃重复周期及结束日期。"
 
 FORM ID SignalForm AT (2 74 156 84)
 USABLE
@@ -660,7 +660,7 @@ FRAME
 HELPID SignalFormHelpString
 DEFAULTBTNID SignalCancelButton
 BEGIN
-  TITLE "自订响闹提示"
+  TITLE "自订闹铃提示"
   POPUPTRIGGER "" ID SignalPop AT (64 17 AUTO AUTO) FONT 0 USABLE LEFTANCHOR
   LIST "" ID SignalList AT (PREVLEFT PREVTOP 80 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
   POPUPLIST ID SignalPop SignalList
@@ -676,7 +676,7 @@ BEGIN
   BUTTON "取消" ID SignalCancelButton AT (PREVRIGHT+5 PREVTOP 38 AUTO)
 END
 
-STRING ID SignalFormHelpString "你可在在此选择响闹讯号。\n"
+STRING ID SignalFormHelpString "你可在在此选择闹铃讯号。\n"
 
 FORM ID CustomTimeForm AT (2 2 156 156)
 MODAL
@@ -695,7 +695,7 @@ BEGIN
     BUTTON "取消" ID CustomCancelButton AT (PREVRIGHT+5 PREVTOP PREVWIDTH AUTO)
 END
 
-STRING ID CustomTimeHelpString "你可以为本页设定响闹。 当你确定后这将取代以前设定之响闹。"
+STRING ID CustomTimeHelpString "你可以为本页设定闹铃。 当你确定后这将取代以前设定之闹铃。"
 
 FORM ID AlarmForm AT (0 0 161 161)
 MODAL
@@ -718,14 +718,14 @@ MENU ID DiddleListMenu
 BEGIN
     PULLDOWN "图页"
     BEGIN
-        MENUITEM "以响闹时间排序" menuitemID_CmdSortByAlarm "MNU_SORT_BY_ALARM"
+        MENUITEM "以闹铃时间排序" menuitemID_CmdSortByAlarm "MNU_SORT_BY_ALARM"
         MENUITEM "以名称排序" menuitemID_CmdSortByName "MNU_SORT_BY_NAME"
     END
     PULLDOWN "选项"
     BEGIN
         MENUITEM "喜好设定..."  menuitemID_CmdPref      "MNU_PREF"
 	MENUITEM "高级设定..." menuitemID_CmdExtPref "MNU_EXT_PREF"
-        MENUITEM "响闹设定..." menuitemID_CmdAlarmPref "MNU_ALARM_PREF"
+        MENUITEM "闹铃设定..." menuitemID_CmdAlarmPref "MNU_ALARM_PREF"
         MENUITEM "按钮设定..." menuitemID_CmdHWPref "MNU_HW_PREF"
         MENUITEM SEPARATOR
 	MENUITEM "保密设定..."    menuitemID_CmdSecurity  "MNU_SECURITY"
@@ -779,7 +779,7 @@ BEGIN
 	MENUITEM "隐藏工具列" menuitemID_CmdToolbarOff "MNU_TOOLBAR"
 	MENUITEM "喜好设定..."   menuitemID_CmdPref      "MNU_PREF"
 	MENUITEM "高级设定..."   menuitemID_CmdExtPref "MNU_EXT_PREF"
-	MENUITEM "响闹设定..." menuitemID_CmdAlarmPref "MNU_ALARM_PREF"
+	MENUITEM "闹铃设定..." menuitemID_CmdAlarmPref "MNU_ALARM_PREF"
 	MENUITEM "按钮设定..." menuitemID_CmdHWPref "MNU_HW_PREF"
         MENUITEM SEPARATOR
 	MENUITEM "保密设定..."   menuitemID_CmdSecurity  "MNU_SECURITY"
@@ -832,7 +832,7 @@ BEGIN
 	MENUITEM "显示/隐藏工具列" menuitemID_CmdToolbarOn "MNU_TOOLBAR"
 	MENUITEM "喜好设定..."   menuitemID_CmdPref         "MNU_PREF"
 	MENUITEM "高级设定..."   menuitemID_CmdExtPref      "MNU_EXT_PREF"
-	MENUITEM "响闹设定..." menuitemID_CmdAlarmPref  "MNU_ALARM_PREF"
+	MENUITEM "闹铃设定..." menuitemID_CmdAlarmPref  "MNU_ALARM_PREF"
 	MENUITEM "按钮设定..." menuitemID_CmdHWPref     "MNU_HW_PREF"
         MENUITEM SEPARATOR
 	MENUITEM "保密设定..."   menuitemID_CmdSecurity     "MNU_SECURITY"
@@ -1007,7 +1007,7 @@ ALERT ID BadSnoozeForm
 WARNING
 BEGIN
     TITLE "重响警告"
-    MESSAGE "你选择的重响时间比已设定的响闹时间还要迟，此重闹将不会生效。"
+    MESSAGE "你选择的重响时间比已设定的闹铃时间还要迟，此重闹将不会生效。"
     BUTTONS "确定"
 END
 
@@ -1032,7 +1032,7 @@ ALERT ID AlarmSetError
 ERROR
 BEGIN
     TITLE "发生问题！"
-    MESSAGE "不能设定响闹！"
+    MESSAGE "不能设定闹铃！"
     BUTTONS "确定"
 END
 
@@ -1048,15 +1048,15 @@ END
 ALERT ID NoPluginSelected
 INFORMATION
 BEGIN
-    TITLE "智能配件"
-    MESSAGE "你必须选择一个智能配件。"
+    TITLE "插件"
+    MESSAGE "你必须选择一个插件。"
     BUTTONS "确定"
 END
 ALERT ID AlarmTimeTooEarly
 ERROR
 BEGIN
     TITLE "发生问题！"
-    MESSAGE "响闹必须设定于将来时间"
+    MESSAGE "闹铃必须设定于将来时间"
     BUTTONS "确定"
 END
 
@@ -1071,16 +1071,16 @@ END
 ALERT ID NoPluginInstalled
 INFORMATION
 BEGIN
-    TITLE "智能配件"
-    MESSAGE "你没有安装任何智能配件。请到\nhttp://diddlebug.sf.net/plugins.htm下载。"
+    TITLE "插件"
+    MESSAGE "你没有安装任何插件。请到\nhttp://diddlebug.sf.net/plugins.htm下载。"
     BUTTONS "确定"
 END
 
 ALERT ID PluginError
 ERROR
 BEGIN
-    TITLE "智能配件"
-    MESSAGE "智能配件发生问题。"
+    TITLE "插件"
+    MESSAGE "插件发生问题。"
     BUTTONS "确定"
 END
 
@@ -1181,7 +1181,7 @@ USABLE
 DEFAULTBTNID PrefCancelButton
 HELPID PrefAlarmHelpString
 BEGIN
-    TITLE "响闹设定"
+    TITLE "闹铃设定"
     POPUPTRIGGER "" ID SignalPop AT (88 17 AUTO AUTO) FONT 0 USABLE LEFTANCHOR
     LIST "" ID SignalList AT (PREVLEFT PREVTOP 80 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
     POPUPLIST ID SignalPop SignalList
@@ -1189,9 +1189,9 @@ BEGIN
     POPUPTRIGGER "" ID RemindMeSignalPop AT (88 PREVBOTTOM+4 AUTO AUTO) FONT 0 USABLE LEFTANCHOR
     LIST "" ID RemindMeSignalList AT (PREVLEFT PREVTOP 80 AUTO) FONT 0 NONUSABLE VISIBLEITEMS 4
     POPUPLIST ID RemindMeSignalPop RemindMeSignalList
-    LABEL "响闹提示：" AUTOID AT (30 PREVTOP) FONT 1 USABLE
+    LABEL "闹铃提示：" AUTOID AT (30 PREVTOP) FONT 1 USABLE
 
-    LABEL "响闹次数：" AUTOID AT (30 PREVBOTTOM+4) FONT 1 USABLE
+    LABEL "闹铃次数：" AUTOID AT (30 PREVBOTTOM+4) FONT 1 USABLE
     POPUPTRIGGER "" ID RemindPop AT (88 PREVTOP AUTO AUTO) FONT 0 USABLE LEFTANCHOR
     LIST "永不" "一次" "两次" "三次" "十次" "一百次" ID RemindList AT (PREVLEFT PREVTOP AUTO AUTO) FONT 0 NONUSABLE VISIBLEITEMS 6
     POPUPLIST ID RemindPop RemindList
@@ -1219,7 +1219,7 @@ BEGIN
     NOGRAFFITISTATEINDICATOR 
 END
 
-STRING PrefAlarmHelpString  "你可在此选择响闹讯号。\n"
+STRING PrefAlarmHelpString  "你可在此选择闹铃讯号。\n"
 
 FORM ID PrefForm AT (2 2 156 156)
 FRAME
@@ -1232,7 +1232,7 @@ BEGIN
     CHECKBOX "切换标题列作用" ID PrefSwitchTitleCheck AT (4 18 AUTO AUTO) FONT 0
     CHECKBOX "确认清除、填满及复原动作" ID PrefConfirmClearCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
     CHECKBOX "删除确认" ID PrefConfirmDeleteCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
-    CHECKBOX "点画面一下以关掉响闹" ID PrefBigOkCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
+    CHECKBOX "点画面一下以关掉闹铃" ID PrefBigOkCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
     CHECKBOX "保留绘图工具" ID PrefKeepDrawToolCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
     CHECKBOX "画家模式" ID PrefArtistModeCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
     CHECKBOX "不要改变画面模式" ID PrefChangeDepthCheck AT (PREVLEFT PREVBOTTOM+1 AUTO AUTO) FONT 0
@@ -1251,7 +1251,7 @@ STRING ID PrefHelpString
 			 "\n" \
 			 ". 删除确认：使你在删除图页前得到提示。\n" \
 			 "\n" \
-			 ". 点画面一下以关掉响闹：使你可在画面上点一下以关掉响闹。\n"\
+			 ". 点画面一下以关掉闹铃：使你可在画面上点一下以关掉闹铃。\n"\
 			 "\n" \
 			 ". 保留绘图工具：不会于加入其它图形后自动回到"\
 			 "手绘模式，直到你改变笔式，或执行其它命令为止。\n"\
@@ -1262,7 +1262,7 @@ STRING ID PrefHelpString
 			 "\n" \
 			 ". 启动时开新图页：这选项使本程序启动时开一新图页以供使用。\n"\
 			 "\n" \
-			 ". 鉴别扫笔最少的图素：用以鉴别笔触在响闹控制上划过时代表点选还是扫笔。\n"\
+			 ". 鉴别扫笔最少的图素：用以鉴别笔触在闹铃控制上划过时代表点选还是扫笔。\n"\
 			 "\n"
 
 FORM ID PrefHWForm AT (2 2 156 156)
