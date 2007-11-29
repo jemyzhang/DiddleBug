@@ -280,7 +280,7 @@ static Boolean SignalEvent(EventPtr e) {
 	if (!midiDB) abort();
 	if (DmFindRecordByID(midiDB, midi->uniqueRecID, &idx)) abort();
 	midiData = MemHandleLock(DmQueryRecord(midiDB, idx));
-	options.amplitude = PrefGetPreference(prefAlarmSoundVolume);
+	options.amplitude = PrefGetPreference(prefGameSoundVolume);
 	SndPlaySmf(NULL, sndSmfCmdPlay, midiData, &options, NULL, NULL, true);
 
 	/* Clean up */

@@ -449,6 +449,8 @@ typedef struct {
   Boolean hires;                  /* Device supports 320 x 320 pixels */
   Boolean acer;                   /* Acer s50 and s60 need special handling... */
   Boolean treo600;                /* ...the Treo 600 smartphone as well... */
+  Boolean treo650;                /* ...the Treo 650 smartphone as well... */
+  Boolean treo680;                /* ...the Treo 680 smartphone as well... */
   Boolean palmOne;                /* ...even the Tungsten and Zire device do */
 
   /* ...and different OS versions */

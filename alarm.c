@@ -67,7 +67,7 @@ static void LoadRecordSound(DmOpenRef dbR, AlarmSoundInfoType* record_sound,
 static void DoSpecialEffects(pref* prefs, UInt16 recordFlags, Boolean treo600);
 static Boolean ApptNextRepeat(DiddleBugRecordPtr apptRec, DateTimePtr dateP);
 static Boolean ClockGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd, void* paramP);
-
+static void wait(UInt32 sec);
 /***********************************************************************
  *
  * FUNCTION:    GetPendingAlarm
@@ -514,7 +514,7 @@ static void PlaySmf(MemHandle midiH) {
   /* The sound can be interrupted by a key/digitizer event */
   s->smfOpt.dwStartMilliSec = 0;
   s->smfOpt.dwEndMilliSec = sndSmfPlayAllMilliSec;
-  s->smfOpt.amplitude = PrefGetPreference(prefAlarmSoundVolume);
+  s->smfOpt.amplitude = PrefGetPreference(prefGameSoundVolume);
   s->smfOpt.interruptible = false;
   s->smfOpt.reserved = 0;
   s->smfCallbacks.completion.funcP = NULL;
@@ -1125,6 +1125,7 @@ UInt16 DoAlarmDialog(pref* prefs, PendingAlarmType* inPendingInfoP,
       FtrGet(AppType, DB_FEATURE_SOUND_INTERRUPTED, &s->interrupted);
       FtrUnregister(AppType, DB_FEATURE_SOUND_INTERRUPTED);
       if (s->interrupted != 0) break; /* Don't play the rest of the alarms */
+     wait(2);
     }
   }
 
@@ -1777,6 +1778,7 @@ void AlarmTriggered(SysAlarmTriggeredParamType* cmdPBP, Boolean appIsActive) {
       FtrGet(AppType, DB_FEATURE_SOUND_INTERRUPTED, &s->interrupted);
       FtrUnregister(AppType, DB_FEATURE_SOUND_INTERRUPTED);
       if (s->interrupted != 0) break; /* Don't play the rest of the alarms */
+	wait(2);
     }
   }
 
@@ -2083,3 +2085,15 @@ static void InsertPendingAlarm(PendingAlarmQueueType* inAlarmInternalsP, UInt16 
 
   SetPendingAlarm(inAlarmInternalsP, inAlarmIndex, inPendingInfo);
 }
+
+static void wait(UInt32 sec)
+{
+  UInt32 tmNow;
+  /* Get time for delay */
+  tmNow = TimGetSeconds();
+  while((TimGetSeconds() -tmNow ) < sec)
+  {
+        ;
+  }
+}
+

@@ -3520,7 +3520,8 @@ static void DoDateSelect(Int16 x) {
   r.extent.x = d.alarm_select_width;
   FrmSetObjectBounds(frm, FrmGetObjectIndex(frm, PopCountdownList), &r);
 
-  LstSetSelection(list, -1);
+  LstSetTopItem(list,0);
+  LstSetSelection(list, 0);
   LstSetDrawFunction(list, CountdownDrawFunc);
   list_choice = LstPopupList(list);
 
@@ -6745,8 +6746,18 @@ Boolean CheckForTreo600(void) {
   FtrGet(sysFtrCreator, sysFtrNumOEMCompanyID, &company);
   if (company == hwrOEMCompanyIDHandspring || company == 'Palm' || company == 'palm') {
     FtrGet(sysFtrCreator, sysFtrNumOEMDeviceID, &device);
-    if (device == kPalmOneDeviceIDTreo650 || device == kPalmOneDeviceIDTreo650Sim || device == 'D053') /* 'D053' is the ID for treo680*/
-      res = true;
+    if (device == kPalmOneDeviceIDTreo600 || device == kPalmOneDeviceIDTreo600Sim) 
+	res = true;
+    if (device == kPalmOneDeviceIDTreo650 || device == kPalmOneDeviceIDTreo650Sim ) 
+    {
+        d.treo650 = true;
+	res = true;
+    }
+    if (device == 'D053' )/* 'D053' is the ID for treo680*/
+    {
+        d.treo680 = true;
+	res = true;
+    }
   }
 
   return res;
