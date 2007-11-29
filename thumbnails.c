@@ -18,7 +18,7 @@ Portions copyright (c) 2000 Palm, Inc. or its subsidiaries.  All rights reserved
 #include "debug.h"
 
 /* Palm 5-way navigator */
-#include "PalmChars.h"
+#include <palmOneNavigator.h>
 
 /* Treo 600 5-way navigation */
 #include <HsExt.h>
@@ -123,7 +123,7 @@ void ThumbnailViewUpdateScrollers(FormPtr frm) {
   }
 
   SclSetScrollBar(GetObjectPointer(frm, ScrollBar), pos, 0, maxValue,
-		  recordsPerPage / recordsPerRow);
+          recordsPerPage / recordsPerRow);
 }
 
 /***********************************************************************
@@ -174,7 +174,7 @@ static void ThumbnailViewLoadGadgets(FormType* frm) {
 /*       WinHandle oldH = NULL; */
 /*       Err err = 0; */
 /*       BitmapType* bmp = BmpCreate(btn->contentRect.extent.x,  */
-/* 				  btn->contentRect.extent.y, 1, NULL, &err); */
+/*                btn->contentRect.extent.y, 1, NULL, &err); */
 /*       if (err) abort(); */
 
       /* Uncompress thumbnail */
@@ -237,7 +237,7 @@ static void ThumbnailViewLoadRecords(FormType* frm) {
       recordNum = d.top_visible_record;
       DmSeekRecordInCategory(d.dbR, &recordNum, DmPositionInCategory(d.dbR, p.dbI, p.category) % recordsPerRow, dmSeekForward, p.category);
       if (recordNum < p.dbI)
-	SetTopVisibleRecord(p.dbI - DmPositionInCategory(d.dbR, p.dbI, p.category) % recordsPerRow);
+    SetTopVisibleRecord(p.dbI - DmPositionInCategory(d.dbR, p.dbI, p.category) % recordsPerRow);
     }
   }
 
@@ -269,9 +269,9 @@ static void ThumbnailViewLoadRecords(FormType* frm) {
  * RETURNED:    The index of the new category.
  *
  *              The following global variables are modified:
- *			p.category
- *			d.show_all_categories
- *			d.categoryName
+ *          p.category
+ *          d.show_all_categories
+ *          d.categoryName
  *
  ***********************************************************************/
 static UInt16 ThumbnailViewSelectCategory(void) {
@@ -284,8 +284,8 @@ static UInt16 ThumbnailViewSelectCategory(void) {
 
   frm = FrmGetActiveForm();
   categoryEdited = CategorySelect(d.dbR, frm, CategoryPop,
-				  CategoryList, true, &category, d.categoryName, 1,
-				  categoryDefaultEditCategoryString);
+                  CategoryList, true, &category, d.categoryName, 1,
+                  categoryDefaultEditCategoryString);
 
   if (categoryEdited || (category != p.category)) {
     ChangeCategory(category);
@@ -313,8 +313,8 @@ static UInt16 ThumbnailViewSelectCategory(void) {
  * RETURNED:    nothing
  *
  *              The following global variables are modified:
- *			p.category
- *			d.categoryName
+ *          p.category
+ *          d.categoryName
  *
  ***********************************************************************/
 void ThumbnailViewNextCategory(void) {
@@ -359,15 +359,15 @@ static void ThumbnailViewPageScroll (WinDirectionType direction) {
     if (d.top_row_pos_in_cat + recordsPerPage * 2 - recordsPerRow < d.records_in_cat) {
       /* Try going forward one page */
       if (!SeekRecord(&newTopVisibleRecord, recordsPerPage - recordsPerRow, dmSeekForward)) {
-	abort(); /* Should never happen */
+    abort(); /* Should never happen */
       }     
     } else {
       /* Try going backwards one page from the last record */
       newTopVisibleRecord = dmMaxRecordIndex;
       if (!SeekRecord(&newTopVisibleRecord, recordsPerPage - 1 - (recordsPerRow - d.records_in_cat % recordsPerRow) % recordsPerRow, dmSeekBackward)) {
-	/* Not enough records to fill one page.  Start with the first record */
-	newTopVisibleRecord = 0;
-	SeekRecord(&newTopVisibleRecord, 0, dmSeekForward);
+    /* Not enough records to fill one page.  Start with the first record */
+    newTopVisibleRecord = 0;
+    SeekRecord(&newTopVisibleRecord, 0, dmSeekForward);
       } 
     }
   } else {
@@ -450,34 +450,34 @@ static Boolean ThumbnailGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cm
       EventType* e = (EventType*) paramP;
 
       if (e->eType == frmGadgetEnterEvent) {
-	if (DynBtnTrackPen(btn)) {
-	  UInt16 attr;
+    if (DynBtnTrackPen(btn)) {
+      UInt16 attr;
 
-	  /* A thumbnail was selected, display it. */
-	  p.dbI = btn->value;
+      /* A thumbnail was selected, display it. */
+      p.dbI = btn->value;
 
-	  /* Get the category and secret attribute of the current record. */
-	  DmRecordInfo(d.dbR, p.dbI, &attr, NULL, NULL);
+      /* Get the category and secret attribute of the current record. */
+      DmRecordInfo(d.dbR, p.dbI, &attr, NULL, NULL);
 
-	  /* If this is a "private" record, then determine what is to be shown. */
-	  if (attr & dmRecAttrSecret) {
-	    switch (d.privateRecordStatus) {
-	    case showPrivateRecords:
-	    case maskPrivateRecords:
-	      FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
-	      break;
+      /* If this is a "private" record, then determine what is to be shown. */
+      if (attr & dmRecAttrSecret) {
+        switch (d.privateRecordStatus) {
+        case showPrivateRecords:
+        case maskPrivateRecords:
+          FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
+          break;
 
-	      /* This case should never be executed!!!!!!! */
-	    case hidePrivateRecords:
-	    default:
-	      break;
-	    }
-	  } else {
-	    FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
-	  }
+          /* This case should never be executed!!!!!!! */
+        case hidePrivateRecords:
+        default:
+          break;
+        }
+      } else {
+        FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
+      }
 
-	  DynBtnDraw(btn);
-	}
+      DynBtnDraw(btn);
+    }
       }
 
       handled = true;
@@ -506,8 +506,8 @@ static void ThumbnailViewInit (FormPtr frm) {
 
   for (i = Thumb1; i <= Thumb30; ++i) {
     btn = DynBtnInitGadget(i, rectangleFrame, true, true, false, d.sonyClie, 
-			   d.sonyHRRefNum, false, dynBtnGraphical, 0, &err, frm,
-			   ThumbnailGadgetEvent);
+               d.sonyHRRefNum, false, dynBtnGraphical, 0, &err, frm,
+               ThumbnailGadgetEvent);
     if (err != errNone) abort();
   }
 
@@ -733,10 +733,10 @@ static Boolean ThumbnailViewHandleFiveWayNavSelect(void) {
       d.fiveWayNavigation = true;
       
       if (p.dbI == noRecordSelected)
-	p.dbI = d.top_visible_record;
+    p.dbI = d.top_visible_record;
       
       MapIndexToCoordinates(&p.dbI, &d.thumbnailX, &d.thumbnailY);
-      ToggleButton(d.thumbnailX, d.thumbnailY, true);	    
+      ToggleButton(d.thumbnailX, d.thumbnailY, true);       
     } else {
       d.fiveWayNavigation = false;
       p.dbI = MapCoordinatesToIndex(d.thumbnailX, d.thumbnailY);
@@ -773,12 +773,12 @@ static Boolean ThumbnailViewHandleFiveWayNavLeft(void) {
   if (!d.fiveWayNavigation) {
     FrmGotoForm(DiddleListForm);
   } else {
-    /* Deselect previous item */	 
+    /* Deselect previous item */     
     ToggleButton(d.thumbnailX, d.thumbnailY, false);
     
     /* Select new item, scroll if necessary */
     if (ThumbnailViewMoveCursorLeft())
-      ThumbnailViewScroll(-1);	      
+      ThumbnailViewScroll(-1);        
     UpdateButtonAndIndex();
   }
 
@@ -807,70 +807,70 @@ Boolean ThumbnailViewHandleEvent (EventPtr event) {
     /* Hardware button pressed? */
     if (TxtCharIsHardKey(event->data.keyDown.modifiers, event->data.keyDown.chr)) {
       if (!(event->data.keyDown.modifiers & poweredOnKeyMask))
-	ThumbnailViewNextCategory();
+    ThumbnailViewNextCategory();
       handled = true;
     } else if (EvtKeydownIsVirtual(event)) {
       switch (event->data.keyDown.chr) {
       case vchrPageUp:
       case vchrRockerUp:
-	if (d.fiveWayNavigation) {
-	  /* Deselect previous item */
-	  ToggleButton(d.thumbnailX, d.thumbnailY, false);
-	  
-	  /* Select new item, scroll if necessary */
-	  if (ThumbnailViewMoveCursorUp())
-	    ThumbnailViewScroll(-1);
-	  UpdateButtonAndIndex();
-	} else {
-	  ThumbnailViewPageScroll(winUp);
-	}
-	handled = true;
-	break;
+    if (d.fiveWayNavigation) {
+      /* Deselect previous item */
+      ToggleButton(d.thumbnailX, d.thumbnailY, false);
+      
+      /* Select new item, scroll if necessary */
+      if (ThumbnailViewMoveCursorUp())
+        ThumbnailViewScroll(-1);
+      UpdateButtonAndIndex();
+    } else {
+      ThumbnailViewPageScroll(winUp);
+    }
+    handled = true;
+    break;
 
       case vchrPageDown:
       case vchrRockerDown:
-	if (d.fiveWayNavigation) {
-	  /* Deselect previous item */
-	  ToggleButton(d.thumbnailX, d.thumbnailY, false);
-	  
-	  /* Select new item, scroll if necessary */
-	  if (ThumbnailViewMoveCursorDown())
-	    ThumbnailViewScroll(1);
-	  UpdateButtonAndIndex();
-	} else {
-	  ThumbnailViewPageScroll(winDown);
-	}
-	handled = true;
-	break;
-	
-	/* Treo 600 5-way navigation */
+    if (d.fiveWayNavigation) {
+      /* Deselect previous item */
+      ToggleButton(d.thumbnailX, d.thumbnailY, false);
+      
+      /* Select new item, scroll if necessary */
+      if (ThumbnailViewMoveCursorDown())
+        ThumbnailViewScroll(1);
+      UpdateButtonAndIndex();
+    } else {
+      ThumbnailViewPageScroll(winDown);
+    }
+    handled = true;
+    break;
+    
+    /* Treo 600 5-way navigation */
       case vchrRockerCenter:
-	handled = ThumbnailViewHandleFiveWayNavSelect();
-	break;
+    handled = ThumbnailViewHandleFiveWayNavSelect();
+    break;
       case vchrRockerLeft:
-	handled = ThumbnailViewHandleFiveWayNavLeft();
-	break;
+    handled = ThumbnailViewHandleFiveWayNavLeft();
+    break;
       case vchrRockerRight:
-	handled = ThumbnailViewHandleFiveWayNavRight();
-	break;
+    handled = ThumbnailViewHandleFiveWayNavRight();
+    break;
 
-	/* Tungsten 5-way navigation */
+    /* Tungsten 5-way navigation */
       case vchrNavChange:
-	if (NavDirectionPressed(event, Left))
-	  handled = ThumbnailViewHandleFiveWayNavLeft();
-	else if (NavDirectionPressed(event, Right))
-	  handled = ThumbnailViewHandleFiveWayNavRight();
-	else if (NavSelectPressed(event))
-	  handled = ThumbnailViewHandleFiveWayNavSelect();
-	break;
+    if (NavDirectionPressed(event, Left))
+      handled = ThumbnailViewHandleFiveWayNavLeft();
+    else if (NavDirectionPressed(event, Right))
+      handled = ThumbnailViewHandleFiveWayNavRight();
+    else if (NavSelectPressed(event))
+      handled = ThumbnailViewHandleFiveWayNavSelect();
+    break;
 
 /*       case vchrSendData: */
-/* 	ThumbnailViewDoCommand(ThumbnailRecordBeamCategoryCmd); */
-/* 	handled = true; */
-/* 	break; */
+/*  ThumbnailViewDoCommand(ThumbnailRecordBeamCategoryCmd); */
+/*  handled = true; */
+/*  break; */
 
       default:
-	/* ignore */
+    /* ignore */
       }
     }
     break;
@@ -919,26 +919,26 @@ Boolean ThumbnailViewHandleEvent (EventPtr event) {
 
       switch(event->data.menu.itemID) {
       case menuitemID_CmdAbout:
-	DoAboutDialog();
-	handled = true;
-	break;
+    DoAboutDialog();
+    handled = true;
+    break;
 
       case menuitemID_CmdSecurity:
-	ThumbnailDoCmdSecurity();
-	handled = true;
-	break;
+    ThumbnailDoCmdSecurity();
+    handled = true;
+    break;
 
       case menuitemID_CmdSortByAlarm:      
       case menuitemID_CmdSortByName:
-	if (event->data.menu.itemID == menuitemID_CmdSortByAlarm)
-	  DmInsertionSort(d.dbR, &SortByAlarmTime, 0);
-	else
-	  DmInsertionSort(d.dbR, &SortByName, 0);
+    if (event->data.menu.itemID == menuitemID_CmdSortByAlarm)
+      DmInsertionSort(d.dbR, &SortByAlarmTime, 0);
+    else
+      DmInsertionSort(d.dbR, &SortByName, 0);
 
-       	SetTopVisibleRecord(0);
-	ThumbnailViewLoadRecords(FrmGetActiveForm());
-	handled = true;
-	break;
+        SetTopVisibleRecord(0);
+    ThumbnailViewLoadRecords(FrmGetActiveForm());
+    handled = true;
+    break;
 
       case menuitemID_CmdPref: chr=cmdPref; break;
       case menuitemID_CmdExtPref: chr=cmdExtPref; break;
@@ -948,7 +948,7 @@ Boolean ThumbnailViewHandleEvent (EventPtr event) {
       }
 
       if (!handled)
-	handled = KeyDown(chr);
+    handled = KeyDown(chr);
     }
     break;
 
@@ -975,7 +975,7 @@ Boolean ThumbnailViewHandleEvent (EventPtr event) {
 
   case menuCmdBarOpenEvent:
     MenuCmdBarAddButton(menuCmdBarOnLeft, BarSecureBitmap,
-			menuCmdBarResultMenuItem, menuitemID_CmdSecurity, 0);
+            menuCmdBarResultMenuItem, menuitemID_CmdSecurity, 0);
 
     /* Tell the field package to not add buttons automatically; */
     /* we've done it all ourselves.                             */
@@ -1000,11 +1000,11 @@ Boolean ThumbnailViewHandleEvent (EventPtr event) {
 /*       const UInt16 idx = FrmGetObjectIndex(frm, id); */
 
 /*       if (id >= Thumb1 && id <= Thumb30) { */
-/* 	FrmGetObjectBounds(frm, idx, &r); */
-/* 	FrmSetFocus(frm, idx); */
-/* 	HsNavDrawFocusRing(frm, id, hsNavFocusRingNoExtraInfo, &r, */
-/* 			   hsNavFocusRingStyleObjectTypeDefault, false); */
-/* 	handled = true; */
+/*  FrmGetObjectBounds(frm, idx, &r); */
+/*  FrmSetFocus(frm, idx); */
+/*  HsNavDrawFocusRing(frm, id, hsNavFocusRingNoExtraInfo, &r, */
+/*             hsNavFocusRingStyleObjectTypeDefault, false); */
+/*  handled = true; */
 /*       } */
 /*     } */
 /*     break; */

@@ -16,7 +16,7 @@ Portions copyright (c) 2000 Palm, Inc. or its subsidiaries.  All rights reserved
 #include "debug.h"
 
 /* Palm 5-way navigator */
-#include "PalmChars.h" 
+#include <palmOneNavigator.h>
 
 /* Treo 600 5-way navigation */
 #include <HsExt.h>
@@ -34,10 +34,10 @@ static void ListViewScroll (Int16 linesToScroll) SUTIL1;
 static void ListViewInit (FormPtr frm) SUTIL1;
 static void ListViewUpdateScrollers(FormPtr frm) SUTIL1;
 static void ReplaceTwoColors(const RectangleType*, UInt16,
-			     UIColorTableEntries, UIColorTableEntries,
-			     UIColorTableEntries, UIColorTableEntries) SUTIL1;
+                 UIColorTableEntries, UIColorTableEntries,
+                 UIColorTableEntries, UIColorTableEntries) SUTIL1;
 static void ListViewSelectTableItem (Boolean, TableType*, 
-				     Int16, Int16, RectangleType*) SUTIL1;
+                     Int16, Int16, RectangleType*) SUTIL1;
 static void DrawRecordTitle(Char*, UInt16, UInt16, Int16, Int16, Int16) SUTIL1;
 static void ListDoCmdSecurity(void) SUTIL1;
 static void MoveCursorUp(UInt16 old_dbI) SUTIL2;
@@ -56,7 +56,7 @@ static Boolean ListViewHandleFiveWayNavSelect(void) SUTIL2;
  *                        this parameter.
  *
  *              offset  - number of records to skip:
- *                     	    0 - means seek from the current record to the
+ *                          0 - means seek from the current record to the
  *                              next display record, if the current record is
  *                              a displayable record, its index is retuned.
  *                          1 - means skipping one displayable record
@@ -92,7 +92,7 @@ static UInt16 ListViewNumberOfRows(TableType* table)
   UInt16 rowsInTable = TblGetNumberOfRows(table);
   UInt16 tableHeight;
   FontID currFont;
-  RectangleType	r;
+  RectangleType r;
 
   TblGetBounds(table, &r);
   tableHeight = r.extent.y;
@@ -113,12 +113,12 @@ static UInt16 ListViewNumberOfRows(TableType* table)
  *
  * DESCRIPTION: This routine draws the title of the specified title.
  *
- * PARAMETERS:	 title  - pointer to record title
+ * PARAMETERS:   title  - pointer to record title
  *               x      - draw position
  *               y      - draw position
  *               width  - maximum width to draw.
  *
- * RETURNED:	 nothing
+ * RETURNED:     nothing
  *
  ***********************************************************************/
 static void DrawRecordTitle(Char* title, UInt16 num, UInt16 idx, Int16 x, Int16 y, Int16 width)
@@ -133,7 +133,7 @@ static void DrawRecordTitle(Char* title, UInt16 num, UInt16 idx, Int16 x, Int16 
     MemHandle template = DmGetResource(strRsc, UntitledNoteTitleString);
 
     title = TxtParamString(MemHandleLock(template),
-			   StrIToA(num_str1, idx), StrIToA(num_str2, num), NULL, NULL);
+               StrIToA(num_str1, idx), StrIToA(num_str2, num), NULL, NULL);
     titleLen = StrLen(title);
     MemHandleUnlock(template);
     DmReleaseResource(template);
@@ -227,12 +227,12 @@ static void ListViewDrawRecord (void * table, Int16 row, Int16 column, Rectangle
 
     //If next row is masked, thicken rect so as to keep boundary at 1 pixel.
     /*    // THIS CODE REMOVED because people didn't like combining the masks together.
-	  if (TblGetLastUsableRow(table) > row)
-	  {
-	  DmRecordInfo (d.dbR, TblGetRowID (table, row+1), &attr, NULL, NULL);
-	  if (attr & dmRecAttrSecret)
-	  maskRectangle.extent.y++;
-	  }
+      if (TblGetLastUsableRow(table) > row)
+      {
+      DmRecordInfo (d.dbR, TblGetRowID (table, row+1), &attr, NULL, NULL);
+      if (attr & dmRecAttrSecret)
+      maskRectangle.extent.y++;
+      }
     */
     ListViewDisplayMask (&maskRectangle);
   } else {
@@ -240,7 +240,7 @@ static void ListViewDrawRecord (void * table, Int16 row, Int16 column, Rectangle
     ptr = MemHandleLock(recH);
     MemMove(&rec, ptr, sizeof(DiddleBugRecordType));
     DrawRecordTitle((Char*)(ptr + sketchDataOffset + rec.sketchLength), d.records_in_cat, pos + 1,
-		    x, y, bounds->extent.x - x);
+            x, y, bounds->extent.x - x);
     MemHandleUnlock(recH);
   }
 }
@@ -279,7 +279,7 @@ void ListViewDisplayMask (RectanglePtr bounds)
   if (bitmapH) {
     bitmapP = MemHandleLock (bitmapH);
     WinDrawBitmap (bitmapP, tempRect.topLeft.x + tempRect.extent.x + 1,
-		   tempRect.topLeft.y + ((tempRect.extent.y - SecLockHeight) / 2));
+           tempRect.topLeft.y + ((tempRect.extent.y - SecLockHeight) / 2));
     MemPtrUnlock (bitmapP);
   }
 }
@@ -336,7 +336,7 @@ static void ListViewLoadTable (FormPtr frm)
   FontID currFont;
   TablePtr table;
   MemHandle recordH;
-  RectangleType	r;
+  RectangleType r;
 
   table = GetObjectPointer(frm, SketchTable);
 
@@ -374,17 +374,17 @@ static void ListViewLoadTable (FormPtr frm)
 
       DmRecordInfo (d.dbR, recordNum, NULL, &uniqueID, NULL);
       if ((TblGetRowData (table, row) != uniqueID) ||
-	  ( ! TblRowUsable (table, row)))
-	{
-	  TblSetRowUsable (table, row, true);
+      ( ! TblRowUsable (table, row)))
+    {
+      TblSetRowUsable (table, row, true);
 
-	  // Store the unique id of the record in the row.
-	  TblSetRowData (table, row, uniqueID);
+      // Store the unique id of the record in the row.
+      TblSetRowData (table, row, uniqueID);
 
-	  // Mark the row invalid so that it will draw when we call the
-	  // draw routine.
-	  TblMarkRowInvalid (table, row);
-	}
+      // Mark the row invalid so that it will draw when we call the
+      // draw routine.
+      TblMarkRowInvalid (table, row);
+    }
 
       if (row+1 < numRows) recordNum++;
 
@@ -432,9 +432,9 @@ static void ListViewLoadRecords(FormPtr frm) {
     else {
       recordNum = d.top_visible_record;
       DmSeekRecordInCategory (d.dbR, &recordNum, rowsInTable - 1,
-			      dmSeekForward, p.category);
+                  dmSeekForward, p.category);
       if (recordNum < p.dbI)
-	SetTopVisibleRecord(p.dbI);
+    SetTopVisibleRecord(p.dbI);
     }
   }
 
@@ -472,9 +472,9 @@ static void ListViewLoadRecords(FormPtr frm) {
  * RETURNED:    The index of the new category.
  *
  *              The following global variables are modified:
- *			p.category
- *			d.show_all_categories
- *			d.categoryName
+ *          p.category
+ *          d.show_all_categories
+ *          d.categoryName
  *
  ***********************************************************************/
 static UInt16 ListViewSelectCategory (void) {
@@ -488,8 +488,8 @@ static UInt16 ListViewSelectCategory (void) {
 
   frm = FrmGetActiveForm();
   categoryEdited = CategorySelect(d.dbR, frm, CategoryPop,
-				  CategoryList, true, &category, d.categoryName, 1,
-				  categoryDefaultEditCategoryString);
+                  CategoryList, true, &category, d.categoryName, 1,
+                  categoryDefaultEditCategoryString);
 
   if (categoryEdited || (category != p.category)) {
     ChangeCategory(category);
@@ -520,8 +520,8 @@ static UInt16 ListViewSelectCategory (void) {
  * RETURNED:    nothing
  *
  *              The following global variables are modified:
- *			p.category
- *			d.categoryName
+ *          p.category
+ *          d.categoryName
  *
  ***********************************************************************/
 void ListViewNextCategory(void)
@@ -582,9 +582,9 @@ static void ListViewPageScroll (WinDirectionType direction)
       // Try going backwards one page from the last record
       newTopVisibleRecord = dmMaxRecordIndex;
       if (!SeekRecord (&newTopVisibleRecord, rowsInTable - 1, dmSeekBackward)) {
-	// Not enough records to fill one page.  Start with the first record
-	newTopVisibleRecord = 0;
-	SeekRecord (&newTopVisibleRecord, 0, dmSeekForward);
+    // Not enough records to fill one page.  Start with the first record
+    newTopVisibleRecord = 0;
+    SeekRecord (&newTopVisibleRecord, 0, dmSeekForward);
       }
     }
   }
@@ -630,8 +630,8 @@ static void ListViewScroll(Int16 linesToScroll) {
   UInt16 rows = ListViewNumberOfRows (table);
   UInt16 lastRow;
   UInt16 scrollAmount;
-  RectangleType	scrollR;
-  RectangleType	vacated;
+  RectangleType scrollR;
+  RectangleType vacated;
   WinDirectionType direction;
 
   //  p.dbI = noRecordSelected;
@@ -655,18 +655,18 @@ static void ListViewScroll(Int16 linesToScroll) {
       scrollAmount = 0;
 
       if (linesToScroll > 0) {
-	lastRow = TblGetLastUsableRow (table) - 1;
-	for (i = 0; i < linesToScroll; i++) {
-	  scrollAmount += TblGetRowHeight (table, lastRow);
-	  TblRemoveRow (table, 0);
-	}
-	direction = winUp;
+    lastRow = TblGetLastUsableRow (table) - 1;
+    for (i = 0; i < linesToScroll; i++) {
+      scrollAmount += TblGetRowHeight (table, lastRow);
+      TblRemoveRow (table, 0);
+    }
+    direction = winUp;
       } else {
-	for (i = 0; i < -linesToScroll; i++) {
-	  scrollAmount += TblGetRowHeight (table, 0);
-	  TblInsertRow (table, 0);
-	}
-	direction = winDown;
+    for (i = 0; i < -linesToScroll; i++) {
+      scrollAmount += TblGetRowHeight (table, 0);
+      TblInsertRow (table, 0);
+    }
+    direction = winDown;
       }
 
       TblGetBounds (table, &scrollR);
@@ -715,29 +715,29 @@ static void ListViewInit (FormPtr frm)
  * FUNCTION:    ReplaceTwoColors
  *
  * DESCRIPTION: This routine does a selection or deselection effect by
- *		replacing foreground and background colors with a new pair
- *		of colors. In order to reverse the process, you must pass
- *		the colors in the opposite order, so that the current
- *		and new colors are known to this routine. This routine
- *		correctly handling the cases when two or more of these
- *		four colors are the same, but it requires that the
- *		affected area of the screen contains neither of the
- *		given NEW colors, unless these colors are the same as
- *		one of the old colors.
+ *      replacing foreground and background colors with a new pair
+ *      of colors. In order to reverse the process, you must pass
+ *      the colors in the opposite order, so that the current
+ *      and new colors are known to this routine. This routine
+ *      correctly handling the cases when two or more of these
+ *      four colors are the same, but it requires that the
+ *      affected area of the screen contains neither of the
+ *      given NEW colors, unless these colors are the same as
+ *      one of the old colors.
  *
- * PARAMETERS:	 rP  - pointer to a rectangle to 'invert'
- *		 cornerDiam	- corner diameter
- *		 oldForeground	- UI color currently used for foreground
- *		 oldBackground	- UI color currently used for background
- *		 newForeground	- UI color that you want for foreground
- *		 newBackground	- UI color that you want for background
+ * PARAMETERS:   rP  - pointer to a rectangle to 'invert'
+ *       cornerDiam - corner diameter
+ *       oldForeground  - UI color currently used for foreground
+ *       oldBackground  - UI color currently used for background
+ *       newForeground  - UI color that you want for foreground
+ *       newBackground  - UI color that you want for background
  *
- * RETURNED:	 nothing
+ * RETURNED:     nothing
  *
  ***********************************************************************/
 static void ReplaceTwoColors (const RectangleType *rP, UInt16 cornerDiam,
-			      UIColorTableEntries oldForeground, UIColorTableEntries oldBackground,
-			      UIColorTableEntries newForeground, UIColorTableEntries newBackground)
+                  UIColorTableEntries oldForeground, UIColorTableEntries oldBackground,
+                  UIColorTableEntries newForeground, UIColorTableEntries newBackground)
 {
   UInt8 oldForegroundIndex = UIColorGetTableEntryIndex(oldForeground);
   UInt8 oldBackgroundIndex = UIColorGetTableEntryIndex(oldBackground);
@@ -751,22 +751,22 @@ static void ReplaceTwoColors (const RectangleType *rP, UInt16 cornerDiam,
   if (newBackgroundIndex == oldForegroundIndex)
     if (newForegroundIndex == oldBackgroundIndex)
       {
-	// Handle the case when foreground and background colors change places,
-	// such as on black and white systems, with a single swap.
-	WinSetBackColor(oldBackgroundIndex);
-	WinSetForeColor(oldForegroundIndex);
-	WinPaintRectangle(rP, cornerDiam);
+    // Handle the case when foreground and background colors change places,
+    // such as on black and white systems, with a single swap.
+    WinSetBackColor(oldBackgroundIndex);
+    WinSetForeColor(oldForegroundIndex);
+    WinPaintRectangle(rP, cornerDiam);
       }
     else
       {
-	// Handle the case when the old foreground and the new background
-	// are the same, using two swaps.
-	WinSetBackColor(oldForegroundIndex);
-	WinSetForeColor(oldBackgroundIndex);
-	WinPaintRectangle(rP, cornerDiam);
-	WinSetBackColor(oldBackgroundIndex);
-	WinSetForeColor(newForegroundIndex);
-	WinPaintRectangle(rP, cornerDiam);
+    // Handle the case when the old foreground and the new background
+    // are the same, using two swaps.
+    WinSetBackColor(oldForegroundIndex);
+    WinSetForeColor(oldBackgroundIndex);
+    WinPaintRectangle(rP, cornerDiam);
+    WinSetBackColor(oldBackgroundIndex);
+    WinSetForeColor(newForegroundIndex);
+    WinPaintRectangle(rP, cornerDiam);
       }
   else if (oldBackgroundIndex == newForegroundIndex)
     {
@@ -799,21 +799,21 @@ static void ReplaceTwoColors (const RectangleType *rP, UInt16 cornerDiam,
  * FUNCTION:    ListViewSelectTableItem
  *
  * DESCRIPTION: This routine either selects or unselects the specified
- *					 table item.
+ *                   table item.
  *
- * PARAMETERS:	 selected - specifies whether an item should be selected or
- *			    unselected
- *		 table 	  - pointer to a table object
+ * PARAMETERS:   selected - specifies whether an item should be selected or
+ *              unselected
+ *       table    - pointer to a table object
  *               row      - row of the item (zero based)
  *               column   - column of the item (zero based)
  *               r        - pointer to a structure that will hold the bound
  *                          of the item
- * RETURNED:	 nothing
+ * RETURNED:     nothing
  *
  ***********************************************************************/
 
 static void ListViewSelectTableItem(Boolean selected, TableType* table, 
-				    Int16 row, Int16 column, RectangleType* r)
+                    Int16 row, Int16 column, RectangleType* r)
 {
   /* Get the item's rectangle. */
   TblGetItemBounds(table, row, column, r);
@@ -831,8 +831,8 @@ static void ListViewSelectTableItem(Boolean selected, TableType* table,
   /* If selected, make it look that way. */
   if (selected)
     ReplaceTwoColors(r, 0,
-		     UIObjectForeground, UIFieldBackground,
-		     UIObjectSelectedForeground, UIObjectSelectedFill);
+             UIObjectForeground, UIFieldBackground,
+             UIObjectSelectedForeground, UIObjectSelectedFill);
 
   /* Restore the previous drawing state. */
   WinPopDrawState();
@@ -987,11 +987,11 @@ static Boolean ListViewHandleFiveWayNavSelect(void) {
       
       d.fiveWayNavigation = true;
       ListViewSelectTableItem(true, GetObjectPointer(FrmGetActiveForm(),
-						     SketchTable),
-			      pos - d.top_row_pos_in_cat, 0, &r);
+                             SketchTable),
+                  pos - d.top_row_pos_in_cat, 0, &r);
     }
   } else {
-    d.fiveWayNavigation = false;	    
+    d.fiveWayNavigation = false;        
     FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
   }
   
@@ -1020,76 +1020,76 @@ Boolean ListViewHandleEvent(EventType* event) {
     /* Hardware button pressed? */
     if (TxtCharIsHardKey(event->data.keyDown.modifiers, event->data.keyDown.chr)) {
       if (!(event->data.keyDown.modifiers & poweredOnKeyMask))
-	ListViewNextCategory();
+    ListViewNextCategory();
       handled = true;
     } else if (EvtKeydownIsVirtual(event)) {
       switch (event->data.keyDown.chr) {
-	
-	/* Tungsten 5-way navigation */
+    
+    /* Tungsten 5-way navigation */
       case vchrNavChange:
-	if (NavDirectionPressed(event, Left)) {
-	  FrmGotoForm(DiddleThumbnailDetailForm);
-	  handled = true;
-	} else if (NavDirectionPressed(event, Right)) {
-	  FrmGotoForm(DiddleThumbnailForm);
-	  handled = true;
-	} else if (NavSelectPressed(event)) {
-	  handled = ListViewHandleFiveWayNavSelect();
-	}
-	break;
-	
-	/* Treo 600 5-way navigation */
+    if (NavDirectionPressed(event, Left)) {
+      FrmGotoForm(DiddleThumbnailDetailForm);
+      handled = true;
+    } else if (NavDirectionPressed(event, Right)) {
+      FrmGotoForm(DiddleThumbnailForm);
+      handled = true;
+    } else if (NavSelectPressed(event)) {
+      handled = ListViewHandleFiveWayNavSelect();
+    }
+    break;
+    
+    /* Treo 600 5-way navigation */
       case vchrRockerCenter:
-	handled = ListViewHandleFiveWayNavSelect();
-	break;
+    handled = ListViewHandleFiveWayNavSelect();
+    break;
       case vchrRockerLeft:
-	FrmGotoForm(DiddleThumbnailDetailForm);
-	handled = true;
-	break;
+    FrmGotoForm(DiddleThumbnailDetailForm);
+    handled = true;
+    break;
       case vchrRockerRight:
-	FrmGotoForm(DiddleThumbnailForm);
-	handled = true;
-	break;
+    FrmGotoForm(DiddleThumbnailForm);
+    handled = true;
+    break;
 
-      case vchrPageUp:	 
+      case vchrPageUp:   
       case vchrRockerUp:
-	if (d.fiveWayNavigation) {
-	  Int16 old_dbI = p.dbI;
-	  
-	  /* Try going backward one record */
-	  if (!SeekRecord(&p.dbI, 1, dmSeekBackward))
-	    p.dbI = old_dbI; /* Nowhere to go, that's OK */
-	  else
-	    MoveCursorUp(old_dbI);
-	} else {
-	  ListViewPageScroll(winUp);
-	}
-	handled = true;
-	break;
-	
+    if (d.fiveWayNavigation) {
+      Int16 old_dbI = p.dbI;
+      
+      /* Try going backward one record */
+      if (!SeekRecord(&p.dbI, 1, dmSeekBackward))
+        p.dbI = old_dbI; /* Nowhere to go, that's OK */
+      else
+        MoveCursorUp(old_dbI);
+    } else {
+      ListViewPageScroll(winUp);
+    }
+    handled = true;
+    break;
+    
       case vchrPageDown:
       case vchrRockerDown:
-	if (d.fiveWayNavigation) {
-	  Int16 old_dbI = p.dbI;
+    if (d.fiveWayNavigation) {
+      Int16 old_dbI = p.dbI;
 
-	  /* Try going forward one record */
-	  if (!SeekRecord(&p.dbI, 1, dmSeekForward))
-	    p.dbI = old_dbI; /* Nowhere to go, that's OK */
-	  else
-	    MoveCursorDown(old_dbI);
-	} else {
-	  ListViewPageScroll(winDown);
-	}
-	handled = true;
-	break;
+      /* Try going forward one record */
+      if (!SeekRecord(&p.dbI, 1, dmSeekForward))
+        p.dbI = old_dbI; /* Nowhere to go, that's OK */
+      else
+        MoveCursorDown(old_dbI);
+    } else {
+      ListViewPageScroll(winDown);
+    }
+    handled = true;
+    break;
 
-	/*       case vchrSendData: */
-	/* 	ListViewDoCommand(ListRecordBeamCategoryCmd); */
-	/* 	handled = true; */
-	/* 	break; */
+    /*       case vchrSendData: */
+    /*  ListViewDoCommand(ListRecordBeamCategoryCmd); */
+    /*  handled = true; */
+    /*  break; */
 
       default:
-	/* ignore */
+    /* ignore */
       }
     }
     break;
@@ -1130,17 +1130,17 @@ Boolean ListViewHandleEvent(EventType* event) {
     DmRecordInfo (d.dbR, p.dbI, &attr, NULL, NULL);
 
     /* If this is a "private" record, then determine what is to be shown. */
-    if (attr & dmRecAttrSecret)	{
+    if (attr & dmRecAttrSecret) {
       switch (d.privateRecordStatus) {
       case showPrivateRecords:
       case maskPrivateRecords:
-	FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
-	break;
+    FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
+    break;
 
-	/* This case should never be executed!!!!!!! */
+    /* This case should never be executed!!!!!!! */
       case hidePrivateRecords:
       default:
-	break;
+    break;
       }
     } else {
       FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
@@ -1165,28 +1165,28 @@ Boolean ListViewHandleEvent(EventType* event) {
 
       switch(event->data.menu.itemID) {
       case menuitemID_CmdAbout:
-	DoAboutDialog();
-	handled = true;
-	break;
+    DoAboutDialog();
+    handled = true;
+    break;
 
       case menuitemID_CmdSecurity:
-	ListDoCmdSecurity();
-	handled = true;
-	break;
+    ListDoCmdSecurity();
+    handled = true;
+    break;
 
       case menuitemID_CmdSortByAlarm:      
       case menuitemID_CmdSortByName:
-	if (event->data.menu.itemID == menuitemID_CmdSortByAlarm)
-	  DmInsertionSort(d.dbR, &SortByAlarmTime, 0);
-	else
-	  DmInsertionSort(d.dbR, &SortByName, 0);
+    if (event->data.menu.itemID == menuitemID_CmdSortByAlarm)
+      DmInsertionSort(d.dbR, &SortByAlarmTime, 0);
+    else
+      DmInsertionSort(d.dbR, &SortByName, 0);
 
-	frm = FrmGetActiveForm();
-	SetTopVisibleRecord(0);
-	ListViewLoadRecords(frm);
-	TblRedrawTable(GetObjectPointer(frm, SketchTable));
-	handled = true;
-	break;  
+    frm = FrmGetActiveForm();
+    SetTopVisibleRecord(0);
+    ListViewLoadRecords(frm);
+    TblRedrawTable(GetObjectPointer(frm, SketchTable));
+    handled = true;
+    break;  
 
       case menuitemID_CmdPref: chr=cmdPref; break;
       case menuitemID_CmdExtPref: chr=cmdExtPref; break;
@@ -1196,7 +1196,7 @@ Boolean ListViewHandleEvent(EventType* event) {
       }
 
       if (!handled)
-	handled = KeyDown(chr);
+    handled = KeyDown(chr);
     }
     break;
 
@@ -1219,7 +1219,7 @@ Boolean ListViewHandleEvent(EventType* event) {
 
   case menuCmdBarOpenEvent:
     MenuCmdBarAddButton(menuCmdBarOnLeft, BarSecureBitmap,
-			menuCmdBarResultMenuItem, menuitemID_CmdSecurity, 0);
+            menuCmdBarResultMenuItem, menuitemID_CmdSecurity, 0);
 
     /* tell the field package to not add buttons automatically; */
     /* we've done it all ourselves.                             */

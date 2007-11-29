@@ -51,7 +51,7 @@
 #include <AcerHwrOEMIDs.h>
 
 /* palmOne */
-#include "PalmChars.h"
+#include <palmOneNavigator.h>
 #include <PalmResources.h>
 
 /* Handspring/palmOne Treo */

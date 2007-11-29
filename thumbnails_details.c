@@ -21,7 +21,7 @@ Portions copyright (c) 2000 Palm, Inc. or its subsidiaries.  All rights reserved
 #include <PalmOSGlue.h>
 
 /* Palm 5-way navigator */
-#include "PalmChars.h" 
+#include <palmOneNavigator.h>
 
 /* Treo 600 5-way navigation */
 #include <HsExt.h>
@@ -219,7 +219,7 @@ void ThumbnailDetailViewUpdateScrollers(FormPtr frm) {
   }
 
   SclSetScrollBar(GetObjectPointer(frm, ScrollBar), pos, 0, maxValue,
-		  recordsPerPage / recordsPerRow);
+          recordsPerPage / recordsPerRow);
 }
 
 /***********************************************************************
@@ -372,9 +372,9 @@ void ThumbnailDetailViewLoadRecords (FormType* frm) {
     else {
       recordNum = d.top_visible_record;
       DmSeekRecordInCategory(d.dbR, &recordNum, numberOfRows - 1,
-			     dmSeekForward, p.category);
+                 dmSeekForward, p.category);
       if (recordNum < p.dbI)
-	SetTopVisibleRecord(p.dbI);
+    SetTopVisibleRecord(p.dbI);
     }
   }
 
@@ -406,9 +406,9 @@ void ThumbnailDetailViewLoadRecords (FormType* frm) {
  * RETURNED:    The index of the new category.
  *
  *              The following global variables are modified:
- *			p.category
- *			d.show_all_categories
- *			d.categoryName
+ *          p.category
+ *          d.show_all_categories
+ *          d.categoryName
  *
  ***********************************************************************/
 static UInt16 ThumbnailDetailViewSelectCategory(void) {
@@ -418,8 +418,8 @@ static UInt16 ThumbnailDetailViewSelectCategory(void) {
 
   /* Process the category popup list. */
   categoryEdited = CategorySelect(d.dbR, frm, CategoryPop,
-				  CategoryList, true, &category, d.categoryName, 1,
-				  categoryDefaultEditCategoryString);
+                  CategoryList, true, &category, d.categoryName, 1,
+                  categoryDefaultEditCategoryString);
 
   if (categoryEdited || (category != p.category)) {
     ChangeCategory(category);
@@ -447,8 +447,8 @@ static UInt16 ThumbnailDetailViewSelectCategory(void) {
  * RETURNED:    nothing
  *
  *              The following global variables are modified:
- *			p.category
- *			d.categoryName
+ *          p.category
+ *          d.categoryName
  *
  ***********************************************************************/
 void ThumbnailDetailViewNextCategory(void) {
@@ -495,9 +495,9 @@ static void ThumbnailDetailViewPageScroll (WinDirectionType direction) {
       /* Try going backwards one page from the last record */
       newTopVisibleRecord = dmMaxRecordIndex;
       if (!SeekRecord(&newTopVisibleRecord, recordsPerPage - 1, dmSeekBackward)) {
-	/* Not enough records to fill one page.  Start with the first record */
-	newTopVisibleRecord = 0;
-	SeekRecord(&newTopVisibleRecord, 0, dmSeekForward);
+    /* Not enough records to fill one page.  Start with the first record */
+    newTopVisibleRecord = 0;
+    SeekRecord(&newTopVisibleRecord, 0, dmSeekForward);
       }
     }
   } else {
@@ -603,50 +603,50 @@ static Boolean ThumbnailDetailGadgetEvent(FormGadgetTypeInCallback* gadgetP, UIn
       EventType* e = (EventType*) paramP;
 
       if (e->eType == frmGadgetEnterEvent) {
-	if (DynBtnTrackPen(btn)) {
-	  UInt16 attr;
+    if (DynBtnTrackPen(btn)) {
+      UInt16 attr;
 
-	  /* A thumbnail was selected, display it. */
-	  p.dbI = btn->value;
+      /* A thumbnail was selected, display it. */
+      p.dbI = btn->value;
 
-	  /* Get the category and secret attribute of the current record. */
-	  DmRecordInfo(d.dbR, p.dbI, &attr, NULL, NULL);
+      /* Get the category and secret attribute of the current record. */
+      DmRecordInfo(d.dbR, p.dbI, &attr, NULL, NULL);
 
-	  /* If this is a "private" record, then determine what is to be shown. */
-	  if (!(attr & dmRecAttrSecret) || d.privateRecordStatus != hidePrivateRecords) {
-	    switch (btn->id) {
-	    case Thumb1Name:
-	    case Thumb2Name:
-	    case Thumb3Name:
-	    case Thumb4Name:
-	      GotoRecordField(btn->id, ffDetails);
-	      break;
+      /* If this is a "private" record, then determine what is to be shown. */
+      if (!(attr & dmRecAttrSecret) || d.privateRecordStatus != hidePrivateRecords) {
+        switch (btn->id) {
+        case Thumb1Name:
+        case Thumb2Name:
+        case Thumb3Name:
+        case Thumb4Name:
+          GotoRecordField(btn->id, ffDetails);
+          break;
 
-	    case Thumb1NameMasked:
-	    case Thumb2NameMasked:
-	    case Thumb3NameMasked:
-	    case Thumb4NameMasked:
-	      if (ThumbnailDetailUnlockMaskedRecords())
-		GotoRecordField(btn->id, ffDetails);
-	      break;
+        case Thumb1NameMasked:
+        case Thumb2NameMasked:
+        case Thumb3NameMasked:
+        case Thumb4NameMasked:
+          if (ThumbnailDetailUnlockMaskedRecords())
+        GotoRecordField(btn->id, ffDetails);
+          break;
 
-	    case Thumb1Alarm:
-	    case Thumb2Alarm:
-	    case Thumb3Alarm:
-	    case Thumb4Alarm:
-	      if (d.privateRecordStatus != maskPrivateRecords || ThumbnailDetailUnlockMaskedRecords())
-		GotoRecordField(btn->id, ffAlarm);
-	      break;
+        case Thumb1Alarm:
+        case Thumb2Alarm:
+        case Thumb3Alarm:
+        case Thumb4Alarm:
+          if (d.privateRecordStatus != maskPrivateRecords || ThumbnailDetailUnlockMaskedRecords())
+        GotoRecordField(btn->id, ffAlarm);
+          break;
 
-	    case Thumb1:
-	    case Thumb2:
-	    case Thumb3:
-	    case Thumb4:
-	      FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
-	      break;
-	    }
-	  }
-	}
+        case Thumb1:
+        case Thumb2:
+        case Thumb3:
+        case Thumb4:
+          FrmGotoForm(p.flags & PFLAGS_WITH_TITLEBAR ? DiddleTForm : DiddleForm);
+          break;
+        }
+      }
+    }
       }
 
       handled = true;
@@ -704,32 +704,32 @@ static void ThumbnailDetailViewInit (FormPtr frm) {
 
   for (i = 0; i < recordsPerPage; ++i) {
     btn = DynBtnInitGadget(Thumb1 + i, rectangleFrame, true, true, false, d.sonyClie,
-			   d.sonyHRRefNum, false, dynBtnGraphical, 0, &err, frm,
-			   ThumbnailDetailGadgetEvent);
+               d.sonyHRRefNum, false, dynBtnGraphical, 0, &err, frm,
+               ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
 
     btn = DynBtnInitGadget(Thumb1Name + i, noFrame, false, true, false, d.sonyClie,
-			   d.sonyHRRefNum, d.hires, dynBtnText, TITLE_MAX_LEN, &err,
-			   frm, ThumbnailDetailGadgetEvent);
+               d.sonyHRRefNum, d.hires, dynBtnText, TITLE_MAX_LEN, &err,
+               frm, ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
     /*     btn->font = stdFont; */
 
     btn = DynBtnInitGadget(Thumb1NameMasked + i, noFrame, false, true, false, 
-			   d.sonyClie, d.sonyHRRefNum, d.hires,
-			   dynBtnGraphical, 0, &err, frm,
-			   ThumbnailDetailGadgetEvent);
+               d.sonyClie, d.sonyHRRefNum, d.hires,
+               dynBtnGraphical, 0, &err, frm,
+               ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
     DrawMaskedRecord(btn->content.bmpW, maskPattern);
 
     btn = DynBtnInitGadget(Thumb1Alarm + i, noFrame, false, true, false, d.sonyClie,
-			   d.sonyHRRefNum, d.hires, dynBtnText, 31, &err, frm,
-			   ThumbnailDetailGadgetEvent);
+               d.sonyHRRefNum, d.hires, dynBtnText, 31, &err, frm,
+               ThumbnailDetailGadgetEvent);
     if (err != errNone) abort();
     btn->font = stdFont;
 
     btn = DynBtnInitGadget(Line1 + i, noFrame, false, true, false, d.sonyClie,
-			   d.sonyHRRefNum, d.hires, dynBtnGraphical, 0, &err, frm,
-			   ThumbnailLineEvent);
+               d.sonyHRRefNum, d.hires, dynBtnGraphical, 0, &err, frm,
+               ThumbnailLineEvent);
     if (err != errNone) abort();
 
     /* Set up drawing context */
@@ -871,8 +871,8 @@ static Boolean ThumbnailDetailHandleFiveWayNavSelect(void) {
       pos = DmPositionInCategory(d.dbR, p.dbI, p.category);
       if (DmGetLastErr() != errNone) abort();
       
-	      d.fiveWayNavigation = true;
-	      ToggleButton(pos - d.top_row_pos_in_cat, true);
+          d.fiveWayNavigation = true;
+          ToggleButton(pos - d.top_row_pos_in_cat, true);
     }
   } else {
     d.fiveWayNavigation = false;
@@ -904,70 +904,70 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
     /* Hardware button pressed? */
     if (TxtCharIsHardKey(event->data.keyDown.modifiers, event->data.keyDown.chr)) {
       if (!(event->data.keyDown.modifiers & poweredOnKeyMask))
-	ThumbnailDetailViewNextCategory();
+    ThumbnailDetailViewNextCategory();
       handled = true;
     } else if (EvtKeydownIsVirtual(event)) {
       switch (event->data.keyDown.chr) {
       case vchrPageUp:
       case vchrRockerUp:
-	if (!d.fiveWayNavigation) {
-	  ThumbnailDetailViewPageScroll(winUp);
-	} else {
-	  Int16 old_dbI = p.dbI;
-	  
-	  /* Try going backward one record */
-	  if (!SeekRecord(&p.dbI, 1, dmSeekBackward))
-	    p.dbI = old_dbI; /* Nowhere to go, that's OK */
-	  else
-	    ThumbnailDetailMoveCursorUp(old_dbI);
-	}
-	handled = true;
-	break;
+    if (!d.fiveWayNavigation) {
+      ThumbnailDetailViewPageScroll(winUp);
+    } else {
+      Int16 old_dbI = p.dbI;
+      
+      /* Try going backward one record */
+      if (!SeekRecord(&p.dbI, 1, dmSeekBackward))
+        p.dbI = old_dbI; /* Nowhere to go, that's OK */
+      else
+        ThumbnailDetailMoveCursorUp(old_dbI);
+    }
+    handled = true;
+    break;
 
       case vchrPageDown:
       case vchrRockerDown:
-	if (!d.fiveWayNavigation) {
-	  ThumbnailDetailViewPageScroll(winDown);
-	} else {
-	  Int16 old_dbI = p.dbI;
+    if (!d.fiveWayNavigation) {
+      ThumbnailDetailViewPageScroll(winDown);
+    } else {
+      Int16 old_dbI = p.dbI;
 
-	  /* Try going forward one record */
-	  if (!SeekRecord(&p.dbI, 1, dmSeekForward))
-	    p.dbI = old_dbI; /* Nowhere to go, that's OK */
-	  else
-	    ThumbnailDetailMoveCursorDown(old_dbI);
-	}
-	handled = true;
-	break;
+      /* Try going forward one record */
+      if (!SeekRecord(&p.dbI, 1, dmSeekForward))
+        p.dbI = old_dbI; /* Nowhere to go, that's OK */
+      else
+        ThumbnailDetailMoveCursorDown(old_dbI);
+    }
+    handled = true;
+    break;
 
-	/* Treo 600 5-way navigation */
+    /* Treo 600 5-way navigation */
       case vchrRockerCenter:
-	handled = ThumbnailDetailHandleFiveWayNavSelect();
-	break;
+    handled = ThumbnailDetailHandleFiveWayNavSelect();
+    break;
       case vchrRockerLeft:
-	handled = ThumbnailDetailHandleFiveWayNavLeft();
-	break;
+    handled = ThumbnailDetailHandleFiveWayNavLeft();
+    break;
       case vchrRockerRight:
-	handled = ThumbnailDetailHandleFiveWayNavRight();
-	break;
-	
-	/* Tungsten 5-way navigation */
+    handled = ThumbnailDetailHandleFiveWayNavRight();
+    break;
+    
+    /* Tungsten 5-way navigation */
       case vchrNavChange:
-	if (NavDirectionPressed(event, Left))
-	  handled = ThumbnailDetailHandleFiveWayNavLeft();
-	else if (NavDirectionPressed(event, Right))
-	  handled = ThumbnailDetailHandleFiveWayNavRight();
-	else if (NavSelectPressed(event))
-	  handled = ThumbnailDetailHandleFiveWayNavSelect();
-	break;
+    if (NavDirectionPressed(event, Left))
+      handled = ThumbnailDetailHandleFiveWayNavLeft();
+    else if (NavDirectionPressed(event, Right))
+      handled = ThumbnailDetailHandleFiveWayNavRight();
+    else if (NavSelectPressed(event))
+      handled = ThumbnailDetailHandleFiveWayNavSelect();
+    break;
 
 /*       case vchrSendData: */
-/* 	ThumbnailDetailViewDoCommand(ThumbnailRecordBeamCategoryCmd); */
-/* 	handled = true; */
-/* 	break; */
+/*  ThumbnailDetailViewDoCommand(ThumbnailRecordBeamCategoryCmd); */
+/*  handled = true; */
+/*  break; */
 
       default:
-	/* ignore */
+    /* ignore */
       }
     }
     break;
@@ -1003,19 +1003,19 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
     case Thumb3NoteButton:
     case Thumb4NoteButton:
       {
-	const UInt16 thumbID = Thumb1 + event->data.ctlSelect.controlID - Thumb1NoteButton;	
-	FormType* frm = FrmGetActiveForm();
-	DynamicButtonType* btn = (DynamicButtonType*) FrmGetGadgetData(frm, FrmGetObjectIndex(frm, thumbID));
-	UInt16 attr = 0;
-	
-	/* Check if this is a private record */
-	DmRecordInfo(d.dbR, btn->value, &attr, NULL, NULL);
-	if (!(attr & dmRecAttrSecret) || 
-	    d.privateRecordStatus != maskPrivateRecords ||
-	    ThumbnailDetailUnlockMaskedRecords()) {
-	  GotoRecordField(thumbID, ffNote);
-	}
-	handled = true;
+    const UInt16 thumbID = Thumb1 + event->data.ctlSelect.controlID - Thumb1NoteButton; 
+    FormType* frm = FrmGetActiveForm();
+    DynamicButtonType* btn = (DynamicButtonType*) FrmGetGadgetData(frm, FrmGetObjectIndex(frm, thumbID));
+    UInt16 attr = 0;
+    
+    /* Check if this is a private record */
+    DmRecordInfo(d.dbR, btn->value, &attr, NULL, NULL);
+    if (!(attr & dmRecAttrSecret) || 
+        d.privateRecordStatus != maskPrivateRecords ||
+        ThumbnailDetailUnlockMaskedRecords()) {
+      GotoRecordField(thumbID, ffNote);
+    }
+    handled = true;
       }
       break;
 
@@ -1024,19 +1024,19 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
     case Thumb3AlarmButton:
     case Thumb4AlarmButton:
       {
-	const UInt16 thumbID = Thumb1 + event->data.ctlSelect.controlID - Thumb1AlarmButton;	
-	FormType* frm = FrmGetActiveForm();
-	DynamicButtonType* btn = (DynamicButtonType*) FrmGetGadgetData(frm, FrmGetObjectIndex(frm, thumbID));
-	UInt16 attr = 0;
-	
-	/* Check if this is a private record */
-	DmRecordInfo(d.dbR, btn->value, &attr, NULL, NULL);
-	if (!(attr & dmRecAttrSecret) || 
-	    d.privateRecordStatus != maskPrivateRecords ||
-	    ThumbnailDetailUnlockMaskedRecords()) {
-	  GotoRecordField(thumbID, ffAlarm);
-	}
-	handled = true;
+    const UInt16 thumbID = Thumb1 + event->data.ctlSelect.controlID - Thumb1AlarmButton;    
+    FormType* frm = FrmGetActiveForm();
+    DynamicButtonType* btn = (DynamicButtonType*) FrmGetGadgetData(frm, FrmGetObjectIndex(frm, thumbID));
+    UInt16 attr = 0;
+    
+    /* Check if this is a private record */
+    DmRecordInfo(d.dbR, btn->value, &attr, NULL, NULL);
+    if (!(attr & dmRecAttrSecret) || 
+        d.privateRecordStatus != maskPrivateRecords ||
+        ThumbnailDetailUnlockMaskedRecords()) {
+      GotoRecordField(thumbID, ffAlarm);
+    }
+    handled = true;
       }
       break;
 
@@ -1045,22 +1045,22 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
     case Thumb3TrashButton:
     case Thumb4TrashButton: 
       {
-	FormType* frm = FrmGetActiveForm();
-	DynamicButtonType* btn = (DynamicButtonType*) FrmGetGadgetData(frm, FrmGetObjectIndex(frm, Thumb1 + event->data.ctlSelect.controlID - Thumb1TrashButton));
-	
-	p.dbI = btn->value;
-	LoadRecordData();
+    FormType* frm = FrmGetActiveForm();
+    DynamicButtonType* btn = (DynamicButtonType*) FrmGetGadgetData(frm, FrmGetObjectIndex(frm, Thumb1 + event->data.ctlSelect.controlID - Thumb1TrashButton));
+    
+    p.dbI = btn->value;
+    LoadRecordData();
       
-	/* If this is a "private" record, show password dialog if necessary */
-	if (!d.record_private || d.privateRecordStatus != maskPrivateRecords ||
-	    ThumbnailDetailUnlockMaskedRecords())
-	  DoCmdRemove();
+    /* If this is a "private" record, show password dialog if necessary */
+    if (!d.record_private || d.privateRecordStatus != maskPrivateRecords ||
+        ThumbnailDetailUnlockMaskedRecords())
+      DoCmdRemove();
 
-	p.dbI = noRecordSelected;
-	d.fiveWayNavigation = false;
-	ThumbnailDetailViewLoadRecords(frm);
-	
-	handled = true;
+    p.dbI = noRecordSelected;
+    d.fiveWayNavigation = false;
+    ThumbnailDetailViewLoadRecords(frm);
+    
+    handled = true;
       } 
       break;
     }
@@ -1082,26 +1082,26 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
 
       switch(event->data.menu.itemID) {
       case menuitemID_CmdAbout:
-	DoAboutDialog();
-	handled = true;
-	break;
+    DoAboutDialog();
+    handled = true;
+    break;
 
       case menuitemID_CmdSecurity:
-	ThumbnailDoCmdSecurity();
-	handled = true;
-	break;
+    ThumbnailDoCmdSecurity();
+    handled = true;
+    break;
 
       case menuitemID_CmdSortByAlarm:      
       case menuitemID_CmdSortByName:
-	if (event->data.menu.itemID == menuitemID_CmdSortByAlarm)
-	  DmInsertionSort(d.dbR, &SortByAlarmTime, 0);
-	else
-	  DmInsertionSort(d.dbR, &SortByName, 0);
+    if (event->data.menu.itemID == menuitemID_CmdSortByAlarm)
+      DmInsertionSort(d.dbR, &SortByAlarmTime, 0);
+    else
+      DmInsertionSort(d.dbR, &SortByName, 0);
 
-	SetTopVisibleRecord(0);
-	ThumbnailDetailViewLoadRecords(FrmGetActiveForm());
-	handled = true;
-	break;
+    SetTopVisibleRecord(0);
+    ThumbnailDetailViewLoadRecords(FrmGetActiveForm());
+    handled = true;
+    break;
 
       case menuitemID_CmdPref: chr=cmdPref; break;
       case menuitemID_CmdExtPref: chr=cmdExtPref; break;
@@ -1111,7 +1111,7 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
       }
 
       if (!handled)
-	handled = KeyDown(chr);
+    handled = KeyDown(chr);
     }
     break;
 
@@ -1140,7 +1140,7 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
 
   case menuCmdBarOpenEvent:
     MenuCmdBarAddButton(menuCmdBarOnLeft, BarSecureBitmap,
-			menuCmdBarResultMenuItem, menuitemID_CmdSecurity, 0);
+            menuCmdBarResultMenuItem, menuitemID_CmdSecurity, 0);
 
     /* Tell the field package to not add buttons automatically; */
     /* we've done it all ourselves.                             */
@@ -1165,13 +1165,13 @@ Boolean ThumbnailDetailViewHandleEvent (EventPtr event) {
 /*       const UInt16 idx = FrmGetObjectIndex(frm, id); */
 
 /*       if ((id >= Thumb1 && id <= Thumb4) || */
-/* 	  (id >= Thumb1Name && id <= Thumb4Name) || */
-/* 	  (id >= Thumb1NameMasked && id <= Thumb4NameMasked)) { */
-/* 	FrmGetObjectBounds(frm, idx, &r); */
-/* 	FrmSetFocus(frm, idx); */
-/* 	HsNavDrawFocusRing(frm, id, hsNavFocusRingNoExtraInfo, &r, */
-/* 			   hsNavFocusRingStyleObjectTypeDefault, true); */
-/* 	handled = true; */
+/*    (id >= Thumb1Name && id <= Thumb4Name) || */
+/*    (id >= Thumb1NameMasked && id <= Thumb4NameMasked)) { */
+/*  FrmGetObjectBounds(frm, idx, &r); */
+/*  FrmSetFocus(frm, idx); */
+/*  HsNavDrawFocusRing(frm, id, hsNavFocusRingNoExtraInfo, &r, */
+/*             hsNavFocusRingStyleObjectTypeDefault, true); */
+/*  handled = true; */
 /*       } */
 /*     } */
 /*     break; */

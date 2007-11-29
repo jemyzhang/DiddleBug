@@ -14,7 +14,7 @@ Portions copyright (c) 2000 Palm, Inc. or its subsidiaries.  All rights reserved
 #include "diddlebugInlines.h"
 #include "debug.h"
 
-#include "PalmChars.h" /* Palm 5-way navigator */
+#include <palmOneNavigator.h> /* Palm 5-way navigator */
 
 static void NoteViewLoadRecord(void) SUTIL2;
 static void NoteViewSave(void) SUTIL2;
@@ -219,9 +219,9 @@ static void NoteViewLoadRecord(void) {
  * RETURNED:    nothing
  *
  * REVISION HISTORY:
- *			Name	Date		Description
- *			----	----		-----------
- *			art	2/21/95	Initial Revision
+ *          Name    Date        Description
+ *          ----    ----        -----------
+ *          art 2/21/95 Initial Revision
  *
  ***********************************************************************/
 static void NoteViewSave (void) {
@@ -313,12 +313,12 @@ static Boolean NoteViewDoCommand(UInt16 command) {
  * FUNCTION:    NoteViewScroll
  *
  * DESCRIPTION: This routine scrolls the Note View by the specified
- *					 number of lines.
+ *                   number of lines.
  *
  * PARAMETERS:  linesToScroll - the number of lines to scroll,
- *						positive for down,
- *						negative for up
- *					 updateScrollbar - force a scrollbar update?
+ *                      positive for down,
+ *                      negative for up
+ *                   updateScrollbar - force a scrollbar update?
  *
  * RETURNED:    nothing
  *
@@ -378,7 +378,7 @@ static void NoteViewPageScroll(WinDirectionType direction) {
  ***********************************************************************/
 void NoteViewInit(FormType* frm) {
   FieldPtr fld = GetObjectPointer(frm, NoteField);
-  FieldAttrType	attr;
+  FieldAttrType attr;
 
   // AttnIndicatorEnable(false); // Custom title doesn't support attention indicator.
   NoteViewLoadRecord();
@@ -412,16 +412,16 @@ Boolean NoteViewHandleEvent (EventType* event) {
   case keyDownEvent:
     if (EvtKeydownIsVirtual(event)) {
       if (event->data.keyDown.chr == vchrPageUp) {
-	NoteViewPageScroll(winUp);
-	handled = true;
+    NoteViewPageScroll(winUp);
+    handled = true;
       } else if (event->data.keyDown.chr == vchrPageDown) {
-	NoteViewPageScroll(winDown);
-	handled = true;
+    NoteViewPageScroll(winDown);
+    handled = true;
       } else if (event->data.keyDown.chr == vchrNavChange) {
-	if (NavSelectPressed(event)) {
-	  CtlHitControl(GetObjectPointer(FrmGetActiveForm(), NoteDoneButton));
-	  handled = true;
-	}
+    if (NavSelectPressed(event)) {
+      CtlHitControl(GetObjectPointer(FrmGetActiveForm(), NoteDoneButton));
+      handled = true;
+    }
       }
     }
     break;
@@ -435,7 +435,7 @@ Boolean NoteViewHandleEvent (EventType* event) {
 
     case NoteDeleteButton:
       if (!NoteViewDeleteNote())
-	handled = true;
+    handled = true;
       /* else */
       /* fall through */
       break;
