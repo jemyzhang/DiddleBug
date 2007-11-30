@@ -548,8 +548,11 @@ static Boolean ColorGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd, v
 
   case formGadgetHandleEventCmd:
     {
+	
+      FormPtr frm = NULL;
       EventType* e = (EventType*) paramP;
 
+      frm = FrmGetActiveForm();
       if (e->eType == frmGadgetEnterEvent) {
 	if (DynBtnTrackPen(btn)) {
 	  /* Handle the selection */
@@ -559,6 +562,7 @@ static Boolean ColorGadgetEvent(FormGadgetTypeInCallback* gadgetP, UInt16 cmd, v
 	    PickColor(&d.tmpPaperColor, btn);
 
 	  DynBtnDraw(btn);
+	  FrmDrawForm(frm);
 	}
       }
 
