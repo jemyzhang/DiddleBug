@@ -2,7 +2,7 @@
 # The basic makefile. The localization specific ones just instantiate "LOC"
 #
 
-VERSION=2.90.d.5
+VERSION=2.90.d.6.1
 DATE=`date -R`
 APPID = DIDB
 
